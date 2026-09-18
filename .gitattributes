@@ -1,0 +1,25 @@
+# ---------------------------------------------------------------------------
+# Normalización de finales de línea
+#
+# Los .sh son material forense: NO se tocan sus bytes.
+# Se fuerzan a LF en el repo y se marcan binarios en el diff para que git
+# no intente "arreglar" tabuladores ni espacios significativos.
+# ---------------------------------------------------------------------------
+
+* text=auto
+
+*.sh    text eol=lf -diff
+*.bash  text eol=lf -diff
+
+*.py    text eol=lf diff=python
+*.md    text eol=lf
+*.txt   text eol=lf
+
+# Payloads / blobs ofuscados: nunca normalizar
+*.bin   binary
+*.tar   binary
+*.gz    binary
+*.tar.gz binary
+
+# Fotografías del espejo (no versionado)
+mirror/** -text -diff

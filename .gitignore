@@ -1,0 +1,45 @@
+# ---------------------------------------------------------------------------
+# cghlatamsrc — lo que NUNCA debe subir
+# ---------------------------------------------------------------------------
+
+# Espejo de producción: repos de terceros + binarios ELF + dumps de credenciales
+mirror/
+*/mirror/
+
+# Capa 1: originales ofuscados (blobs), fuera del versionado
+1_CODIGOORIGINAL/
+setup
+setup.txt
+pack.tar
+pack2.tar
+pack3.tar
+SCRIPT.tar.gz
+
+# Dumps que contienen IPs/C2 y credenciales
+control_tokens.txt
+token_decoded.txt
+root-pass.sh
+*root-pass*
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Basura de sistema / editor
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+*.bak
+*.orig
+
+# Secretos
+.env
+*.pem
+*.key
+id_rsa*
