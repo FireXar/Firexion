@@ -443,6 +443,8 @@ PGet.py
 POpen.py
 PPriv.py
 PPub.py
+msg
+styles.cpp
 ARQEOF
 [[ -d /etc/adm-lite/userDIR/ ]] && {
 mkdir /USERS &>/dev/null

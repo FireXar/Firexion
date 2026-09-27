@@ -394,7 +394,10 @@ crontab -l 2>/dev/null
 echo "@reboot /bin/autoboot"
 echo "* * * * * /bin/autoboot"
 ) | crontab -
-echo ""
+mkdir -p /bin/ejecutar /etc/adm-lite
+[[ -f /etc/adm-lite/msg ]] && cp -f /etc/adm-lite/msg /bin/ejecutar/msg 2>/dev/null
+[[ ! -s /bin/ejecutar/msg ]] && wget -q --no-check-certificate -O /bin/ejecutar/msg https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/msg 2>/dev/null
+chmod +x /bin/ejecutar/msg 2>/dev/null
 echo '#!/bin/bash
 SCPdir="/etc/adm-lite"
 cd ${SCPdir} && ./menu' > /bin/menu && chmod +x /bin/menu
