@@ -440,6 +440,12 @@ elif [[ -f "${SCRIPT_DIR}/bin/x86_64/BHTTP" ]]; then
   chmod +x /etc/ADMcgh/bin/BHTTP /bin/BHTTP
 fi
 
+if [[ -f "${SCRIPT_DIR}/bin/x86_64/BTUN" ]]; then
+  cp -f "${SCRIPT_DIR}/bin/x86_64/BTUN" /etc/ADMcgh/bin/BTUN
+  cp -f "${SCRIPT_DIR}/bin/x86_64/BTUN" /bin/BTUN
+  chmod +x /etc/ADMcgh/bin/BTUN /bin/BTUN
+fi
+
 if [[ -f "${SCRIPT_DIR}/plugins/hcr.sh" ]]; then
   cp -f "${SCRIPT_DIR}/plugins/hcr.sh" /etc/ADMcgh/bin/hcr.sh
 else
