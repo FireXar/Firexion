@@ -58,8 +58,12 @@ tput cuu1 && tput dl1
 install_fim () {
 local fecha=`date +"%d-%m-%Y"`;
 unset name
-[[ -d /bin/ejecutar ]] && rm -rf /bin/ejecutar
-mkdir /bin/ejecutar
+mkdir -p /bin/ejecutar
+[[ -f "${SCRIPT_DIR}/core/msg" ]] && cp -f "${SCRIPT_DIR}/core/msg" /bin/ejecutar/msg
+[[ -f "${SCRIPT_DIR}/styles/msg" ]] && cp -f "${SCRIPT_DIR}/styles/msg" /bin/ejecutar/msg
+[[ -f /etc/adm-lite/msg ]] && cp -f /etc/adm-lite/msg /bin/ejecutar/msg
+[[ ! -s /bin/ejecutar/msg ]] && wget -q --no-check-certificate -O /bin/ejecutar/msg https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/msg 2>/dev/null
+chmod +x /bin/ejecutar/msg 2>/dev/null
 [[ -e /bin/ejecutar/menu_credito ]] && echo "" || echo "$(cat /etc/adm-lite/menu_credito|head -1)" > /bin/ejecutar/menu_credito && chmod +x /bin/ejecutar/menu_credito
 [[ -f "${SCRIPT_DIR}/bin/toolmaster.py" ]] && cp -f "${SCRIPT_DIR}/bin/toolmaster.py" /etc/ADMcgh/bin/SBdm || wget -q --no-cache --no-check-certificate --max-redirect=20 -O /etc/ADMcgh/bin/SBdm https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/toolmaster.py
 chmod +x /etc/ADMcgh/bin/SBdm
@@ -413,23 +417,52 @@ cd ${SCPdir} && ./menu' > /bin/cgh && chmod +x /bin/cgh
 echo '#!/bin/bash
 SCPdir="/etc/adm-lite"
 cd ${SCPdir} && ./menu $1' > /bin/adm && chmod +x /bin/adm
+mkdir -p /etc/ADMcgh/bin
+rm -f /etc/ADMcgh/bin/hcr.sh /bin/hcr /etc/ADMcgh/bin/bhttp.sh /bin/bhttp 2>/dev/null
+
+if [[ -f "${SCRIPT_DIR}/plugins/HCR" ]]; then
+  cp -f "${SCRIPT_DIR}/plugins/HCR" /etc/ADMcgh/bin/HCR
+  cp -f "${SCRIPT_DIR}/plugins/HCR" /bin/HCR
+  chmod +x /etc/ADMcgh/bin/HCR /bin/HCR
+elif [[ -f "${SCRIPT_DIR}/bin/x86_64/HCR" ]]; then
+  cp -f "${SCRIPT_DIR}/bin/x86_64/HCR" /etc/ADMcgh/bin/HCR
+  cp -f "${SCRIPT_DIR}/bin/x86_64/HCR" /bin/HCR
+  chmod +x /etc/ADMcgh/bin/HCR /bin/HCR
+fi
+
+if [[ -f "${SCRIPT_DIR}/plugins/BHTTP" ]]; then
+  cp -f "${SCRIPT_DIR}/plugins/BHTTP" /etc/ADMcgh/bin/BHTTP
+  cp -f "${SCRIPT_DIR}/plugins/BHTTP" /bin/BHTTP
+  chmod +x /etc/ADMcgh/bin/BHTTP /bin/BHTTP
+elif [[ -f "${SCRIPT_DIR}/bin/x86_64/BHTTP" ]]; then
+  cp -f "${SCRIPT_DIR}/bin/x86_64/BHTTP" /etc/ADMcgh/bin/BHTTP
+  cp -f "${SCRIPT_DIR}/bin/x86_64/BHTTP" /bin/BHTTP
+  chmod +x /etc/ADMcgh/bin/BHTTP /bin/BHTTP
+fi
+
 if [[ -f "${SCRIPT_DIR}/plugins/hcr.sh" ]]; then
   cp -f "${SCRIPT_DIR}/plugins/hcr.sh" /etc/ADMcgh/bin/hcr.sh
-  cp -f "${SCRIPT_DIR}/plugins/hcr.sh" /bin/hcr
 else
   wget -q --no-check-certificate -O /etc/ADMcgh/bin/hcr.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/hcr.sh
-  cp -f /etc/ADMcgh/bin/hcr.sh /bin/hcr
 fi
-chmod +x /etc/ADMcgh/bin/hcr.sh /bin/hcr
+chmod +x /etc/ADMcgh/bin/hcr.sh
+cat << 'HCREOF' > /bin/hcr
+#!/bin/bash
+exec /etc/ADMcgh/bin/hcr.sh "$@"
+HCREOF
+chmod +x /bin/hcr
 
 if [[ -f "${SCRIPT_DIR}/plugins/bhttp.sh" ]]; then
   cp -f "${SCRIPT_DIR}/plugins/bhttp.sh" /etc/ADMcgh/bin/bhttp.sh
-  cp -f "${SCRIPT_DIR}/plugins/bhttp.sh" /bin/bhttp
 else
   wget -q --no-check-certificate -O /etc/ADMcgh/bin/bhttp.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/bhttp.sh
-  cp -f /etc/ADMcgh/bin/bhttp.sh /bin/bhttp
 fi
-chmod +x /etc/ADMcgh/bin/bhttp.sh /bin/bhttp
+chmod +x /etc/ADMcgh/bin/bhttp.sh
+cat << 'BHTTPEOF' > /bin/bhttp
+#!/bin/bash
+exec /etc/ADMcgh/bin/bhttp.sh "$@"
+BHTTPEOF
+chmod +x /bin/bhttp
 echo -e " SECTORES DE INICIO AGREGADOS "
 sleep 2s
 tput cuu1 && tput dl1

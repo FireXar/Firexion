@@ -417,7 +417,11 @@ print_center "${_trix}"
 msg -bar3
 echo -e "  ${FlT}${rUlq} ADMcgh+ ${_v1} | @ChumoGH OFICIAL $(date +%Y) ${rUlq}${FlT}  -" | lolcat
 msg -bar3
-figlet ' . ADMcgh . ' | boxes -d stone -p a0v0 | lolcat
+if command -v boxes >/dev/null 2>&1; then
+  figlet ' . ADMcgh . ' | boxes -d stone -p a0v0 | lolcat
+else
+  figlet ' . ADMcgh . ' | lolcat
+fi
 echo "           INSTALACION ADMcgh (VERSION LIBRE / SIN KEY) " | lolcat
 msg -bar3
 cd $HOME

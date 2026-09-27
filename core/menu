@@ -8185,14 +8185,15 @@ msg -bar3
 print_center -verd ' INICIANDO PROTOCOLO HCR . . .'
 msg -bar3
 mkdir -p /etc/ADMcgh/bin
-if [[ ! -s /etc/ADMcgh/bin/hcr.sh || -L /etc/ADMcgh/bin/hcr.sh ]]; then
-  rm -f /etc/ADMcgh/bin/hcr.sh
-  wget -q --no-check-certificate -O /etc/ADMcgh/bin/hcr.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/hcr.sh
-fi
+rm -f /bin/hcr /etc/ADMcgh/bin/hcr.sh 2>/dev/null
+wget -q --no-check-certificate -O /etc/ADMcgh/bin/hcr.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/hcr.sh
 chmod +x /etc/ADMcgh/bin/hcr.sh
-rm -f /bin/hcr 2>/dev/null
-cp -f /etc/ADMcgh/bin/hcr.sh /bin/hcr 2>/dev/null && chmod +x /bin/hcr
-/etc/ADMcgh/bin/hcr.sh
+cat << 'HCREOF' > /bin/hcr
+#!/bin/bash
+exec /etc/ADMcgh/bin/hcr.sh "$@"
+HCREOF
+chmod +x /bin/hcr
+bash /etc/ADMcgh/bin/hcr.sh
 return
 }
 
@@ -8202,14 +8203,15 @@ msg -bar3
 print_center -verd ' INICIANDO SERVIDOR BHTTP . . .'
 msg -bar3
 mkdir -p /etc/ADMcgh/bin
-if [[ ! -s /etc/ADMcgh/bin/bhttp.sh || -L /etc/ADMcgh/bin/bhttp.sh ]]; then
-  rm -f /etc/ADMcgh/bin/bhttp.sh
-  wget -q --no-check-certificate -O /etc/ADMcgh/bin/bhttp.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/bhttp.sh
-fi
+rm -f /bin/bhttp /etc/ADMcgh/bin/bhttp.sh 2>/dev/null
+wget -q --no-check-certificate -O /etc/ADMcgh/bin/bhttp.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/bhttp.sh
 chmod +x /etc/ADMcgh/bin/bhttp.sh
-rm -f /bin/bhttp 2>/dev/null
-cp -f /etc/ADMcgh/bin/bhttp.sh /bin/bhttp 2>/dev/null && chmod +x /bin/bhttp
-/etc/ADMcgh/bin/bhttp.sh
+cat << 'BHTTPEOF' > /bin/bhttp
+#!/bin/bash
+exec /etc/ADMcgh/bin/bhttp.sh "$@"
+BHTTPEOF
+chmod +x /bin/bhttp
+bash /etc/ADMcgh/bin/bhttp.sh
 return
 }
 
