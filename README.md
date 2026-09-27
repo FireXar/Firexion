@@ -116,14 +116,17 @@ git clone https://github.com/TU_USUARIO/ChumoGH.git /root/ChumoGH
 # 2. Entrar al directorio
 cd /root/ChumoGH
 
-# 3. Ejecutar el instalador interactivo
-bash setup.sh
+# 3. Ejecutar el instalador original (setup)
+bash setup --ADMcgh
+# O simplemente:
+bash setup
 ```
 
-### Método 2: Instalación Rápida Desatendida (1-Línea)
+### Método 2: Descarga Directa del Instalador Original
 
 ```bash
-cd /root/ChumoGH && bash install.sh
+# Descargar y ejecutar directamente el instalador original (setup)
+wget https://raw.githubusercontent.com/TU_USUARIO/ChumoGH/main/setup && bash setup --ADMcgh
 ```
 
 Una vez completada la instalación, el sistema estará inmediatamente activo sin requerir ninguna clave ni validación.
