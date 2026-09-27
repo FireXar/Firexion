@@ -413,20 +413,23 @@ cd ${SCPdir} && ./menu' > /bin/cgh && chmod +x /bin/cgh
 echo '#!/bin/bash
 SCPdir="/etc/adm-lite"
 cd ${SCPdir} && ./menu $1' > /bin/adm && chmod +x /bin/adm
-echo '#!/bin/bash
-[[ -e /etc/ADMcgh/bin/hcr.sh ]] && bash /etc/ADMcgh/bin/hcr.sh || {
-  mkdir -p /etc/ADMcgh/bin 2>/dev/null
+if [[ -f "${SCRIPT_DIR}/plugins/hcr.sh" ]]; then
+  cp -f "${SCRIPT_DIR}/plugins/hcr.sh" /etc/ADMcgh/bin/hcr.sh
+  cp -f "${SCRIPT_DIR}/plugins/hcr.sh" /bin/hcr
+else
   wget -q --no-check-certificate -O /etc/ADMcgh/bin/hcr.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/hcr.sh
-  chmod +x /etc/ADMcgh/bin/hcr.sh
-  bash /etc/ADMcgh/bin/hcr.sh
-}' > /bin/hcr && chmod +x /bin/hcr
-echo '#!/bin/bash
-[[ -e /etc/ADMcgh/bin/bhttp.sh ]] && bash /etc/ADMcgh/bin/bhttp.sh || {
-  mkdir -p /etc/ADMcgh/bin 2>/dev/null
+  cp -f /etc/ADMcgh/bin/hcr.sh /bin/hcr
+fi
+chmod +x /etc/ADMcgh/bin/hcr.sh /bin/hcr
+
+if [[ -f "${SCRIPT_DIR}/plugins/bhttp.sh" ]]; then
+  cp -f "${SCRIPT_DIR}/plugins/bhttp.sh" /etc/ADMcgh/bin/bhttp.sh
+  cp -f "${SCRIPT_DIR}/plugins/bhttp.sh" /bin/bhttp
+else
   wget -q --no-check-certificate -O /etc/ADMcgh/bin/bhttp.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/bhttp.sh
-  chmod +x /etc/ADMcgh/bin/bhttp.sh
-  bash /etc/ADMcgh/bin/bhttp.sh
-}' > /bin/bhttp && chmod +x /bin/bhttp
+  cp -f /etc/ADMcgh/bin/bhttp.sh /bin/bhttp
+fi
+chmod +x /etc/ADMcgh/bin/bhttp.sh /bin/bhttp
 echo -e " SECTORES DE INICIO AGREGADOS "
 sleep 2s
 tput cuu1 && tput dl1

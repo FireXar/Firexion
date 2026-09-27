@@ -4,7 +4,13 @@
 # Integrado y Remasterizado para ADMcgh por Karl199x
 # ============================================================
 
-[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/styles.cpp)
+if [[ -s /bin/ejecutar/msg ]]; then
+    source /bin/ejecutar/msg
+elif [[ -s /etc/adm-lite/msg ]]; then
+    source /etc/adm-lite/msg
+elif [[ -s /etc/adm-lite/styles.cpp ]]; then
+    source /etc/adm-lite/styles.cpp
+fi
 
 CONF_DIR="/etc/bhttp"
 CONF_FILE="${CONF_DIR}/config.conf"

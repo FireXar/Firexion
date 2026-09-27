@@ -415,18 +415,10 @@ echo -e "   \033[41m- CPU: \033[100m${cpu_model}\033[41m SISTEMA : \033[100m${_s
 msg -bar3
 print_center "${_trix}"
 msg -bar3
-echo -e "  ${FlT}${rUlq} ADMcgh+ ${_v1} | @ChumoGH OFICIAL $(date +%Y) ${rUlq}${FlT}  -" | (command -v lolcat >/dev/null 2>&1 && lolcat || cat)
+echo -e "  ${FlT}${rUlq} ADMcgh+ ${_v1} | @ChumoGH OFICIAL $(date +%Y) ${rUlq}${FlT}  -" | lolcat
 msg -bar3
-if command -v figlet >/dev/null 2>&1; then
-    if command -v boxes >/dev/null 2>&1; then
-        figlet ' . ADMcgh . ' | boxes -d stone -p a0v0 | (command -v lolcat >/dev/null 2>&1 && lolcat || cat)
-    else
-        figlet ' . ADMcgh . ' | (command -v lolcat >/dev/null 2>&1 && lolcat || cat)
-    fi
-else
-    echo "           . ADMcgh .           " | (command -v lolcat >/dev/null 2>&1 && lolcat || cat)
-fi
-echo "           INSTALACION ADMcgh (VERSION LIBRE / SIN KEY) " | (command -v lolcat >/dev/null 2>&1 && lolcat || cat)
+figlet ' . ADMcgh . ' | boxes -d stone -p a0v0 | lolcat
+echo "           INSTALACION ADMcgh (VERSION LIBRE / SIN KEY) " | lolcat
 msg -bar3
 cd $HOME
 cat << 'ARQEOF' > $HOME/lista-arq
