@@ -22,7 +22,7 @@ call_key_fija () {
 
 echo -ne " CHECK SERVER 1 "
 
-  if wget --no-check-certificate -t3 -T3 -O ${ADM_slow}/server.key https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/Extras/server.key &>/dev/null ; then
+  if wget --no-check-certificate -t3 -T3 -O ${ADM_slow}/server.key https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/server.key &>/dev/null ; then
   chmod +x ${ADM_slow}/server.key
   msg -verd "[OK]"    
   else    
@@ -36,7 +36,7 @@ echo -ne " CHECK SERVER 1 "
 
 echo -ne " CHECK SERVER 2 "
 
-if wget --no-check-certificate -t3 -T3 -O ${ADM_slow}/server.pub https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/Extras/server.pub &>/dev/null ; then
+if wget --no-check-certificate -t3 -T3 -O ${ADM_slow}/server.pub https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/server.pub &>/dev/null ; then
   chmod +x ${ADM_slow}/server.pub
   msg -verd "[OK]"    
   else    
@@ -289,7 +289,7 @@ info(){
   if [[ ! -e ${ADM_inst}/dns-server ]]; then    
   msg -ama " Descargando binario...." 
   [[ $(uname -m 2> /dev/null) != x86_64 ]] && {
-  if wget --no-check-certificate -t3 -T3 -O /etc/ADMcgh/bin/SlowDNS https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/aarch64/SlowDNS.bin &>/dev/null ; then
+  if wget --no-check-certificate -t3 -T3 -O /etc/ADMcgh/bin/SlowDNS https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/aarch64/SlowDNS.bin &>/dev/null ; then
   chmod +x /etc/ADMcgh/bin/SlowDNS
   [[ -e ${ADM_inst}/dns-server ]] && rm -f ${ADM_inst}/dns-server
   ln -s /etc/ADMcgh/bin/SlowDNS ${ADM_inst}/dns-server
@@ -303,7 +303,7 @@ info(){
   exit 0    
   fi
   } || {   
-  if wget --no-check-certificate -t3 -T3 -O /etc/ADMcgh/bin/SlowDNS https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/x86_64/SlowDNS.bin &>/dev/null ; then
+  if wget --no-check-certificate -t3 -T3 -O /etc/ADMcgh/bin/SlowDNS https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/x86_64/SlowDNS.bin &>/dev/null ; then
   chmod +x /etc/ADMcgh/bin/SlowDNS
   [[ -e ${ADM_inst}/dns-server ]] && rm -f ${ADM_inst}/dns-server
   ln -s /etc/ADMcgh/bin/SlowDNS ${ADM_inst}/dns-server 
@@ -434,7 +434,7 @@ ini_slow_new(){
   if [[ ! -e ${ADM_inst}/dns-server ]]; then    
   msg -ama " Descargando binario...." 
   [[ $(uname -m 2> /dev/null) != x86_64 ]] && {
-  if wget --no-check-certificate -t3 -T3 -O /etc/ADMcgh/bin/SlowDNS https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/aarch64/SlowDNS.bin &>/dev/null ; then
+  if wget --no-check-certificate -t3 -T3 -O /etc/ADMcgh/bin/SlowDNS https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/aarch64/SlowDNS.bin &>/dev/null ; then
   chmod +x /etc/ADMcgh/bin/SlowDNS
   [[ -e ${ADM_inst}/dns-server ]] && rm -f ${ADM_inst}/dns-server
   ln -s /etc/ADMcgh/bin/SlowDNS ${ADM_inst}/dns-server
@@ -448,7 +448,7 @@ ini_slow_new(){
   exit 0    
   fi
   } || {   
-  if wget --no-check-certificate -t3 -T3 -O /etc/ADMcgh/bin/SlowDNS https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/x86_64/SlowDNS.bin &>/dev/null ; then
+  if wget --no-check-certificate -t3 -T3 -O /etc/ADMcgh/bin/SlowDNS https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/x86_64/SlowDNS.bin &>/dev/null ; then
   chmod +x /etc/ADMcgh/bin/SlowDNS
   [[ -e ${ADM_inst}/dns-server ]] && rm -f ${ADM_inst}/dns-server
   ln -s /etc/ADMcgh/bin/SlowDNS ${ADM_inst}/dns-server 
@@ -604,7 +604,7 @@ ini_slow_new(){
   } || {
   msg -ama " Descargando binario de AutoControl...."
   [[ $(uname -m 2> /dev/null) != x86_64 ]] && {
-  if wget --no-check-certificate -t3 -T3 -O /etc/ADMcgh/bin/rDNS.bin https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/aarch64/rDNS.bin &>/dev/null ; then
+  if wget --no-check-certificate -t3 -T3 -O /etc/ADMcgh/bin/rDNS.bin https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/aarch64/rDNS.bin &>/dev/null ; then
   chmod +x /etc/ADMcgh/bin/rDNS.bin
   [[ -e /bin/rDNS.bin ]] && rm -f /bin/rDNS.bin
   ln -s /etc/ADMcgh/bin/rDNS.bin /bin/rDNS.bin
@@ -618,7 +618,7 @@ ini_slow_new(){
   exit 0    
   fi
   } || {   
-  if wget --no-check-certificate -t3 -T3 -O /etc/ADMcgh/bin/rDNS.bin https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/x86_64/rDNS.bin &>/dev/null ; then
+  if wget --no-check-certificate -t3 -T3 -O /etc/ADMcgh/bin/rDNS.bin https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/x86_64/rDNS.bin &>/dev/null ; then
   chmod +x /etc/ADMcgh/bin/rDNS.bin
   [[ -e /bin/rDNS.bin ]] && rm -f /bin/rDNS.bin
   ln -s /etc/ADMcgh/bin/rDNS.bin /bin/rDNS.bin

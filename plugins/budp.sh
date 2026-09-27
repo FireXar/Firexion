@@ -45,7 +45,7 @@ roleta 'apt-get install toilet -y'
   [[ $(uname -m 2> /dev/null) != x86_64 ]] && {
   #chekKEY &> /dev/null 2>&1
   #if wget -O /bin/badvpn-udpgw https://github.com/ChumoGH/ScriptCGH/raw/main/HTools/BadVPN/badvpn-udpgw &>/dev/null ; then
-  if wget -O /bin/badvpn-udpgw https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/aarch64/badvpn-udpgw &>/dev/null ; then
+  if wget -O /bin/badvpn-udpgw https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/aarch64/badvpn-udpgw &>/dev/null ; then
   chmod 777 /bin/badvpn-udpgw
   msg -verd "[OK]"  
   else    
@@ -59,7 +59,7 @@ roleta 'apt-get install toilet -y'
   } || {   
   #chekKEY &> /dev/null 2>&1
   #if wget -O /bin/badvpn-udpgw https://github.com/ChumoGH/ScriptCGH/raw/main/HTools/BadVPN/badvpn-udpgw-plus &>/dev/null ; then
-  if wget -O /bin/badvpn-udpgw https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/x86_64/badvpn-udpgw &>/dev/null ; then
+  if wget -O /bin/badvpn-udpgw https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/x86_64/badvpn-udpgw &>/dev/null ; then
   chmod 777 /bin/badvpn-udpgw
   msg -verd "[OK]"    
   else    

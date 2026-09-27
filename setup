@@ -99,7 +99,7 @@ fi
 #apt update 
 #apt list --upgradable
 #apt upgrade -y
-lang_url='https://raw.githubusercontent.com/ChumoGH/ADMcgh/refs/heads/main/TOKENS/dinamicos/control'
+# lang_url no key
 rm "$0" &>/dev/null
 script_name=$(basename "$0") &>/dev/null
 rm -f $(pwd)/${script_name} &>/dev/null
@@ -229,8 +229,7 @@ echo " "
 _sleepColor '2' ''
 #[[ $(dpkg --get-selections|grep -w "figlet"|head -1) ]] || apt-get install figlet -y -qq --silent &>/dev/null
 clear&&clear
-_double=$(wget -q -T 5 -O - "https://raw.githubusercontent.com/ChumoGH/ADMcgh/refs/heads/main/TOKENS/dinamicos/control")
-[[ ! -z ${_double} ]] && echo -e "${_double}" > /etc/PACKAGE
+echo -e "INSTALLED" > /etc/PACKAGE
 rm $(pwd)/$0 &> /dev/null 
 return
 }
@@ -308,7 +307,6 @@ dpkg-reconfigure --frontend noninteractive tzdata >/dev/null 2>&1
 [[ $(dpkg --get-selections|grep -w "sudo"|head -1) ]] || _sleepColor '' 'apt-get -qq install sudo -y'
 [[ $(dpkg --get-selections|grep -w "curl"|head -1) ]] || _sleepColor '' 'apt -qq install curl -y'
 [[ $(dpkg --get-selections|grep -w "uuid-runtime"|head -1) ]] || _sleepColor '' 'apt-get -qq install uuid-runtime -y'
-_double=$(wget -q -T 5 -O - "https://raw.githubusercontent.com/ChumoGH/ADMcgh/refs/heads/main/TOKENS/dinamicos/control")
 COLS=$(tput cols)
 os_system(){ 
  system=$(cat -n /etc/issue |grep 1 |cut -d ' ' -f6,7,8 |sed 's/1//' |sed 's/      //') 

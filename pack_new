@@ -348,26 +348,24 @@ rm -rf /etc/adm-lite/*.bak 2>/dev/null
 if swapon --show &>/dev/null; then
 swapoff -a && swapon -a
 fi
-local _cache=$(cat /etc/adm-lite/cabecalho | tail -1)
-local _check2BOT="$(echo -e "$_cache" | cut -d '|' -f1)"
-local _check2RES="$(echo -e "$_cache" | cut -d '|' -f3)"
+local _ip_vps="${_IP:-$(curl -s -4 ifconfig.me 2>/dev/null || hostname -I | awk '{print $1}')}"
 msg -bar3
 echo -e ""
-echo -e "${cor[2]}\n\033[1;37m  ${rAy} DEVELOPER NOW: @ChumoGH - Henry Chumo" | pv -qL 12
+echo -e "${cor[2]}\n\033[1;37m  ${rAy} DEVELOPER NOW: Karl199x" | pv -qL 12
 echo -e ""
 msg -bar3
 echo -e "  ${cor[5]} ADMcgh Manager CGH REMASTERIZADO $(date +%Y)"
 msg -bar3
-echo -e "${cor[3]}     VERIFICANDO RAIZ DE DATOS DE LA LLAVE !!! "
+echo -e "${cor[3]}     SISTEMA ACTIVADO PERMANENTE (FULL LIBRE) "
 msg -bar3
-[[ -e ${SCPdir}/menu_credito ]] && ress="$(cat ${SCPdir}/menu_credito|head -1) " || ress="NULL ( no found ) "
+[[ -e ${SCPdir}/menu_credito ]] && ress="$(cat ${SCPdir}/menu_credito|head -1) " || ress="Karl199x"
 echo -ne "${cor[2]}\n\033[1;37m  RESELLER  : " | pv -qL 50 && sleep 1s && echo -e "\033[0;35m$ress" | pv -qL 50
 echo
 msg -bar3
-echo -ne "${cor[2]}\033[1;37m ${bOTg} -> " && sleep 1s && \
-echo -ne "\033[0;35m$_check2BOT" | pv -qL 30 | lolcat && \
+echo -ne "${cor[2]}\033[1;37m IP VPS : " && sleep 1s && \
+echo -ne "\033[0;35m$_ip_vps" | pv -qL 30 | lolcat && \
 echo -ne "${cor[2]}\033[1;37m  ADMIN : " && sleep 1s && \
-echo -ne "\033[0;35m$_check2RES" | pv -qL 30 | lolcat
+echo -ne "\033[0;35mKarl199x" | pv -qL 30 | lolcat
 echo ""
 [[ -e /etc/ADMcgh/bin/AutoRestart ]] && rm -f /etc/ADMcgh/bin/AutoRestart
 [[ ! -e /bin/autoboot ]] && {

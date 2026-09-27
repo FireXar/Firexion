@@ -1,0 +1,15 @@
+#!/bin/bash
+clear
+echo "=========================================="
+echo "       CONFIGURADOR DE BANNER SSH         "
+echo "=========================================="
+echo " Ingrese el texto para el banner SSH (/etc/bannerssh):"
+echo " (Presione ENTER para mantener actual o dejar en blanco)"
+read -p " Banner: " nuevo_banner
+if [[ -n "$nuevo_banner" ]]; then
+    echo "$nuevo_banner" > /etc/bannerssh
+    echo " Banner SSH actualizado correctamente."
+else
+    echo " Sin cambios en el banner."
+fi
+sleep 1

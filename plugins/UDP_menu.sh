@@ -36,9 +36,9 @@ yellow(){
 zip_udp(){
 systemctl stop zivpn.service 1> /dev/null 2> /dev/null
 [[ $(uname -m 2> /dev/null) != x86_64 ]] && {
-authSSH="https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/aarch64/authSSH" 
+authSSH="https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/aarch64/authSSH" 
 
-} || local authSSH="https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/x86_64/authSSH"
+} || local authSSH="https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/x86_64/authSSH"
 local _config='/etc/zivpn/config.json'
 [[ -d /etc/zivpn ]] || mkdir /etc/zivpn
 openssl req -new -newkey rsa:4096 -days 365 -nodes -x509 -subj "/C=US/ST=@ChumoGH/L=ADMcgh/O=Example Corp/OU=IT Department/CN=zivpn" -keyout "/etc/zivpn/zivpn.key" -out "/etc/zivpn/zivpn.crt" &>/dev/null
@@ -63,10 +63,10 @@ msg -bar3
   local _nport='5667'
   local _enviorement="ExecStart=/bin/ZipVPN -config ${_config} server"
   local _enviorementPATCH='Environment="PATH=/etc/zivpn:/usr/bin:/bin"'
-  local _linkC='https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/UDP/ZipVPN/config/configv1.json'
-  local _linkB='https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/UDP/ZipVPN/udp-x64_v1.bin'
+  local _linkC='https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/UDP/ZipVPN/config/configv1.json'
+  local _linkB='https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/UDP/ZipVPN/udp-x64_v1.bin'
   msg -nama '     COMPILANDO BINARIO DE AUTENTIFICACION SSH V2'
-	if wget --no-check-certificate -t3 -T3 -O /etc/ADMcgh/bin/authSSH https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/$(uname -m 2> /dev/null)/authSSH &>/dev/null ; then
+	if wget --no-check-certificate -t3 -T3 -O /etc/ADMcgh/bin/authSSH https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/$(uname -m 2> /dev/null)/authSSH &>/dev/null ; then
 			chmod +x /etc/ADMcgh/bin/authSSH
 			[[ -e /bin/authSSH ]] && rm -f /bin/authSSH
 			ln -s /etc/ADMcgh/bin/authSSH /bin/authSSH &>/dev/null
@@ -81,8 +81,8 @@ msg -bar3
   local _nport='5667'
   local _enviorement="ExecStart=/bin/ZipVPN server -c ${_config}"
   local _enviorementPATCH='Environment=ZIVPN_LOG_LEVEL=info'
-  [[ $(uname -m 2> /dev/null) != x86_64 ]] && local _linkB='https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/UDP/ZipVPN/udp-arm64.bin' || local _linkB='https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/UDP/ZipVPN/udp-x64_v2.bin'
-  local _linkC='https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/UDP/ZipVPN/config/configv2.json'
+  [[ $(uname -m 2> /dev/null) != x86_64 ]] && local _linkB='https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/UDP/ZipVPN/udp-arm64.bin' || local _linkB='https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/UDP/ZipVPN/udp-x64_v2.bin'
+  local _linkC='https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/UDP/ZipVPN/config/configv2.json'
   msg -bar3
 echo -e " ESTAS CLAVES SERAN FIJAS, NO CADUCARAN!!"
 echo -e " SI QUIERES CAMBIARLAS, EDITA EL FICHERO"
@@ -107,8 +107,8 @@ new_config_str="\"config\": [$(printf "\"%s\"," "${config[@]}" | sed 's/,$//')]"
   local _nport='5666'
   local _enviorement="ExecStart=/bin/ZipVPN -config ${_config} server"
   local _enviorementPATCH='Environment="PATH=/etc/zivpn:/usr/bin:/bin"'
-  local _linkC='https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/UDP/ZipVPN/config/configv3.json'
-  local _linkB='https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/UDP/ZipVPN/udp-x64_v1.bin'
+  local _linkC='https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/UDP/ZipVPN/config/configv3.json'
+  local _linkB='https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/UDP/ZipVPN/udp-x64_v1.bin'
   msg -nama '     COMPILANDO BINARIO DE AUTENTIFICACION SSH V2'
   sleep 2s && del 1
   ;;
@@ -116,8 +116,8 @@ new_config_str="\"config\": [$(printf "\"%s\"," "${config[@]}" | sed 's/,$//')]"
   local _nport='5666'
   local _enviorement="ExecStart=/bin/ZipVPN server -c ${_config}"
   local _enviorementPATCH='Environment=ZIVPN_LOG_LEVEL=info'
-  [[ $(uname -m 2> /dev/null) != x86_64 ]] && local _linkB='https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/UDP/ZipVPN/udp-arm64.bin' || local _linkB='https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/UDP/ZipVPN/udp-x64_v2.bin'
-  local _linkC='https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/UDP/ZipVPN/config/configv4.json'
+  [[ $(uname -m 2> /dev/null) != x86_64 ]] && local _linkB='https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/UDP/ZipVPN/udp-arm64.bin' || local _linkB='https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/UDP/ZipVPN/udp-x64_v2.bin'
+  local _linkC='https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/UDP/ZipVPN/config/configv4.json'
   msg -bar3
   echo -e " ESTAS CLAVES SERAN FIJAS, NO CADUCARAN!!"
   echo -e " SI QUIERES CAMBIARLAS, EDITA EL FICHERO"
@@ -564,7 +564,7 @@ if wget -O /bin/hysteria https://github.com/apernet/hysteria/releases/download/v
 fi
 sleep 4s && del 1
 msg -nama '     Descargando Motor JSON . . . . '
-if wget -O /etc/adm-lite/HYSTERIA/config.json https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/config.json &>/dev/null ; then
+if wget -O /etc/adm-lite/HYSTERIA/config.json https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/config.json &>/dev/null ; then
 		chmod +x /etc/adm-lite/HYSTERIA/config.json
 		sed -i "s/setobfs/${OBFS}/" /etc/adm-lite/HYSTERIA/config.json
 		msg -verd ' OK'
@@ -575,7 +575,7 @@ fi
 sleep 4s && del 1
 msg -nama '     COMPILANDO GoLang AUTHSSH '
 #if wget -O /bin/authSSH https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/authSSH &>/dev/null ; then
-	if wget -O /etc/ADMcgh/bin/authSSH https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/$(uname -m 2> /dev/null)/authSSH &>/dev/null ; then
+	if wget -O /etc/ADMcgh/bin/authSSH https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/$(uname -m 2> /dev/null)/authSSH &>/dev/null ; then
 			chmod +x /etc/ADMcgh/bin/authSSH
 			[[ -e /bin/authSSH ]] && rm -f /bin/authSSH
 			ln -s /etc/ADMcgh/bin/authSSH /bin/authSSH &>/dev/null
@@ -586,7 +586,7 @@ msg -nama '     COMPILANDO GoLang AUTHSSH '
 fi
 sleep 4s && del 1
 msg -nama '     COMPILANDO BINARIO DE SYSTEMA . . . . '
-if wget -O /etc/adm-lite/HYSTERIA/hysteria.service https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/hysteria.service &>/dev/null ; then
+if wget -O /etc/adm-lite/HYSTERIA/hysteria.service https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/hysteria.service &>/dev/null ; then
 		chmod +x /etc/adm-lite/HYSTERIA/hysteria.service
 		systemctl disable hysteria.service &>/dev/null
 		#rm -f /etc/systemd/system/hysteria.service
@@ -712,7 +712,7 @@ cd /etc/zivpn/
 [[ $(uname -m 2> /dev/null) != x86_64 ]] && {
 
   print_center -nama ' DESCARGANDO MODULO DE CONTROL '
-  if wget --no-check-certificate -t3 -T3 -O /etc/ADMcgh/bin/CjsonUSER.bin https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/Cjson_USERS.bin &>/dev/null ; then
+  if wget --no-check-certificate -t3 -T3 -O /etc/ADMcgh/bin/CjsonUSER.bin https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/Cjson_USERS.bin &>/dev/null ; then
   chmod +x /etc/ADMcgh/bin/CjsonUSER.bin
   [[ -e /bin/CjsonUSER.bin ]] && rm -f /bin/CjsonUSER.bin
   ln -s /etc/ADMcgh/bin/CjsonUSER.bin /bin/CjsonUSER.bin
@@ -728,7 +728,7 @@ cd /etc/zivpn/
 
 } || {
   print_center -nama ' DESCARGANDO MODULO DE CONTROL '
-  if wget --no-check-certificate -t3 -T3 -O /etc/ADMcgh/bin/CjsonUSER.bin https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/Cjson_USERS.bin &>/dev/null ; then
+  if wget --no-check-certificate -t3 -T3 -O /etc/ADMcgh/bin/CjsonUSER.bin https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/Cjson_USERS.bin &>/dev/null ; then
   chmod +x /etc/ADMcgh/bin/CjsonUSER.bin
   [[ -e /bin/CjsonUSER.bin ]] && rm -f /bin/CjsonUSER.bin
   ln -s /etc/ADMcgh/bin/CjsonUSER.bin /bin/CjsonUSER.bin

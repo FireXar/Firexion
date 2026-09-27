@@ -44,7 +44,7 @@ if [[ $(cat $v2rdir/conf | grep "autBackup") = "" ]]; then
 echo "autBackup 0" >> $v2rdir/conf
 fi
 barra="\033[0;31m=====================================================\033[0m"
-[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -sSL https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/styles.cpp)
+[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/styles.cpp)
 numero='^[0-9]+$'
 hora=$(printf '%(%H:%M:%S)T')
 fecha=$(printf '%(%D)T')
@@ -1360,7 +1360,7 @@ clear
 install_ini
 msg -bar3
 blanco "	Esta por intalar xray!"
-wget wget --no-check-certificate -t3 -T3 -O /bin/xr.sh https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/V2ray/v2r.sh/xr.bin
+wget wget --no-check-certificate -t3 -T3 -O /bin/xr.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/xr.sh
 chmod +x /bin/xr.sh
 msg -bar3
 blanco " La instalacion puede tener\n alguna fallas!\n por favor observe atentamente\n el log de intalacion,\n este podria contener informacion\n sobre algunos errores!\n estos deveras ser corregidos de\n forma manual antes de continual\n usando el script"
@@ -1404,7 +1404,7 @@ case $opcion in
 msg -bar3
 [[ -e /bin/xr.sh ]] && xr.sh || {
 xray
-wget wget --no-check-certificate -t3 -T3 -O /bin/xr.sh https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/V2ray/v2r.sh/xr.bin
+wget wget --no-check-certificate -t3 -T3 -O /bin/xr.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/xr.sh
 chmod +x /bin/xr.sh
 clear
 msg -bar3
@@ -1654,7 +1654,7 @@ done
 _xray() {
 [[ -e /bin/xr.sh ]] && xr.sh || {
 xray
-wget wget --no-check-certificate -t3 -T3 -O /bin/xr.sh https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/V2ray/v2r.sh/xr.bin
+wget wget --no-check-certificate -t3 -T3 -O /bin/xr.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/xr.sh
 chmod +x /bin/xr.sh
 clear
 msg -bar3
@@ -1674,7 +1674,7 @@ read foo
 }
 }
 enon(){
-wget wget --no-check-certificate -t3 -T3 -O /bin/xr.sh https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/V2ray/v2r.sh/xr.bin
+wget wget --no-check-certificate -t3 -T3 -O /bin/xr.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/xr.sh
 chmod +x /bin/xr.sh
 clear
 msg -bar3

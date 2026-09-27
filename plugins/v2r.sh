@@ -1239,7 +1239,7 @@ clear
 install_ini
 msg -bar3
 blanco "	Esta por intalar v2ray!"
-wget wget --no-check-certificate -t3 -T3 -O /bin/v2r.sh https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/V2ray/v2r.sh/v2r.bin
+wget wget --no-check-certificate -t3 -T3 -O /bin/v2r.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/v2r.sh
 chmod +x /bin/v2r.sh
 msg -bar3
 blanco " La instalacion puede tener\n alguna fallas!\n por favor observe atentamente\n el log de intalacion,\n este podria contener informacion\n sobre algunos errores!\n estos deveras ser corregidos de\n forma manual antes de continual\n usando el script"
@@ -1667,7 +1667,7 @@ esac
 }
 enon(){
 blanco "	Esta por intalar v2ray!"
-wget --no-check-certificate -t3 -T3 -O /bin/v2r.sh https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/V2ray/v2r.sh/v2r.bin
+wget --no-check-certificate -t3 -T3 -O /bin/v2r.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/v2r.sh
 chmod +x /bin/v2r.sh
 clear
 msg -bar3
