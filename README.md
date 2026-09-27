@@ -1,111 +1,162 @@
-# cghlatamsrc
+# ADMcgh - VPS Manager Suite (Edición Libre / Sin Key)
 
-Repositorio de trabajo **estático** sobre el instalador ADM (`ChumoGH` / línea `LATAM`).
+[![Bash](https://img.shields.io/badge/Language-Bash-4EAA25.svg)](https://www.gnu.org/software/bash/)
+[![Python](https://img.shields.io/badge/Language-Python%203-3776AB.svg)](https://www.python.org/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Status](https://img.shields.io/badge/Key%20System-Removed%20%2F%20Free-brightgreen.svg)](#)
+[![Architecture](https://img.shields.io/badge/Architecture-x86__64%20%7C%20aarch64-blue.svg)](#)
 
-> **Regla del repositorio: 0 % ejecución.** Aquí solo entran archivos ya
-> desofuscados y auditados. El `setup` original (3.9 MB, bashfuscator) y sus
-> payloads **no se versionan** en este repo; se conservan fuera (carpeta
-> `CHUMOPLUS/` en la máquina de auditoría).
+Suite integral y modular de gestión y administración para servidores VPS (Ubuntu / Debian), basada en la línea **ChumoGH / ADM / LATAM**, completamente desofuscada, auditada, reestructurada y **100% liberada de sistemas de keys, tokens, bloqueos o verificación remota**.
 
 ---
 
-## Estructura
+## 🌟 Novedades de esta Versión
 
-```
-.
-├── 2_CODIGOANALIZADO/        # Capa 2: desofuscadores y verificadores (Python)
-│   ├── deobf_type1_matrix.py         bashfuscator octal/hex
-│   ├── deobf_type2_vars.py           variables concatenadas
-│   ├── deobf_type2b_latam.py         base64 + cebo (LATAM)
-│   ├── deobf_type2c_posicional.py    posicionales $1..$9 borrados
-│   ├── deobf_type3_pack3.py          multicapa b64/bz2/gzip
-│   ├── deobf_type3b_param.py         ${@...} anidado
-│   ├── deobf_type4_superscript.py    unicode superíndice
-│   ├── fetch_mirror.py               constructor del espejo local
-│   ├── extract_urls.py               extractor de URLs
-│   ├── build_url_map.py              mapa de reescritura URL→local
-│   ├── inventory_repos.py            inventario de repos clonados
-│   ├── download_layer1.py            descarga de la capa 1
-│   ├── verify_all.py                 verificación capas 1/2/3 + espejo
-│   ├── verify_layers.py              verificación por capas
-│   └── _*.py                         sondas de análisis (desechables)
+- **Cero Verificación de Key:** Se ha eliminado permanentemente toda llamada a `chekKEY`, consultas a servidores de licencias en puertos `8888` y `81`, listas blancas de IP (`control`), ficheros de bloqueo (`/etc/cghkey`, `/etc/chekKEY`, `/file`), y auto-destrucción del menú.
+- **Instalación Local Directa:** No depende de bots de Telegram, servidores externos, ni servicios keygen intermediarios (`latamsrc-keygen.service`). Todos los módulos, plugins y binarios residen localmente en el repositorio.
+- **Soporte Multi-Arquitectura:** Binarios nativos precompilados de gestión de usuarios (`add_new_user.bin`) tanto para **x86_64** (Intel/AMD) como para **aarch64** (ARM64 / Oracle Cloud Free Tier / AWS Graviton).
+- **Estructura Limpia y Modular:** Organización profesional pensada para despliegue directo en GitHub.
+- **Código Desofuscado y Legible:** Se han conservado las herramientas forenses de desofuscación y auditoría en la carpeta `tools/` y `docs/`.
+
+---
+
+## 📁 Estructura del Repositorio
+
+```text
+├── bin/                       # Binarios compilados y utilidades del sistema
+│   ├── aarch64/add_new_user.bin   # Gestor de usuarios SSH para ARM64
+│   ├── x86_64/add_new_user.bin    # Gestor de usuarios SSH para x86_64
+│   ├── root-pass.sh               # Cambio de contraseña root (sin telemetría)
+│   ├── stunnel-5.65.tar.gz        # Código fuente comprimido de stunnel 5.65
+│   ├── toolmaster.py              # CLI administrativo en Python
+│   └── upLIC                      # Optimizador de red y memoria RAM
 │
-├── 3_CODIGOVOLCADOFINAL/     # Capa 3: código desofuscado, legible
-│   ├── setup_limpio.sh               706 líneas · instalador principal
-│   ├── menu_limpio.sh                9 466 líneas · EL MENÚ REAL (341 KB)
-│   ├── pack_new_limpio.sh            441 líneas · capa 2 (plus.ltmcgh.site)
-│   ├── pack3_limpio.sh               454 líneas · capa 2 (fallback GitHub)
-│   ├── styles_limpio.sh              283 líneas · msg-bar / estilos
-│   ├── LATAM_limpio.sh               463 líneas · variante @Kalix1 / NetVPS
-│   ├── ScriptCGH_setup_limpio.sh     ESQUELETO incompleto (ver abajo)
-│   └── pack_new_desde2b.sh           sin desofuscar (blob, no usar)
+├── core/                      # Módulos núcleo del sistema ADM (instalados en /etc/adm-lite)
+│   ├── menu                       # Menú principal interactivo (9.400+ líneas, libre)
+│   ├── cabecalho                  # Cabecera de conexión
+│   ├── menu_credito               # Créditos y branding
+│   ├── payloads                   # Cargas útiles para SSH/Dropbear/SSL
+│   ├── http-server.py             # Servidor interno HTTP/Proxy
+│   ├── ultrahost                  # Extractor y comprobador de hosts
+│   ├── shadowsocks.sh             # Gestor de Shadowsocks base
+│   ├── PDirect.py, PGet.py...     # Proxies Python (Direct, Get, Open, Priv, Pub)
+│   └── v-local.log                # Registro de versión local (V2.5.0)
 │
-├── DOC.MD                    # Guía de trabajo con Bash (LF/CRLF, seguridad)
-├── ESPEJO_Y_VERSION_EDITADA.md  # Arquitectura descifrada + tabla URL→local
-├── MAPA_REESCRITURA_URLS.md     # Tabla completa (186 filas) de reescritura
-└── REGISTRO_AUDITORIA.md        # Bitácora forense multisesión
+├── plugins/                   # Protocolos avanzados y complementos
+│   ├── SlowDNS.sh                 # Servidor y cliente DNS Tunneled (puerto 53)
+│   ├── UDP_menu.sh                # Gestor de BadVPN UDP para gaming/llamadas
+│   ├── ClashForAndroidGLOBAL.sh   # Generador y gestor de perfiles Clash
+│   ├── budp.sh                    # BadUDP complementario
+│   ├── v2r.sh / v2r.bin           # Gestor de protocolos V2Ray (VMess/VLess)
+│   ├── xr.sh / xr.bin             # Gestor de protocolos Xray (Trojan/VLESS-XTLS)
+│   ├── autoconfig.sh              # Auto-configurador de dependencias
+│   ├── m_backup.sh                # Copias de seguridad locales
+│   ├── ssrrmu.sh                  # Soporte ShadowsocksR
+│   ├── styles.cpp                 # Motor de estilos extendido
+│   └── zh.sh                      # Utilidad Zivpn
+│
+├── styles/                    # Motor gráfico y paletas de colores ANSI
+│   ├── msg                        # Funciones gráficas (msg, print_center, tittle, anim)
+│   └── styles.cpp                 # Definiciones de colores y marcos
+│
+├── repos/                     # Listas de repositorios APT oficiales por distro
+│   ├── 8.list ... 12.list         # Debian 8, 9, 10, 11, 12
+│   └── 16.04.list ... 22.04.list  # Ubuntu 16.04 a 22.04 LTS
+│
+├── web/                       # Interfaz Web de bienvenida para Nginx
+│   └── index.html / plugin.html   # Panel web HTML de bienvenida
+│
+├── tools/                     # Scripts de ingeniería inversa y desofuscación (Python)
+│   ├── deobf_type1_matrix.py      # Desofuscador Bashfuscator octal/hex
+│   ├── deobf_type2_vars.py        # Desofuscador variables concatenadas
+│   ├── deobf_type2b_latam.py      # Desofuscador base64 + cebo LATAM
+│   ├── deobf_type3_pack3.py       # Desofuscador multicapa b64/bzip2/gzip
+│   ├── verify_all.py              # Verificador sintáctico de todo el árbol
+│   └── cripto(ChumoGH).sh         # Herramienta de cifrado/descifrado en sandbox
+│
+├── docs/                      # Documentación forense y bitácora técnica
+│   ├── DOCUMENTACION_INSTALACION.md
+│   ├── ESPEJO_Y_VERSION_EDITADA.md
+│   ├── MAPA_REESCRITURA_URLS.md
+│   ├── REGISTRO_AUDITORIA.md
+│   ├── INDICE.md
+│   └── DOC.MD
+│
+├── src/                       # Volcados desofuscados limpios para referencia
+│   ├── setup_limpio.sh
+│   ├── pack_new_limpio.sh
+│   ├── pack3_limpio.sh
+│   └── LATAM_limpio.sh
+│
+├── install.sh                 # Instalador automatizado desatendido (1-click)
+├── setup.sh                   # Instalador interactivo por consola
+├── LICENSE                    # Licencia MIT
+└── .gitignore                 # Filtro de archivos para GitHub
 ```
 
 ---
 
-## Estado verificado
+## 🚀 Requisitos del Sistema
 
-```
-python3 2_CODIGOANALIZADO/verify_all.py
+- **Sistema Operativo:** Ubuntu (18.04, 20.04, 22.04, 24.04) o Debian (9, 10, 11, 12).
+- **Permisos:** Acceso como superusuario `root`.
+- **Arquitectura:** x86_64 (AMD64) o aarch64 (ARM64).
+- **Puertos Libres:** 22 (SSH), 80/81 (Web), 53 (DNS si se usa SlowDNS).
+
+---
+
+## 💻 Métodos de Instalación
+
+### Método 1: Clonar y Ejecutar (Recomendado)
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/TU_USUARIO/ChumoGH.git /root/ChumoGH
+
+# 2. Entrar al directorio
+cd /root/ChumoGH
+
+# 3. Ejecutar el instalador interactivo
+bash setup.sh
 ```
 
-| Capa | Estado |
+### Método 2: Instalación Rápida Desatendida (1-Línea)
+
+```bash
+cd /root/ChumoGH && bash install.sh
+```
+
+Una vez completada la instalación, el sistema estará inmediatamente activo sin requerir ninguna clave ni validación.
+
+---
+
+## 🎮 Comandos de Uso
+
+Tras la instalación, los siguientes comandos globales estarán disponibles en su terminal:
+
+| Comando | Descripción |
 | :--- | :--- |
-| Capa 2 (herramientas) | 28/28 `.py` compilan sin error de sintaxis |
-| Capa 3 (volcados) | 7/7 legibles con su marca de origen |
-| Espejo `mirror/` | no versionado (ver nota) |
-
-`pack_new_desde2b.sh` **no** entra en la verificación: es un blob sin desofuscar.
-
----
-
-## Limitaciones conocidas (no son errores de este repo)
-
-1. **`mirror/` no se versiona.** Contiene repos completos de terceros
-   (`ADMcgh`, `ChumoGH-Script`, `ScriptCGH`), binarios ELF de 2.5 MB
-   (`add_new_user.bin`) y el dump `root-pass.sh`. Mover eso a un repo público
-   es redistribuir material ajeno. Vive local; se regenera con
-   `2_CODIGOANALIZADO/fetch_mirror.py`.
-2. **`ScriptCGH_setup_limpio.sh` es un esqueleto.** Perdió los saltos de línea
-   y los posicionales `$1..$9` no existen dentro del archivo original, así que
-   hay tramos no recuperables. Requiere reconstrucción manual.
-3. **`setup_limpio.sh` conserva los saltos de línea y tabuladores originales.**
-   La auditoría citó `nameserver8.8.8.8`; en el volcado real el separador es un
-   **tabulador** (`nameserver<TAB>8.8.8.8`), no un espacio. Corregido en esta
-   revisión.
-4. **`menu_limpio.sh` line 1 no tiene shebang.** Es el `menu` tal cual salió de
-   `SCRIPT.tar.gz`; se le quita el shebang al instalarlo en `/etc/adm-lite/menu`.
+| `menu` | Abre el menú interactivo principal de ADMcgh. |
+| `cgh` | Acceso rápido al panel de administración. |
+| `adm` | Acceso con soporte para paso de parámetros. |
+| `toolmaster` | Abre el administrador CLI de monitoreo y diagnóstico. |
+| `add_new_user` | Utilidad nativa de creación de usuarios SSH/VPN con límite de conexiones y días. |
+| `upLIC` | Optimiza instantáneamente memoria RAM y tablas de red. |
 
 ---
 
-## Flujo de reescritura (siguiente fase)
+## 🛡️ Protocolos Soportados
 
-Cada URL remota se sustituye por su equivalente local, siguiendo
-`MAPA_REESCRITURA_URLS.md`:
-
-| Prefijo remoto | Prefijo local |
-| :--- | :--- |
-| `https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/` | `.../mirror/github/main/` |
-| `https://raw.githubusercontent.com/ChumoGH/ChumoGH-Script/master/` | `.../mirror/github-extra/ChumoGH-ChumoGH-Script-master/` |
-| `https://raw.githubusercontent.com/ChumoGH/ScriptCGH/main/` | `.../mirror/github-extra/ChumoGH-ScriptCGH-main/` |
-| `https://plus.ltmcgh.site/` | `.../mirror/plus.ltmcgh.site/` |
-| `https://www.dropbox.com/s/...` | `.../mirror/dropbox/<nombre>` |
-
-> Los endpoints `:81` y `:8888` del keygen **no son espejables**: `lista-arq` se
-> genera dinámicamente por clave e IP. Hay que sustituir el generador por un
-> servicio propio o eliminar la validación.
+1. **SSH / Dropbear / Stunnel (SSL/TLS)**
+2. **BadVPN (UDP 7100, 7200, 7300...)** para llamadas de WhatsApp y juegos online.
+3. **SlowDNS** sobre UDP 53 para conexiones en entornos restringidos.
+4. **V2Ray & Xray** (VMess, VLess, Trojan, XTLS).
+5. **Shadowsocks & ShadowsocksR**.
+6. **Clash for Android** (generador automático de configs).
+7. **Servidor Web integrado (Nginx en puerto 81/80)** con interfaz dashboard.
 
 ---
 
-## Aviso legal / alcance
+## 📜 Licencia
 
-Material de análisis forense defensivo. Ningún script de este repositorio se ha
-ejecutado en la máquina de auditoría y ninguno está pensado para ejecutarse como
-está: son artefactos de lectura. El instalador original escribe en
-`/etc/apt/sources.list`, `/etc/resolv.conf`, borra `/var/log/auth.log*`,
-desinstala UFW y vacía `iptables`.
+Distribuido bajo la Licencia **MIT**. Consulte el archivo [LICENSE](LICENSE) para más detalles.

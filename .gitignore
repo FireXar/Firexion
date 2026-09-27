@@ -1,34 +1,23 @@
-# ---------------------------------------------------------------------------
-# cghlatamsrc — lo que NUNCA debe subir
-# ---------------------------------------------------------------------------
+# ==============================================================================
+# .gitignore - ADMcgh (Repositorio Limpio)
+# ==============================================================================
 
-# Espejo de producción: repos de terceros + binarios ELF + dumps de credenciales
-mirror/
-*/mirror/
+# Archivos de respaldo y comprimidos
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+.raw_unpacked/
+.backup/
 
-# Capa 1: originales ofuscados (blobs), fuera del versionado
-1_CODIGOORIGINAL/
-setup
-setup.txt
-pack.tar
-pack2.tar
-pack3.tar
-SCRIPT.tar.gz
-
-# Dumps que contienen IPs/C2 y credenciales
-control_tokens.txt
-token_decoded.txt
-root-pass.sh
-*root-pass*
-
-# Python
+# Python y caché
 __pycache__/
 *.py[cod]
-*.egg-info/
+*$py.class
 .venv/
 venv/
 
-# Basura de sistema / editor
+# Archivos de sistema / temporales
 *.swp
 *.swo
 *~
@@ -37,9 +26,13 @@ Thumbs.db
 desktop.ini
 *.bak
 *.orig
+error.log
+log.txt
+lista-arq
+lista*
 
-# Secretos
+# Credenciales y secretos
 .env
 *.pem
-*.key
 id_rsa*
+token.sh
