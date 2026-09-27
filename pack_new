@@ -1,9 +1,8 @@
 #!/bin/bash
 # Desofuscado Estáticamente por deobf_type2_vars.py
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-rm -rf /tmp/* &>/dev/null
-BS=$(basename "$0") &>/dev/null
-rm -f $(pwd)/${BS} &>/dev/null
+# BS=$(basename "$0") &>/dev/null
+# rm -f $(pwd)/${BS} &>/dev/null
 SCPdir="/etc/adm-lite"
 _check2="OK"
 [[ -e /bin/ejecutar/IPcgh ]] && _IP=$(cat < /bin/ejecutar/IPcgh) || _IP=$(curl -fsSL ifconfig.me)

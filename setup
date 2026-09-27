@@ -88,7 +88,11 @@ msg -bar3
 print_center -ama  " ( OPCIONAL )\n"
 msg -bar3
 echo -ne "\033[0;32m"
-read -t 10 -p " Responde [ s | n ] : " -e -i "n" respuesta
+if [[ "$1" == "--ADMcgh" || "$1" == "-y" ]]; then
+  respuesta="n"
+else
+  read -t 5 -p " Responde [ s | n ] : " -e -i "n" respuesta
+fi
 echo ''
 
 # Si la respuesta es 'si', ejecutamos la función
@@ -99,10 +103,9 @@ fi
 #apt update 
 #apt list --upgradable
 #apt upgrade -y
-# lang_url no key
-rm "$0" &>/dev/null
-script_name=$(basename "$0") &>/dev/null
-rm -f $(pwd)/${script_name} &>/dev/null
+# rm "$0" &>/dev/null
+# script_name=$(basename "$0") &>/dev/null
+# rm -f $(pwd)/${script_name} &>/dev/null
 rm -f /file
 rm -rf /tmp/* &>/dev/null
 killall apt apt-get &> /dev/null
@@ -230,7 +233,7 @@ _sleepColor '2' ''
 #[[ $(dpkg --get-selections|grep -w "figlet"|head -1) ]] || apt-get install figlet -y -qq --silent &>/dev/null
 clear&&clear
 echo -e "INSTALLED" > /etc/PACKAGE
-rm $(pwd)/$0 &> /dev/null 
+# rm $(pwd)/$0 &> /dev/null 
 return
 }
 
@@ -277,8 +280,8 @@ start_animation() {
 stop_animation() {
   [[ "${silent_mode}" == "true" ]] && return 0
 
-  [[ -e "/proc/${ANIM_PID}" ]] && kill -13 "${ANIM_PID}"
-  setterm -cursor on
+  [[ -n "${ANIM_PID}" ]] && kill -9 "${ANIM_PID}" 2>/dev/null
+  setterm -cursor on 2>/dev/null || true
 }
 
 _sleepColor(){
@@ -287,7 +290,7 @@ local accion=$2
 start_animation
 [[ -z ${accion} ]] && {
 [[ -z ${time} ]] && sleep 2s || sleep ${time}
-} || ${accion} &>/dev/null
+} || eval "${accion}" &>/dev/null
 stop_animation
 echo
 tput cuu1 >&2 && tput dl1 >&2
