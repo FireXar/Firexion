@@ -4,7 +4,7 @@ rm -rf /tmp/* &>/dev/null
 #rm -f $(pwd)/${script_name}
 clear&&clear
 
-source <(curl -sSL https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/styles.cpp)
+source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/styles.cpp)
 
 function chekKEY {
     return 0

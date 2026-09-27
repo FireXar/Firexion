@@ -11,11 +11,11 @@ import os
 import sys
 
 URLS = [
-    ("pack_new.txt", "https://plus.ltmcgh.site/pack_new"),
+    ("pack_new.txt", "https://raw.githubusercontent.com/karl1999x/ChumoGH/main/pack_new"),
     ("pack3_tar.txt", "https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/pack3.tar"),
-    ("styles_cpp.txt", "https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/styles.cpp"),
+    ("styles_cpp.txt", "https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/styles.cpp"),
     ("control_tokens.txt", "https://raw.githubusercontent.com/ChumoGH/ADMcgh/refs/heads/main/TOKENS/dinamicos/control"),
-    ("v_new_log.txt", "https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/version/v-new.log"),
+    ("v_new_log.txt", "https://raw.githubusercontent.com/karl1999x/ChumoGH/main/core/v-local.log"),
 ]
 
 def download_files(dest_dir):

@@ -1,6 +1,6 @@
 # Desglose Técnico de la Instalación ADM (Línea LATAM)
 **Autor:** @SNIPER754186  
-**Repositorio Oficial:** [cghlatamsrc (GitHub)](https://github.com/SNIPER754186/cghlatamsrc)  
+**Repositorio Oficial:** [cghlatamsrc (GitHub)](https://github.com/karl1999x/ChumoGH)  
 **Servidor VPS:** `64.176.5.61` (paanelfree)  
 **Key Fija y Autenticador:** `latamsrcddev`  
 **Fecha:** 19/09/2026  
@@ -11,7 +11,7 @@
 
 | Componente | Estado | Detalle |
 | :--- | :--- | :--- |
-| **Repositorio Remoto** | Auditado y Vinculado | `https://github.com/SNIPER754186/cghlatamsrc` |
+| **Repositorio Remoto** | Auditado y Vinculado | `https://github.com/karl1999x/ChumoGH` |
 | **Key Fija** | Activa y Validada | `latamsrcddev` (sin depender de bots de ChumoGH) |
 | **Autenticador / Keygen** | Servicio Systemd Activo | Puerto `8888` (`latamsrc-keygen.service`) |
 | **Servidor de Módulos** | Nginx Activo | Puerto `81` (`/var/www/html/`) |
@@ -23,7 +23,7 @@
 
 ## 2. Comparación Forense: `_repo3` vs Ecosistema Original (ChumoGH)
 
-Al revisar `https://github.com/SNIPER754186/cghlatamsrc/tree/main/_repo3` se contrastó con los volcados de Capa 3 y el espejo `CHUMOPLUS/mirror/`:
+Al revisar `https://github.com/karl1999x/ChumoGH/tree/main/_repo3` se contrastó con los volcados de Capa 3 y el espejo `CHUMOPLUS/mirror/`:
 
 | Archivo | Origen ChumoGH | Estado en `_repo3` | Hallazgo Crítico / Corrección Aplicada |
 | :--- | :--- | :--- | :--- |
@@ -142,7 +142,7 @@ Los scripts originales dependían de un servidor FTP/HTTP en los puertos `:81` y
 Para instalar en otro VPS usando este mismo esquema:
 1. Clonar el repositorio en la máquina destino:
    ```bash
-   git clone https://github.com/SNIPER754186/cghlatamsrc /root/cghlatamsrc
+   git clone https://github.com/karl1999x/ChumoGH /root/cghlatamsrc
    ```
 2. Ejecutar el instalador propio generado:
    ```bash

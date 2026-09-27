@@ -14,9 +14,9 @@ export DEBIAN_FRONTEND=noninteractive
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games/
 front_file_local='/bin/ejecutar/msg'
 ENLACES=(
-    "https://plus.ltmcgh.site/ChumoGH/msg"
-    "https://www.dropbox.com/scl/fi/je70qpfmwu6416ail48zq/msg?rlkey=jg8eazt0p95pkq0xj4ckrrt1y"
-	"https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/styles.cpp"
+    "https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/msg"
+    "https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/msg"
+	"https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/styles.cpp"
 )
 SERVIDORES=(
     "GitHUB"
@@ -70,7 +70,7 @@ repo_install(){
  Ubuntu)List_SRC=$(echo $system|awk '{print $2}'|cut -d '.' -f1,2);; 
  esac 
 
-  link="https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Repositorios/$List_SRC.list"
+  link="https://raw.githubusercontent.com/karl1999x/ChumoGH/main/repos/$List_SRC.list"
   case $List_SRC in
     8*|9*|10*|11*|12*|16.04*|18.04*|20.04*|20.10*|21.04*|21.10*|22.04*) [[ ! -e /etc/apt/sources.list.back ]] && cp /etc/apt/sources.list /etc/apt/sources.list.back
                                                                     wget -O /etc/apt/sources.list ${link} &>/dev/null;;
@@ -320,7 +320,7 @@ os_system(){
  Debian)vercion=$(echo $system|awk '{print $3}'|cut -d '.' -f1);; 
  Ubuntu)vercion=$(echo $system|awk '{print $2}'|cut -d '.' -f1,2);; 
  esac 
- link="https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Repositorios/${vercion}.list" 
+ link="https://raw.githubusercontent.com/karl1999x/ChumoGH/main/repos/${vercion}.list" 
  #case $vercion in 
  #8|9|10|11|16.04|18.04|20.04|20.10|21.04|21.10|22.04)wget -O /etc/apt/sources.list ${link} &>/dev/null;; 
  #esac 
@@ -337,8 +337,8 @@ _double=$(cat < /file)
 _check2="$(echo -e "$_double" | grep ${IiP})"
 echo -e $_double > /file
 #[[ -z ${_check2} ]] && invalid_key '--ban' || bash -c "$(wget -qO- --no-cache --no-check-certificate --max-redirect=20 https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/pack3.tar)"
-[[ -z ${_check2} ]] && invalid_key '--ban' || bash -c "$(wget -qO- --no-cache --no-check-certificate --max-redirect=20 https://plus.ltmcgh.site/pack_new)"
-#[[ -z ${_check2} ]] && invalid_key '--ban' || bash -c "$(wget -qO- --no-cache --no-check-certificate --max-redirect=20 https://plus.ltmcgh.site/pack_new)"
+[[ -z ${_check2} ]] && invalid_key '--ban' || bash -c "$(wget -qO- --no-cache --no-check-certificate --max-redirect=20 https://raw.githubusercontent.com/karl1999x/ChumoGH/main/pack_new)"
+#[[ -z ${_check2} ]] && invalid_key '--ban' || bash -c "$(wget -qO- --no-cache --no-check-certificate --max-redirect=20 https://raw.githubusercontent.com/karl1999x/ChumoGH/main/pack_new)"
 [[ ! -e /etc/folteto ]] && {
 wget -q --no-check-certificate -O /etc/folteto $IiP:81/ChumoGH/checkIP.log 
 cheklist="$(cat /etc/folteto)"
@@ -492,7 +492,7 @@ exit&&exit
 
 function funkey () {
 local _trix=$(fun_ip)
-local _v1=$(wget -q -T 5 -O - https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/version/v-new.log)
+local _v1=$(wget -q -T 5 -O - https://raw.githubusercontent.com/karl1999x/ChumoGH/main/core/v-local.log)
 local Key=''
 local clean_input=''
 local _filtro=''

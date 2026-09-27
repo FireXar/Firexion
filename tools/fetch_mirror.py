@@ -43,9 +43,9 @@ RAW = "https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/"
 # --- Repos adicionales del ecosistema ChumoGH (raw de ramas master/main) ---
 EXTRA_RAW = [
     # ChumoGH-Script (rama master)
-    "https://raw.githubusercontent.com/ChumoGH/ChumoGH-Script/master/msg-bar/msg",
+    "https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/msg",
     "https://raw.githubusercontent.com/ChumoGH/ChumoGH-Script/master/ssl",
-    "https://raw.githubusercontent.com/ChumoGH/ChumoGH-Script/master/shadowsocks.sh",
+    "https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/shadowsocks.sh",
     "https://raw.githubusercontent.com/ChumoGH/ChumoGH-Script/master/manager",
     "https://raw.githubusercontent.com/ChumoGH/ChumoGH-Script/master/lista-arq",
     "https://raw.githubusercontent.com/ChumoGH/ChumoGH-Script/master/back/sourcesfix.sh",
@@ -53,7 +53,7 @@ EXTRA_RAW = [
     # ScriptCGH
     "https://raw.githubusercontent.com/ChumoGH/ScriptCGH/main/setup",
     "https://raw.githubusercontent.com/ChumoGH/ScriptCGH/main/IMG/icon.ico",
-    "https://raw.githubusercontent.com/ChumoGH/ScriptCGH/main/HTools/CLASH/ClashForAndroidGLOBAL.sh",
+    "https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/ClashForAndroidGLOBAL.sh",
 ]
 
 GITHUB_FILES = [
@@ -138,14 +138,14 @@ GITHUB_FILES = [
 # Rutas exactas tal como las escribe el instalador en runtime
 RUNTIME_OTHERS = [
     ("https://plus.ltmcgh.site/setup",            "plus.ltmcgh.site/setup"),
-    ("https://plus.ltmcgh.site/pack_new",         "plus.ltmcgh.site/pack_new"),
-    ("https://plus.ltmcgh.site/ChumoGH/msg",      "plus.ltmcgh.site/ChumoGH/msg"),
+    ("https://raw.githubusercontent.com/karl1999x/ChumoGH/main/pack_new",         "plus.ltmcgh.site/pack_new"),
+    ("https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/msg",      "plus.ltmcgh.site/ChumoGH/msg"),
     ("https://plus.ltmcgh.site/main/control",     "plus.ltmcgh.site/main/control"),
     ("https://www.dropbox.com/scls/hl9vyo8mf94z0h5/root-pass.sh",
      "dropbox/root-pass.sh"),
-    ("https://www.dropbox.com/s/hl9vyo8mf94z0h5/root-pass.sh",
+    ("https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/root-pass.sh",
      "dropbox/root-pass.sh"),
-    ("https://www.dropbox.com/scl/fi/je70qpfmwu6416ail48zq/msg?rlkey=jg8eazt0p95pkq0xj4ckrrt1y",
+    ("https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/msg",
      "dropbox/msg"),
 ]
 

@@ -12,7 +12,7 @@ _check4=$8
 _check5=$9
 
 archivo_local="/bin/ejecutar/msg"
-archivo_remoto="https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/styles.cpp"
+archivo_remoto="https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/styles.cpp"
 
 show_quit(){
 

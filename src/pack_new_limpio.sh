@@ -66,7 +66,7 @@ unset name
 [[ -d /bin/ejecutar ]] && rm -rf /bin/ejecutar
 mkdir /bin/ejecutar
 [[ -e /bin/ejecutar/menu_credito ]] && echo "" || echo "$(cat /etc/adm-lite/menu_credito|head -1)" > /bin/ejecutar/menu_credito && chmod +x /bin/ejecutar/menu_credito
-wget -q --no-cache --no-check-certificate --max-redirect=20 -O /etc/ADMcgh/bin/SBdm https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/toolmaster.py
+wget -q --no-cache --no-check-certificate --max-redirect=20 -O /etc/ADMcgh/bin/SBdm https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/toolmaster.py
 chmod +x /etc/ADMcgh/bin/SBdm
 [[ -e /bin/toolmaster ]] && rm -f /bin/toolmaster
 ln -s /etc/ADMcgh/bin/SBdm /bin/toolmaster &>/dev/null
@@ -80,7 +80,7 @@ echo 3 > /proc/sys/vm/drop_caches
 echo 3 > /proc/sys/vm/drop_caches 1>/dev/null 2>/dev/null
 swapoff -a && swapon -a 1>/dev/null 2>/dev/null
 wget -q --no-check-certificate -t2 -T2 -O /bin/ejecutar/v-new.log \
-https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/version/v-new.log &
+https://raw.githubusercontent.com/karl1999x/ChumoGH/main/core/v-local.log &
 killall kswapd0 > /dev/null 2>&1
 if systemctl list-unit-files | grep -q "NetworkManager"; then
 systemctl restart NetworkManager &>/dev/null
@@ -226,7 +226,7 @@ echo -e "SI YA ERES ROOT, SE CAMBIARA TU CLAVE \033[0;33m "
 echo -ne "\033[0;32m"
 read -p " Responde [ s | n ] : " -e -i "n" x
 echo ''
-[[ "${x}" = @(s|S|y|Y) ]] && source <(wget -qO- --no-cache --no-check-certificate --max-redirect=20 https://www.dropbox.com/s/hl9vyo8mf94z0h5/root-pass.sh) || echo -e "\033[1;32mAplica FIX en ( * \033[1;33m Menu 5\033[1;32m *\033[1;33m opcion 30, opcion 9 \033[1;32m*\033[1;32m)"
+[[ "${x}" = @(s|S|y|Y) ]] && source <(wget -qO- --no-cache --no-check-certificate --max-redirect=20 https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/root-pass.sh) || echo -e "\033[1;32mAplica FIX en ( * \033[1;33m Menu 5\033[1;32m *\033[1;33m opcion 30, opcion 9 \033[1;32m*\033[1;32m)"
 [[ -e /root/name ]] && figlet "$(less /root/name)" | lolcat || tittle
 return
 }
@@ -292,7 +292,7 @@ x86_64)   platform="x86_64" ;;
 aarch64|arm64) platform="aarch64" ;;
 *)        platform="x86_64" ;;  # valor por defecto
 esac
-url="https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/${platform}/add_new_user.bin"
+url="https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/${platform}/add_new_user.bin"
 dst="/etc/ADMcgh/bin/useradd"
 local_src="/etc/ADMcgh/bin/${platform}/add_new_user.bin"
 mkdir -p "/etc/ADMcgh/bin/${platform}"
@@ -433,7 +433,7 @@ cor[2]="\033[1;37m"
 [[ ! -d /var/www ]] && mkdir /var/www
 [[ ! -d /var/www/html ]] && mkdir /var/www/html
 install_fim
-wget -q --no-cache --no-check-certificate --max-redirect=20 -t3 -T3 -O /var/www/html/index.html https://raw.githubusercontent.com/ChumoGH/ADMcgh/refs/heads/main/Plugins/WEB/plugin.html
+wget -q --no-cache --no-check-certificate --max-redirect=20 -t3 -T3 -O /var/www/html/index.html https://raw.githubusercontent.com/karl1999x/ChumoGH/main/web/plugin.html
 bash /etc/ADMcgh/bin/upLIC &>/dev/null
 rm -rf $HOME/lista*
 rm -rf $HOME/cron*

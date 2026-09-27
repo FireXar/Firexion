@@ -44,7 +44,7 @@ if [[ $(cat $v2rdir/conf | grep "autBackup") = "" ]]; then
 echo "autBackup 0" >> $v2rdir/conf
 fi
 barra="\033[0;31m=====================================================\033[0m"
-[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -sSL https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/styles.cpp)
+[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/styles.cpp)
 numero='^[0-9]+$'
 hora=$(printf '%(%H:%M:%S)T')
 fecha=$(printf '%(%D)T')

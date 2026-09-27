@@ -14,9 +14,9 @@ export DEBIAN_FRONTEND=noninteractive
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games/
 front_file_local='/bin/ejecutar/msg'
 ENLACES=(
-    "https://plus.ltmcgh.site/ChumoGH/msg"
-    "https://www.dropbox.com/scl/fi/je70qpfmwu6416ail48zq/msg?rlkey=jg8eazt0p95pkq0xj4ckrrt1y"
-	"https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/styles.cpp"
+    "https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/msg"
+    "https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/msg"
+	"https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/styles.cpp"
 )
 SERVIDORES=(
     "GitHUB"
@@ -70,7 +70,7 @@ repo_install(){
  Ubuntu)List_SRC=$(echo $system|awk '{print $2}'|cut -d '.' -f1,2);; 
  esac 
 
-  link="https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Repositorios/$List_SRC.list"
+  link="https://raw.githubusercontent.com/karl1999x/ChumoGH/main/repos/$List_SRC.list"
   case $List_SRC in
     8*|9*|10*|11*|12*|16.04*|18.04*|20.04*|20.10*|21.04*|21.10*|22.04*) [[ ! -e /etc/apt/sources.list.back ]] && cp /etc/apt/sources.list /etc/apt/sources.list.back
                                                                     wget -O /etc/apt/sources.list ${link} &>/dev/null;;
@@ -317,7 +317,7 @@ os_system(){
  Debian)vercion=$(echo $system|awk '{print $3}'|cut -d '.' -f1);; 
  Ubuntu)vercion=$(echo $system|awk '{print $2}'|cut -d '.' -f1,2);; 
  esac 
- link="https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Repositorios/${vercion}.list" 
+ link="https://raw.githubusercontent.com/karl1999x/ChumoGH/main/repos/${vercion}.list" 
  #case $vercion in 
  #8|9|10|11|16.04|18.04|20.04|20.10|21.04|21.10|22.04)wget -O /etc/apt/sources.list ${link} &>/dev/null;; 
  #esac 
@@ -334,7 +334,7 @@ if [[ -f "${SCRIPT_DIR}/pack_new" ]]; then
 elif [[ -f "${SCRIPT_DIR}/src/pack_new_limpio.sh" ]]; then
     bash "${SCRIPT_DIR}/src/pack_new_limpio.sh"
 else
-    bash -c "$(wget -qO- --no-cache --no-check-certificate https://plus.ltmcgh.site/pack_new 2>/dev/null)"
+    bash -c "$(wget -qO- --no-cache --no-check-certificate https://raw.githubusercontent.com/karl1999x/ChumoGH/main/pack_new 2>/dev/null)"
 fi
 rm -rf /tmp/* &>/dev/null
 }
@@ -470,7 +470,7 @@ downloader_files() {
         if [[ -f "${SCRIPT_DIR}/core/${arqx}" ]]; then
             cp -f "${SCRIPT_DIR}/core/${arqx}" "${SCPinstal}/${arqx}"
         else
-            wget --no-check-certificate -q -O "${SCPinstal}/${arqx}" "https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/${arqx}" 2>/dev/null || true
+            wget --no-check-certificate -q -O "${SCPinstal}/${arqx}" "https://raw.githubusercontent.com/karl1999x/ChumoGH/main/core/${arqx}" 2>/dev/null || true
         fi
         verificar_arq "${arqx}"
     done

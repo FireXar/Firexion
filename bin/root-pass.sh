@@ -1,7 +1,7 @@
 #!/bin/sh
 #Autor: Henry Chumo 
 #Alias : ChumoGH
-[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -sL https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/styles.cpp)
+[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -sL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/styles.cpp)
 
 _mssBOT () {
 xyz=$(curl -sSL "https://www.dropbox.com/s/jzkd6fzey2u0m0g/token.sh")

@@ -8,7 +8,7 @@ ADM_inst='/bin'
 # Key="$(cat < /etc/cghkey)" && _Key='/etc/cghkey'
 [[ -d /etc/ADMcgh ]] || mkdir /etc/ADMcgh
 [[ -d /etc/ADMcgh/bin ]] || mkdir /etc/ADMcgh/bin 
-[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -sSL https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/styles.cpp)
+[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/styles.cpp)
 #FELICIDADES, NUNCA DEJES DE APRENDER
 # _Key='/etc/cghkey'
 

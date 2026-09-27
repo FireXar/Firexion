@@ -3,8 +3,8 @@
 # POWER BY @CHUMOGH
 
 #[[ $1 = '--check' ]] && rm -f /etc/folteto && cp /bin/cgh /bin/menu
-#[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -sSL https://raw.githubusercontent.com/ChumoGH/ChumoGH-Script/master/msg-bar/msg)
-[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -sSL https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/styles.cpp)
+#[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/msg)
+[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/styles.cpp)
 [[ -d /etc/ADMcgh/ ]] || mkdir /etc/ADMcgh
 [[ -d /etc/ADMcgh/bin ]] || mkdir /etc/ADMcgh/bin/
 mportas () {
@@ -2779,9 +2779,9 @@ print_center '\e[97m\033[1;41m MENUS V2RAY REFACTORIZADOS\033[0m'
 menu_item "MENU LITE  V2RAY  MultiCuentas  \033[0;32m(#OFICIAL)   " "V2RAY MENU CUSTOM MultiCuentas  \033[0;32m(#OFICIAL)" "MENU LITE   XRAY  MultiCuentas  \033[0;32m(#OFICIAL)   " "MENU LITE TROJAN MultiCuentas  \033[0;32m(#OFICIAL)"
 selection=$(selection_fun 4)
 case ${selection} in
-1)[[ $(which v2r.sh) ]] && $(which v2r.sh) || source <(curl -sSL https://www.dropbox.com/s/yxpjpgcwyrvitl6/v2ray_manager.url.sh) ;;
+1)[[ $(which v2r.sh) ]] && $(which v2r.sh) || source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/v2r.sh) ;;
 2)[[ -e /etc/v2ray/config.json ]] && source <(curl -sSL https://www.dropbox.com/s/id3llagyfvwceyr/v2ray1.sh) || source <(curl -sSL https://www.dropbox.com/s/q6mpwhfgt1665pl/v2ray.sh) ;;
-3)[[ $(which xr.sh) ]] && $(which xr.sh) || source <(curl -sSL https://www.dropbox.com/s/olvy10kff2wwe8f/xray_manager.sh) ;;
+3)[[ $(which xr.sh) ]] && $(which xr.sh) || source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/xr.sh) ;;
 4)[[ $(which troj.sh) ]] && $(which troj.sh) || troj.sh;; 
 0)return 0 ;;
 esac
@@ -2789,7 +2789,7 @@ esac
 
 
 ssrmenu () {
-source <(curl -sL https://raw.githubusercontent.com/ChumoGH/ChumoGH-Script/master/back/ssrrmu.sh)
+source <(curl -sL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/ssrrmu.sh)
 }
 
 
@@ -5655,7 +5655,7 @@ esac
 
 fun_shadowsocks () {
 [[ ! -e /etc/ADMcgh/bin/budp.sh ]] && {
-  if wget -q --no-cache -O /etc/ADMcgh/bin/shadowsocks.sh  https://raw.githubusercontent.com/ChumoGH/ChumoGH-Script/master/shadowsocks.sh &>/dev/null ; then
+  if wget -q --no-cache -O /etc/ADMcgh/bin/shadowsocks.sh  https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/shadowsocks.sh &>/dev/null ; then
   chmod +x /etc/ADMcgh/bin/shadowsocks.sh
   ln -s /etc/ADMcgh/bin/shadowsocks.sh /bin/shawD.sh
   msg -verd "[OK]"  
@@ -5681,7 +5681,7 @@ tittle ' CLASH FOR ANDROID ( 2024 )'
 sleep 0.5s
 #source <(curl -sSL https://www.dropbox.com/s/uz3s8keszpdwx0y/clash-beta.sh)
 [[ -e /bin/clash.sh ]] && clash.sh || {
-  if wget --no-check-certificate -t3 -T3 -O /etc/ADMcgh/bin/clash.bin https://raw.githubusercontent.com/ChumoGH/ScriptCGH/main/HTools/CLASH/ClashForAndroidGLOBAL.sh &>/dev/null ; then
+  if wget --no-check-certificate -t3 -T3 -O /etc/ADMcgh/bin/clash.bin https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/ClashForAndroidGLOBAL.sh &>/dev/null ; then
   chmod +x /etc/ADMcgh/bin/clash.bin
   bash /etc/ADMcgh/bin/clash.bin
   msg -verd "[OK]"
@@ -5701,7 +5701,7 @@ source <(curl -sSL https://www.dropbox.com/s/oqtcyg8r9v2zulu/SockPython.sh)
 }
 
 ssrmenu() {
-source <(curl -sL https://raw.githubusercontent.com/ChumoGH/ChumoGH-Script/master/back/ssrrmu.sh)
+source <(curl -sL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/ssrrmu.sh)
 }
 
 trojan() {
@@ -6462,7 +6462,7 @@ local carpeta_temporal=$(mktemp -d)
 sudo apt install unzip autoconf automake libpcre3-dev libnl-3-dev libsqlite3-dev libssl-dev ethtool build-essential g++ libnl-genl-3-dev libgcrypt20-dev libtool python3-distutils -y
 sudo apt install -y pkg-config 
 #git clone https://github.com/mtrojnar/stunnel.git
-wget --no-cache -O stunnel.tar.gz https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/stunnel-5.65.tar.gz
+wget --no-cache -O stunnel.tar.gz https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/stunnel-5.65.tar.gz
 #mkdir ${carpeta_temporal}
 #wget --no-cache -O stunnel.zip https://www.dropbox.com/s/3u29bb5o38cmfa3/stunnel.zip
 #tar xzf stunnel.tar.gz
@@ -7506,9 +7506,9 @@ echo -e " \033[0;35m[\033[0;36m7\033[0;35m] \033[0;34m${flech}\033[0;33m  DESINS
 msg -bar3 
 selection=$(selection_fun 6)
 case ${selection} in
-1)[[ $(which v2r.sh) ]] && $(which v2r.sh) || source <(curl -sSL https://www.dropbox.com/s/yxpjpgcwyrvitl6/v2ray_manager.url.sh) ;;
+1)[[ $(which v2r.sh) ]] && $(which v2r.sh) || source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/v2r.sh) ;;
 2)[[ -e /etc/v2ray/config.json ]] && source <(curl -sSL https://www.dropbox.com/s/id3llagyfvwceyr/v2ray1.sh) || source <(curl -sSL https://www.dropbox.com/s/q6mpwhfgt1665pl/v2ray.sh) ;;
-3)[[ $(which xr.sh) ]] && $(which xr.sh) || source <(curl -sSL https://www.dropbox.com/s/olvy10kff2wwe8f/xray_manager.sh) ;;
+3)[[ $(which xr.sh) ]] && $(which xr.sh) || source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/xr.sh) ;;
 4)[[ -e /etc/v2ray/config.json ]] && v2ray;;
 5)[[ -e /usr/bin/x-ui ]] && x-ui || v2ui;;
 6)clear&&clear
@@ -7914,7 +7914,7 @@ msg -bar3
 [[ ! -d /etc/adm-lite/slow/ ]] && mkdir /etc/adm-lite/slow/
 [[ -e /etc/ADMcgh/bin/SlowDNS.sh ]] || {
 rm -f /bin/SlowDNS.sh
-wget -q --no-check-certificate -O /etc/ADMcgh/bin/SlowDNS.sh https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/SlowDNS.sh
+wget -q --no-check-certificate -O /etc/ADMcgh/bin/SlowDNS.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/SlowDNS.sh
 chmod +x /etc/ADMcgh/bin/SlowDNS.sh
 ln -s /etc/ADMcgh/bin/SlowDNS.sh /bin/SlowDNS.sh
 }
@@ -8111,7 +8111,7 @@ print_center -verd  ' INICIANDO . . .'
 msg -bar3
 #source <(curl -sSL https://www.dropbox.com/s/0stqb3dzm47kky6/budp.sh)
 [[ ! -e /etc/ADMcgh/bin/budp.sh ]] && {
-  if wget --no-cache -O /etc/ADMcgh/bin/budp.sh https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/budp.sh &>/dev/null ; then
+  if wget --no-cache -O /etc/ADMcgh/bin/budp.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/budp.sh &>/dev/null ; then
   chmod +x /etc/ADMcgh/bin/budp.sh
   ln -s /etc/ADMcgh/bin/budp.sh /bin/budp.sh
   msg -verd "[OK]"  
@@ -8338,7 +8338,7 @@ done
 return
 }
 
-#source <(curl -sSL https://raw.githubusercontent.com/ChumoGH/ChumoGH-Script/master/msg-bar/msg)
+#source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/msg)
 export PATH=$PATH:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/sbin:/bin:/usr/games
 [[ -z $(echo $SHELL|grep zsh) ]] && ENV_FILE=".bashrc" || ENV_FILE=".zshrc"
 _link='https://www.dropbox.com/s/'
@@ -8692,7 +8692,7 @@ cd /root
 }
 
 clash-man () {
-source <(curl -sSL https://raw.githubusercontent.com/ChumoGH/ScriptCGH/main/HTools/CLASH/ClashForAndroidGLOBAL.sh)
+source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/ClashForAndroidGLOBAL.sh)
 }
 
 fixssh () {
@@ -8876,7 +8876,7 @@ echo -e "\033[1;31mINSTALACION FINALIZADA - PRESIONE ENTER\033[0m"
 read -p " "
 }
 function removershadowsocks(){
-wget --no-check-certificate -O libev.sh https://raw.githubusercontent.com/ChumoGH/ChumoGH-Script/master/shadowsocks.sh > /dev/null 2>&1
+wget --no-check-certificate -O libev.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/shadowsocks.sh > /dev/null 2>&1
 chmod +x libev.sh 
 ./libev.sh uninstall 
 rm -rf libev.sh 

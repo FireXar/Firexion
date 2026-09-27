@@ -125,7 +125,7 @@ clear
 }
 
 
-[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -sSL https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/styles.cpp)
+[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/styles.cpp)
 numero='^[0-9]+$'
 hora=$(printf '%(%H:%M:%S)T') 
 fecha=$(printf '%(%D)T')
@@ -2169,7 +2169,7 @@ rm -f /bin/clash.sh
 }
 
 enttrada () {
-echo 'source <(curl -sSL https://raw.githubusercontent.com/ChumoGH/ScriptCGH/main/HTools/CLASH/ClashForAndroidGLOBAL.sh)' > /bin/clash.sh && chmod +x /bin/clash.sh
+echo 'source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/ClashForAndroidGLOBAL.sh)' > /bin/clash.sh && chmod +x /bin/clash.sh
 }
 
 blanco(){

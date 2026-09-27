@@ -111,7 +111,7 @@ Suite integral y modular de gestión y administración para servidores VPS (Ubun
 
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/TU_USUARIO/ChumoGH.git /root/ChumoGH
+git clone https://github.com/karl1999x/ChumoGH.git /root/ChumoGH
 
 # 2. Entrar al directorio
 cd /root/ChumoGH
@@ -126,7 +126,7 @@ bash setup
 
 ```bash
 # Descargar y ejecutar directamente el instalador original (setup)
-wget https://raw.githubusercontent.com/TU_USUARIO/ChumoGH/main/setup && bash setup --ADMcgh
+wget https://raw.githubusercontent.com/karl1999x/ChumoGH/main/setup && bash setup --ADMcgh
 ```
 
 Una vez completada la instalación, el sistema estará inmediatamente activo sin requerir ninguna clave ni validación.

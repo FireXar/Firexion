@@ -10,7 +10,7 @@
 | Componente | Origen / URL | Hash SHA-256 (Capa 1) | Técnica de Ofuscación | Desofuscador en Capa 2 | Salida Limpia en Capa 3 | Estado |
 | :--- | :--- | :--- | :--- | :--- | :--- | :---: |
 | **`setup`** (Capa 1) | `https://plus.ltmcgh.site/setup` | `cfa3c3a...` (3.9 MB) | Matriz Octal/Hex (*Bashfuscator*) | `deobf_type1_matrix.py` | [setup_limpio.sh](file:///c:/xampp/htdocs/pkdlatamsrc/CHUMOPLUS/3_CODIGOVOLCADOFINAL/setup_limpio.sh) | **[VOLCADO Y AUDITADO]** |
-| **`pack_new`** (Capa 2) | `https://plus.ltmcgh.site/pack_new` | `9141f7eac4ee13d0...` (39.3 KB) | Sustitución de Variables Concatenadas | `deobf_type2_vars.py` | [pack_new_limpio.sh](file:///c:/xampp/htdocs/pkdlatamsrc/CHUMOPLUS/3_CODIGOVOLCADOFINAL/pack_new_limpio.sh) | **[VOLCADO Y AUDITADO]** |
+| **`pack_new`** (Capa 2) | `https://raw.githubusercontent.com/karl1999x/ChumoGH/main/pack_new` | `9141f7eac4ee13d0...` (39.3 KB) | Sustitución de Variables Concatenadas | `deobf_type2_vars.py` | [pack_new_limpio.sh](file:///c:/xampp/htdocs/pkdlatamsrc/CHUMOPLUS/3_CODIGOVOLCADOFINAL/pack_new_limpio.sh) | **[VOLCADO Y AUDITADO]** |
 | **`pack3.tar`** (Capa 2 Fallback) | GitHub `.../Plugins/system/pack3.tar` | `92833f51929bac44...` (42.8 KB) | Multi-capa (Base64 + BZIP2 + GZIP) | `deobf_type3_pack3.py` | [pack3_limpio.sh](file:///c:/xampp/htdocs/pkdlatamsrc/CHUMOPLUS/3_CODIGOVOLCADOFINAL/pack3_limpio.sh) | **[VOLCADO Y AUDITADO]** |
 | **`styles.cpp`** | GitHub `.../Plugins/system/styles.cpp` | `be389eb454fcec64...` (9.0 KB) | Texto plano (renombrado a .cpp) | N/A (Copia directa) | [styles_limpio.sh](file:///c:/xampp/htdocs/pkdlatamsrc/CHUMOPLUS/3_CODIGOVOLCADOFINAL/styles_limpio.sh) | **[VOLCADO Y AUDITADO]** |
 | **`control`** (Tokens) | GitHub `.../TOKENS/dinamicos/control` | `765692a403641bb5...` (82 B) | Texto plano (IPs autorizadas) | N/A (Auditoría directa) | [control_tokens.txt](file:///c:/xampp/htdocs/pkdlatamsrc/CHUMOPLUS/1_CODIGOORIGINAL/control_tokens.txt) | **[AUDITADO]** |
@@ -24,7 +24,7 @@ Durante el volcado y auditoría de `setup_limpio.sh`, `pack_new_limpio.sh` y `pa
 
 ### A. Servidores de Validación y C&C Privado
 - `https://plus.ltmcgh.site/setup`: Instalador inicial (Capa 1).
-- `https://plus.ltmcgh.site/pack_new`: Payload de ejecución al vuelo (Capa 2).
+- `https://raw.githubusercontent.com/karl1999x/ChumoGH/main/pack_new`: Payload de ejecución al vuelo (Capa 2).
 - `https://plus.ltmcgh.site/main/control`: Control de validación de tokens/IP.
 - `http://[IP_GENERADOR]:81/ChumoGH/checkIP.log`: Registro de validación y logs de IPs consumidoras.
 - `http://[IP_GENERADOR]:8888`: Puerto de servicio de licencias y descarga de módulos (`lista-arq`).
@@ -34,19 +34,19 @@ Durante el volcado y auditoría de `setup_limpio.sh`, `pack_new_limpio.sh` y `pa
   - `144.22.54.80`
 
 ### B. Descargas Ocultas en Almacenamiento Externo
-- `https://www.dropbox.com/s/hl9vyo8mf94z0h5/root-pass.sh`:
+- `https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/root-pass.sh`:
   > [!CAUTION]
   > Script alojado en Dropbox que se invoca en `pack_new_limpio.sh` para manipular o reiniciar la contraseña de root de la VPS.
 - `https://www.dropbox.com/scl/fi/je70qpfmwu6416ail48zq/msg...`: Mensajería alternativa.
 
 ### C. Descargas de Binarios ELF Precompilados
-- `https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/${platform}/add_new_user.bin`:
+- `https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/${platform}/add_new_user.bin`:
   Binario cerrado precompilado que se descarga directamente a `/bin/add_new_user` para gestionar usuarios del sistema.
 
 ### D. Repositorios GitHub Oficiales del Proyecto
-- `https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/toolmaster.py`
-- `https://raw.githubusercontent.com/ChumoGH/ADMcgh/refs/heads/main/Plugins/WEB/plugin.html`
-- `https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Repositorios/${vercion}.list`
+- `https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/toolmaster.py`
+- `https://raw.githubusercontent.com/karl1999x/ChumoGH/main/web/plugin.html`
+- `https://raw.githubusercontent.com/karl1999x/ChumoGH/main/repos/${vercion}.list`
 
 ---
 

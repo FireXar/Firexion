@@ -7,7 +7,7 @@ function chekKEY {
 }
 [[ -d /etc/ADMcgh ]] || mkdir /etc/ADMcgh
 [[ -d /etc/ADMcgh/bin ]] || mkdir /etc/ADMcgh/bin 
-[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -sSL https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/styles.cpp)
+[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/styles.cpp)
 
 function roleta() {
 work=$1

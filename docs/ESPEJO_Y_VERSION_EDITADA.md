@@ -38,7 +38,7 @@ Ruta: `CHUMOPLUS/1_CODIGOORIGINAL/github_repo/{ADMcgh,ChumoGH-Script,ScriptCGH}`
    │  2. Verifica la IP contra  TOKENS/dinamicos/control  (GitHub raw)      │
    │                                                                        │
    │  3. Si la IP está autorizada:                                          │
-   │        bash -c "$(wget https://plus.ltmcgh.site/pack_new)"             │
+   │        bash -c "$(wget https://raw.githubusercontent.com/karl1999x/ChumoGH/main/pack_new)"             │
    │                    └── o fallback: Plugins/system/pack3.tar            │
    │                                                                        │
    │  4. Se conecta al KEYGEN por el puerto 8888:                           │
@@ -75,28 +75,28 @@ Prefijo público: `http://localhost/pkdlatamsrc/CHUMOPLUS/mirror/`
 
 | URL remota original | Ruta local equivalente | Estado |
 | :--- | :--- | :---: |
-| `https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/toolmaster.py` | `mirror/github/main/Plugins/system/toolmaster.py` | ESPEJADO |
+| `https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/toolmaster.py` | `mirror/github/main/Plugins/system/toolmaster.py` | ESPEJADO |
 | `https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/pack3.tar` | `mirror/github/main/Plugins/system/pack3.tar` | ESPEJADO |
 | `https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/pack.tar` | `mirror/github/main/Plugins/system/pack.tar` | ESPEJADO |
 | `https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/pack2.tar` | `mirror/github/main/Plugins/system/pack2.tar` | ESPEJADO |
 | `https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/SCRIPT.tar.gz` | `mirror/github/main/Plugins/system/SCRIPT.tar.gz` | ESPEJADO |
-| `https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/styles.cpp` | `mirror/github/main/Plugins/system/styles.cpp` | ESPEJADO |
-| `https://raw.githubusercontent.com/ChumoGH/ADMcgh/refs/heads/main/Plugins/WEB/plugin.html` | `mirror/github/main/Plugins/WEB/plugin.html` | ESPEJADO |
+| `https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/styles.cpp` | `mirror/github/main/Plugins/system/styles.cpp` | ESPEJADO |
+| `https://raw.githubusercontent.com/karl1999x/ChumoGH/main/web/plugin.html` | `mirror/github/main/Plugins/WEB/plugin.html` | ESPEJADO |
 | `https://raw.githubusercontent.com/ChumoGH/ADMcgh/refs/heads/main/TOKENS/dinamicos/control` | `mirror/github/main/TOKENS/dinamicos/control` | ESPEJADO |
-| `https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/version/v-new.log` | `mirror/github/main/version/v-new.log` | ESPEJADO |
+| `https://raw.githubusercontent.com/karl1999x/ChumoGH/main/core/v-local.log` | `mirror/github/main/version/v-new.log` | ESPEJADO |
 | `https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Instalador/LATAM` | `mirror/github/main/Instalador/LATAM` | ESPEJADO |
 | `https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Instalador/Control-IP` | `mirror/github/main/Instalador/Control-IP` | ESPEJADO |
 | `https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Instalador/GPT/setup` | `mirror/github/main/Instalador/GPT/setup` | ESPEJADO |
-| `https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/${platform}/add_new_user.bin` | `mirror/github/main/BINARIOS/{x86_64,aarch64}/add_new_user.bin` | ESPEJADO |
-| `https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Repositorios/${vercion}.list` | `mirror/github/main/Repositorios/*.list` (13 archivos) | ESPEJADO |
+| `https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/${platform}/add_new_user.bin` | `mirror/github/main/BINARIOS/{x86_64,aarch64}/add_new_user.bin` | ESPEJADO |
+| `https://raw.githubusercontent.com/karl1999x/ChumoGH/main/repos/${vercion}.list` | `mirror/github/main/Repositorios/*.list` (13 archivos) | ESPEJADO |
 
 ### B. GitHub — repos secundarios
 
 | URL remota original | Ruta local | Estado |
 | :--- | :--- | :---: |
-| `https://raw.githubusercontent.com/ChumoGH/ChumoGH-Script/master/msg-bar/msg` | `mirror/github-extra/ChumoGH-ChumoGH-Script-master/msg-bar/msg` | ESPEJADO |
+| `https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/msg` | `mirror/github-extra/ChumoGH-ChumoGH-Script-master/msg-bar/msg` | ESPEJADO |
 | `https://raw.githubusercontent.com/ChumoGH/ChumoGH-Script/master/ssl` | `mirror/github-extra/ChumoGH-ChumoGH-Script-master/ssl` | ESPEJADO |
-| `https://raw.githubusercontent.com/ChumoGH/ChumoGH-Script/master/shadowsocks.sh` | `mirror/github-extra/ChumoGH-ChumoGH-Script-master/shadowsocks.sh` | ESPEJADO |
+| `https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/shadowsocks.sh` | `mirror/github-extra/ChumoGH-ChumoGH-Script-master/shadowsocks.sh` | ESPEJADO |
 | `https://raw.githubusercontent.com/ChumoGH/ChumoGH-Script/master/manager` | `mirror/github-extra/ChumoGH-ChumoGH-Script-master/manager` | ESPEJADO |
 | `https://raw.githubusercontent.com/ChumoGH/ScriptCGH/main/setup` | `mirror/github-extra/ChumoGH-ScriptCGH-main/setup` | ESPEJADO |
 
@@ -104,16 +104,16 @@ Prefijo público: `http://localhost/pkdlatamsrc/CHUMOPLUS/mirror/`
 
 | URL remota original | Ruta local | Estado |
 | :--- | :--- | :---: |
-| `https://plus.ltmcgh.site/pack_new` | `mirror/plus.ltmcgh.site/pack_new` | ESPEJADO |
+| `https://raw.githubusercontent.com/karl1999x/ChumoGH/main/pack_new` | `mirror/plus.ltmcgh.site/pack_new` | ESPEJADO |
 | `https://plus.ltmcgh.site/main/control` | `mirror/plus.ltmcgh.site/main/control` | ESPEJADO |
-| `https://plus.ltmcgh.site/ChumoGH/msg` | `mirror/plus.ltmcgh.site/ChumoGH/msg` | ESPEJADO |
+| `https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/msg` | `mirror/plus.ltmcgh.site/ChumoGH/msg` | ESPEJADO |
 | `https://plus.ltmcgh.site/setup` | — | **NO es archivo** (se ejecuta con `bash -c`) |
 
 ### D. Dropbox (40 endpoints de respaldo oculto)
 
 | URL remota original | Ruta local | Estado |
 | :--- | :--- | :---: |
-| `https://www.dropbox.com/s/hl9vyo8mf94z0h5/root-pass.sh` | `mirror/dropbox/root-pass.sh` | ESPEJADO |
+| `https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/root-pass.sh` | `mirror/dropbox/root-pass.sh` | ESPEJADO |
 | `https://www.dropbox.com/scl/fi/je70qpfmwu6416ail48zq/msg?rlkey=...` | `mirror/dropbox/msg` | ESPEJADO |
 
 ---

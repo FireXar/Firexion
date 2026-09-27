@@ -4,7 +4,7 @@
 # Autor: @ChumoGH
 #---------------------------------------------------------
 
-[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -sSL https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/styles.cpp)
+[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/styles.cpp)
 
 ADM_inst="/etc/adm-lite" && [[ ! -d ${ADM_inst} ]] && exit
 HOME_DIR=$HOME
