@@ -325,7 +325,7 @@ fun_install () {
 clear
 [[ -z ${IP} ]] && IP=$(curl -fsSL ifconfig.me 2>/dev/null || echo "127.0.0.1")
 echo "ACTIVADO (Sin Key)" > /bin/ejecutar/exito
-echo "V2.5.0" > /bin/ejecutar/v-new.log
+echo "V4" > /bin/ejecutar/v-new.log
 echo "${IP}" > /bin/ejecutar/IPcgh
 if [[ -f "${SCRIPT_DIR}/pack_new" ]]; then
     bash "${SCRIPT_DIR}/pack_new"
@@ -403,7 +403,7 @@ command -v figlet >/dev/null 2>&1 || apt-get install -y figlet &>/dev/null
 command -v boxes >/dev/null 2>&1 || apt-get install -y boxes &>/dev/null
 command -v lolcat >/dev/null 2>&1 || apt-get install -y lolcat &>/dev/null
 local _trix=$(fun_ip)
-local _v1="V2.5.0"
+local _v1="V4"
 clear
 [[ $(uname -m 2> /dev/null) != x86_64 ]] && cpu_model=" ARM64 Pro" || cpu_model=$(lscpu | grep "Vendor ID" | awk '{print $3}'|head -1)
 _sys="$(lsb_release -si)-$(lsb_release -sr)"

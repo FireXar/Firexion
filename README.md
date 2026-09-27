@@ -1,8 +1,9 @@
-# ADMcgh - VPS Manager Suite (Edición Libre / Sin Key)
+# ADMcgh V4 - VPS Manager Suite (Edición Libre / Sin Key)
 
 [![Bash](https://img.shields.io/badge/Language-Bash-4EAA25.svg)](https://www.gnu.org/software/bash/)
 [![Python](https://img.shields.io/badge/Language-Python%203-3776AB.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/Version-V4-blue.svg)](#)
 [![Status](https://img.shields.io/badge/Key%20System-Removed%20%2F%20Free-brightgreen.svg)](#)
 [![Architecture](https://img.shields.io/badge/Architecture-x86__64%20%7C%20aarch64-blue.svg)](#)
 
@@ -40,7 +41,7 @@ Suite integral y modular de gestión y administración para servidores VPS (Ubun
 │   ├── ultrahost                  # Extractor y comprobador de hosts
 │   ├── shadowsocks.sh             # Gestor de Shadowsocks base
 │   ├── PDirect.py, PGet.py...     # Proxies Python (Direct, Get, Open, Priv, Pub)
-│   └── v-local.log                # Registro de versión local (V2.5.0)
+│   └── v-local.log                # Registro de versión local (V4)
 │
 ├── plugins/                   # Protocolos avanzados y complementos
 │   ├── SlowDNS.sh                 # Servidor y cliente DNS Tunneled (puerto 53)
