@@ -351,7 +351,7 @@ fi
 local _ip_vps="${_IP:-$(curl -s -4 ifconfig.me 2>/dev/null || hostname -I | awk '{print $1}')}"
 msg -bar3
 echo -e ""
-echo -e "${cor[2]}\n\033[1;37m  ${rAy} DEVELOPER NOW: Karl199x" | pv -qL 12
+echo -e "${cor[2]}\n\033[1;37m  ${rAy} DEVELOPER NOW: @ChumoGH - Henry Chumo" | pv -qL 12
 echo -e ""
 msg -bar3
 echo -e "  ${cor[5]} ADMcgh Manager CGH REMASTERIZADO $(date +%Y)"
