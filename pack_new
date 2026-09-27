@@ -333,6 +333,12 @@ if [[ -d "${SCRIPT_DIR}/plugins" ]]; then
 elif [[ -f "$FILE" ]]; then
     mkdir -p "$DEST"
     tar -xf "$FILE" -C "$DEST" && chmod -R +x "$DEST"
+else
+    mkdir -p "$DEST"
+    for _pl in SlowDNS.sh UDP_menu.sh ClashForAndroidGLOBAL.sh budp.sh v2r.sh xr.sh hcr.sh bhttp.sh autoconfig.sh m_backup.sh ssrrmu.sh zh.sh; do
+        wget -q --no-check-certificate -O "$DEST/$_pl" "https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/$_pl" 2>/dev/null && chmod +x "$DEST/$_pl"
+        cp -f "$DEST/$_pl" "/etc/adm-lite/$_pl" 2>/dev/null || true
+    done
 fi
 sync && echo 3 > /proc/sys/vm/drop_caches 2>/dev/null
 find /tmp -type f -atime +1 -delete 2>/dev/null
