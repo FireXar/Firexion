@@ -128,19 +128,22 @@ Tras la instalación, los siguientes comandos globales estarán disponibles en s
 | `adm` | Acceso con soporte para paso de parámetros. |
 | `toolmaster` | Abre el administrador CLI de monitoreo y diagnóstico. |
 | `add_new_user` | Utilidad nativa de creación de usuarios SSH/VPN con límite de conexiones y días. |
-| `upLIC` | Optimiza instantáneamente memoria RAM y tablas de red. |
+| `hcr` | Abre el administrador interactivo del protocolo HCR Server (HTTP Custom Relay). |
+| `bhttp` | Abre el administrador interactivo del protocolo BHTTP Server (Binary HTTP). |
 
 ---
 
 ## 🛡️ Protocolos Soportados
 
 1. **SSH / Dropbear / Stunnel (SSL/TLS)**
-2. **BadVPN (UDP 7100, 7200, 7300...)** para llamadas de WhatsApp y juegos online.
-3. **SlowDNS** sobre UDP 53 para conexiones en entornos restringidos.
-4. **V2Ray & Xray** (VMess, VLess, Trojan, XTLS).
-5. **Shadowsocks & ShadowsocksR**.
-6. **Clash for Android** (generador automático de configs).
-7. **Servidor Web integrado (Nginx en puerto 81/80)** con interfaz dashboard.
+2. **HCR Server (HTTP Custom Relay / Runner)** sobre puertos configurables (ej. 8880, 8080).
+3. **BHTTP Server (Binary HTTP / Bitvise Tunneling)** sobre puertos TCP multiplexados (ej. 80, 53, 8080).
+4. **BadVPN (UDP 7100, 7200, 7300...)** para llamadas de WhatsApp y juegos online.
+5. **SlowDNS** sobre UDP 53 para conexiones en entornos restringidos.
+6. **V2Ray & Xray** (VMess, VLess, Trojan, XTLS).
+7. **Shadowsocks & ShadowsocksR**.
+8. **Clash for Android** (generador automático de configs).
+9. **Servidor Web integrado (Nginx en puerto 81/80)** con interfaz dashboard.
 
 ---
 
