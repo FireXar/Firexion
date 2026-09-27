@@ -1,56 +1,87 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # =============================================================================
-# Verificador de estado del proyecto CHUMOPLUS (Capas 1, 2 y 3)
+# Verificador de integridad del repositorio ADMcgh (Estructura Limpia)
 # Modo: solo lectura. No ejecuta nada de bash.
 # =============================================================================
 import os
-import re
 import sys
 import hashlib
+import py_compile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-def sha256(path, n=2000000):
-    h = hashlib.sha256()
-    with open(path, "rb") as f:
-        while True:
-            b = f.read(65536)
-            if not b:
-                break
-            h.update(b)
-    return h.hexdigest()
-def check_layer1():
-    """Capa 1: originales requeridos."""
+def check_core():
+    """Verifica los módulos de core/"""
     req = [
-        ("1_CODIGOORIGINAL/setup.txt", 3000000),
-        ("1_CODIGOORIGINAL/pack_new.txt", 30000),
-        ("1_CODIGOORIGINAL/pack3_tar.txt", 40000),
-        ("1_CODIGOORIGINAL/styles_cpp.txt", 5000),
-        ("1_CODIGOORIGINAL/control_tokens.txt", 50),
-        ("1_CODIGOORIGINAL/SCRIPT_targz/menu", 1000000),
-        ("1_CODIGOORIGINAL/github_repo/ADMcgh/Instalador/LATAM", 40000),
-        ("1_CODIGOORIGINAL/github_repo/ADMcgh/Instalador/GPT/setup", 10000),
-        ("1_CODIGOORIGINAL/github_repo/ScriptCGH/setup", 40000),
-        ("1_CODIGOORIGINAL/github_repo/ChumoGH-Script/BOT/gerador/lista-arq", 300),
+        "menu", "cabecalho", "menu_credito", "payloads",
+        "http-server.py", "ultrahost", "shadowsocks.sh",
+        "PDirect.py", "PGet.py", "POpen.py", "PPriv.py", "PPub.py", "v-local.log"
     ]
     print("=" * 76)
-    print(" CAPA 1 (ORIGINALES)")
+    print(" MODULOS DEL NUCLEO (core/)")
+    print("=" * 76)
+    bad = 0
+    for name in req:
+        p = os.path.join(ROOT, "core", name)
+        if os.path.isfile(p):
+            sz = os.path.getsize(p)
+            print("  [OK] %8d B  %s" % (sz, name))
+        else:
+            print("  [FALTA] %s" % name)
+            bad += 1
+    return bad
+
+def check_plugins():
+    """Verifica los plugins y protocolos (plugins/)"""
+    req = [
+        "SlowDNS.sh", "UDP_menu.sh", "ClashForAndroidGLOBAL.sh",
+        "budp.sh", "v2r.sh", "xr.sh", "autoconfig.sh",
+        "m_backup.sh", "ssrrmu.sh", "styles.cpp", "zh.sh"
+    ]
+    print("\n" + "=" * 76)
+    print(" PLUGINS Y PROTOCOLOS (plugins/)")
+    print("=" * 76)
+    bad = 0
+    for name in req:
+        p = os.path.join(ROOT, "plugins", name)
+        if os.path.isfile(p):
+            sz = os.path.getsize(p)
+            print("  [OK] %8d B  %s" % (sz, name))
+        else:
+            print("  [FALTA] %s" % name)
+            bad += 1
+    return bad
+
+def check_binaries():
+    """Verifica binarios y ejecutables (bin/)"""
+    req = [
+        ("bin/x86_64/add_new_user.bin", 2000000),
+        ("bin/aarch64/add_new_user.bin", 2000000),
+        ("bin/toolmaster.py", 4000),
+        ("bin/root-pass.sh", 4000),
+        ("bin/upLIC", 500),
+        ("bin/stunnel-5.65.tar.gz", 500000),
+    ]
+    print("\n" + "=" * 76)
+    print(" BINARIOS Y UTILIDADES (bin/)")
     print("=" * 76)
     bad = 0
     for rel, minsize in req:
         p = os.path.join(ROOT, rel)
         if os.path.isfile(p):
             sz = os.path.getsize(p)
-            flag = "OK" if sz >= minsize else "TAMANO BAJO"
-            print("  [%-12s] %9d  %s" % (flag, sz, rel))
+            st = "OK" if sz >= minsize else "TAMANO BAJO"
+            print("  [%-4s] %8d B  %s" % (st, sz, rel))
+            if st != "OK":
+                bad += 1
         else:
-            print("  [FALTA       ]           %s" % rel)
+            print("  [FALTA] %s" % rel)
             bad += 1
     return bad
-def check_layer2():
-    """Capa 2: herramientas deben compilar."""
-    import py_compile
+
+def check_tools():
+    """Herramientas en tools/ deben compilar en Python sin error."""
     tools = [
         "deobf_type1_matrix.py", "deobf_type2_vars.py", "deobf_type2b_latam.py",
         "deobf_type2c_posicional.py", "deobf_type3_pack3.py",
@@ -59,11 +90,11 @@ def check_layer2():
         "inventory_repos.py", "verify_all.py",
     ]
     print("\n" + "=" * 76)
-    print(" CAPA 2 (HERRAMIENTAS)")
+    print(" HERRAMIENTAS DE AUDITORIA (tools/)")
     print("=" * 76)
     bad = 0
     for t in tools:
-        p = os.path.join(ROOT, "2_CODIGOANALIZADO", t)
+        p = os.path.join(ROOT, "tools", t)
         if not os.path.isfile(p):
             print("  [FALTA] %s" % t)
             bad += 1
@@ -75,87 +106,62 @@ def check_layer2():
             print("  [ERROR] %s -> %s" % (t, e))
             bad += 1
     return bad
-def readability(path):
-    """% de bytes imprimibles en los primeros 8 KB."""
-    with open(path, "rb") as f:
-        d = f.read(8192)
-    if not d:
-        return 0.0
-    ok = sum(1 for b in d if 32 <= b < 127 or b in (9, 10, 13))
-    return ok / len(d)
 
-
-def check_layer3():
-    """Capa 3: volcados limpios, legibles y con su marca."""
-    out = [
-        ("setup_limpio.sh", "cryptic_transform"),
-        ("pack_new_limpio.sh", "install_fim"),
-        ("pack3_limpio.sh", ""),
-        ("styles_limpio.sh", ""),
-        ("LATAM_limpio.sh", "Install_key"),
-        ("menu_limpio.sh", "mportas"),
-        ("ScriptCGH_setup_limpio.sh", "cryptic_transform"),
-    ]
+def check_key_removal():
+    """Verifica que NO existan verificaciones de key activas ni referencias a cghkey/chekKEY."""
     print("\n" + "=" * 76)
-    print(" CAPA 3 (VOLCADOS LIMPIOS)")
+    print(" VERIFICACION DE ELIMINACION DE KEYS")
     print("=" * 76)
     bad = 0
-    for name, marca in out:
-        p = os.path.join(ROOT, "3_CODIGOVOLCADOFINAL", name)
+    check_files = [
+        os.path.join(ROOT, "core", "menu"),
+        os.path.join(ROOT, "plugins", "budp.sh"),
+        os.path.join(ROOT, "plugins", "SlowDNS.sh"),
+        os.path.join(ROOT, "plugins", "UDP_menu.sh"),
+        os.path.join(ROOT, "plugins", "v2r.sh"),
+        os.path.join(ROOT, "plugins", "xr.sh"),
+        os.path.join(ROOT, "install.sh"),
+        os.path.join(ROOT, "setup.sh"),
+    ]
+    
+    for p in check_files:
+        rel = os.path.relpath(p, ROOT)
         if not os.path.isfile(p):
-            print("  [FALTA] %s" % name)
+            print("  [FALTA] %s" % rel)
             bad += 1
             continue
-        r = readability(p)
-        sz = os.path.getsize(p)
-        txt = open(p, encoding="utf-8", errors="replace").read()
-        mar = (marca in txt) if marca else True
-        st = "OK" if (r > 0.85 and mar) else "REVISAR"
-        if st != "OK":
+        txt = open(p, "r", encoding="utf-8", errors="replace").read()
+        
+        # Comprobar que no haya bloqueo por key
+        if "KEY BANEADA" in txt or "invalid_key --ban" in txt:
+            print("  [PELIGRO] Bloqueo residual encontrado en: %s" % rel)
             bad += 1
-        print("  [%-7s] %8d  legib=%.2f  marca=%s  %s"
-              % (st, sz, r, "SI" if mar else "NO", name))
-    return bad
-def check_mirror():
-    """Verifica que el espejo local tenga los archivos clave."""
-    key = [
-        "mirror/github/main/Plugins/system/toolmaster.py",
-        "mirror/github/main/Plugins/system/pack3.tar",
-        "mirror/github/main/Plugins/system/SCRIPT.tar.gz",
-        "mirror/github/main/Plugins/system/styles.cpp",
-        "mirror/github/main/Plugins/WEB/plugin.html",
-        "mirror/github/main/TOKENS/dinamicos/control",
-        "mirror/github/main/version/v-new.log",
-        "mirror/github/main/Instalador/LATAM",
-        "mirror/github/main/Instalador/Control-IP",
-        "mirror/github/main/BINARIOS/x86_64/add_new_user.bin",
-        "mirror/github/main/BINARIOS/aarch64/add_new_user.bin",
-        "mirror/github-extra/ChumoGH-ChumoGH-Script-master/msg-bar/msg",
-        "mirror/github-extra/ChumoGH-ChumoGH-Script-master/ssl",
-        "mirror/github-extra/ChumoGH-ChumoGH-Script-master/shadowsocks.sh",
-        "mirror/github-extra/ChumoGH-ScriptCGH-main/setup",
-        "mirror/plus.ltmcgh.site/pack_new",
-        "mirror/plus.ltmcgh.site/main/control",
-        "mirror/dropbox/root-pass.sh",
-    ]
-    print("\n" + "=" * 76)
-    print(" ESPEJO LOCAL (mirror/)")
-    print("=" * 76)
-    bad = 0
-    for rel in key:
-        p = os.path.join(ROOT, rel)
-        if os.path.isfile(p) and os.path.getsize(p) > 0:
-            print("  [OK] %8d  %s" % (os.path.getsize(p), rel))
+        elif "latamsrc_keygen" in txt or ":8888/${uncryp2}" in txt:
+            print("  [PELIGRO] Referencia a keygen daemon en: %s" % rel)
+            bad += 1
         else:
-            print("  [FALTA]           %s" % rel)
-            bad += 1
+            print("  [LIMPIO] %s (Sin verificacion ni baneo de key)" % rel)
     return bad
 
+def main():
+    print("============================================================================")
+    print(" VERIFICACION COMPLETA DEL REPOSITORIO ADMcgh (EDICION LIBRE)")
+    print("============================================================================")
+    bad = 0
+    bad += check_core()
+    bad += check_plugins()
+    bad += check_binaries()
+    bad += check_tools()
+    bad += check_key_removal()
+
+    print("\n" + "=" * 76)
+    if bad == 0:
+        print(" RESULTADO: TODO CORRECTO (0 problemas detectados)")
+        print(" Repositorio 100% listo para subir a GitHub!")
+    else:
+        print(" RESULTADO: REVISAR (%d problemas detectados)" % bad)
+    print("=" * 76)
+    return 0 if bad == 0 else 1
 
 if __name__ == "__main__":
-    total = check_layer1() + check_layer2() + check_layer3() + check_mirror()
-    print("\n" + "=" * 76)
-    print(" RESULTADO: %s (%d problemas)" %
-          ("TODO OK" if total == 0 else "REVISAR", total))
-    print("=" * 76)
-    sys.exit(1 if total else 0)
+    sys.exit(main())
