@@ -2740,10 +2740,10 @@ menu_bannCheck(){
         if [[ $(grep -c "^#ChumoGH CheckBanner" /etc/pam.d/sshd) -eq 0 ]]; then
             print_center -ama " Descargando binario CheckBanner...."
             if [[ $(uname -m 2>/dev/null) != x86_64 ]]; then
-                wget -q -O ${DEST}/out.bin https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/aarch64/out.bin && \
+                (wget -q -O ${DEST}/out.bin https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/aarch64/out.bin 2>/dev/null || wget -q -O ${DEST}/out.bin https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/aarch64/out.bin) && \
                 chmod +x ${DEST}/out.bin && msg -verd "Universal [OK]" || msg -verm "[fail]"
             else
-                wget -q -O ${DEST}/out.bin https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/x86_64/out.bin && \
+                (wget -q -O ${DEST}/out.bin https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/x86_64/out.bin 2>/dev/null || wget -q -O ${DEST}/out.bin https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/x86_64/out.bin) && \
                 chmod +x ${DEST}/out.bin && msg -verd "x86_64 [OK]" || msg -verm "[fail]"
             fi
             cat >> /etc/pam.d/sshd <<EOF
@@ -2777,10 +2777,10 @@ echo -e "${banner_org}" > "${check_banner}"
         if [[ $(grep -c "^#ChumoGH CheckBanner" /etc/pam.d/sshd) -eq 0 ]]; then
             print_center -ama " Descargando binario CheckBanner...."
             if [[ $(uname -m 2>/dev/null) != x86_64 ]]; then
-                wget -q -O ${DEST}/out.bin https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/aarch64/out2.bin && \
+                (wget -q -O ${DEST}/out.bin https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/aarch64/out2.bin 2>/dev/null || wget -q -O ${DEST}/out.bin https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/aarch64/out2.bin) && \
                 chmod +x ${DEST}/out.bin && msg -verd "Universal [OK]" || msg -verm "[fail]"
             else
-                wget -q -O ${DEST}/out.bin https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/x86_64/out2.bin && \
+                (wget -q -O ${DEST}/out.bin https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/x86_64/out2.bin 2>/dev/null || wget -q -O ${DEST}/out.bin https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/x86_64/out2.bin) && \
                 chmod +x ${DEST}/out.bin && msg -verd "x86_64 [OK]" || msg -verm "[fail]"
             fi
             cat >> /etc/pam.d/sshd <<EOF
@@ -2878,9 +2878,9 @@ print_center '\e[97m\033[1;41m MENUS V2RAY REFACTORIZADOS\033[0m'
 menu_item "MENU LITE  V2RAY  MultiCuentas  \033[0;32m(#OFICIAL)   " "V2RAY MENU CUSTOM MultiCuentas  \033[0;32m(#OFICIAL)" "MENU LITE   XRAY  MultiCuentas  \033[0;32m(#OFICIAL)   " "MENU LITE TROJAN MultiCuentas  \033[0;32m(#OFICIAL)"
 selection=$(selection_fun 4)
 case ${selection} in
-1)[[ $(which v2r.sh) ]] && $(which v2r.sh) || wget -q --no-check-certificate -t3 -T3 -O /bin/v2r.sh https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/V2ray/v2r.sh/v2r.bin && chmod +x /bin/v2r.sh && /bin/v2r.sh;;
+1)[[ $(which v2r.sh) ]] && $(which v2r.sh) || { [[ -f /etc/ADMcgh/bin/v2r.bin ]] && cp /etc/ADMcgh/bin/v2r.bin /bin/v2r.sh || (wget -q --no-check-certificate -t3 -T3 -O /bin/v2r.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/v2r.bin 2>/dev/null || wget -q --no-check-certificate -t3 -T3 -O /bin/v2r.sh https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/V2ray/v2r.sh/v2r.bin); } && chmod +x /bin/v2r.sh && /bin/v2r.sh;;
 2)[[ -e /etc/v2ray/config.json ]] && source <(curl -sSL https://www.dropbox.com/s/id3llagyfvwceyr/v2ray1.sh) || source <(curl -sSL https://www.dropbox.com/s/q6mpwhfgt1665pl/v2ray.sh) ;;
-3)[[ $(which xr.sh) ]] && $(which xr.sh) || wget -q --no-check-certificate -t3 -T3 -O /bin/xr.sh https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/V2ray/v2r.sh/xr.bin && chmod +x /bin/xr.sh && /bin/xr.sh ;;
+3)[[ $(which xr.sh) ]] && $(which xr.sh) || { [[ -f /etc/ADMcgh/bin/xr.bin ]] && cp /etc/ADMcgh/bin/xr.bin /bin/xr.sh || (wget -q --no-check-certificate -t3 -T3 -O /bin/xr.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/xr.bin 2>/dev/null || wget -q --no-check-certificate -t3 -T3 -O /bin/xr.sh https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/V2ray/v2r.sh/xr.bin); } && chmod +x /bin/xr.sh && /bin/xr.sh ;;
 4)[[ $(which troj.sh) ]] && $(which troj.sh) || troj.sh;; 
 0)return 0 ;;
 esac
@@ -2987,7 +2987,7 @@ start_checkUser(){
     # Rutas
     local bin_path="/bin/ejecutar/CheckUser"
     local check_sh="/usr/bin/check"
-	[[ $(uname -m 2> /dev/null) != x86_64 ]] && local _linkB='https://github.com/ChumoGH/ADMcgh/raw/refs/heads/main/BINARIOS/aarch64/checkuser.bin' || local _linkB='https://github.com/ChumoGH/ADMcgh/raw/refs/heads/main/BINARIOS/x86_64/checkuser.bin'
+	[[ $(uname -m 2> /dev/null) != x86_64 ]] && local _linkB='https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/aarch64/checkuser.bin' || local _linkB='https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/x86_64/checkuser.bin'
     
     # Crear directorio
     mkdir -p /bin/ejecutar
@@ -5278,7 +5278,7 @@ msg -bar3
 
 
 funFAILBAN () {
-source <(curl -sSL https://raw.githubusercontent.com/ChumoGH/chumogh-gmail.com/master/fai2ban)
+[[ -f /etc/ADMcgh/bin/fai2ban ]] && bash /etc/ADMcgh/bin/fai2ban || source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/fai2ban 2>/dev/null || curl -sSL https://raw.githubusercontent.com/ChumoGH/chumogh-gmail.com/master/fai2ban)
 fail2ban-testcases -x start 2>/dev/null
 fail2ban-client -x start 2>/dev/null
 }
@@ -7508,9 +7508,8 @@ roleta 'apt-get install toilet -y'
     if [[ ! -e /bin/badvpn-udpgw ]]; then
 	echo -ne "	    DESCARGANDO BINARIO UDP V2.."
   [[ $(uname -m 2> /dev/null) != x86_64 ]] && {
-  #chekKEY &> /dev/null 2>&1
-  #if wget --no-cache -O /bin/badvpn-udpgw https://github.com/ChumoGH/ScriptCGH/raw/main/HTools/BadVPN/badvpn-udpgw &>/dev/null ; then
-  if wget --no-cache -O /bin/badvpn-udpgw https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/aarch64/badvpn-udpgw &>/dev/null ; then
+  if [[ -f /etc/ADMcgh/bin/badvpn-udpgw ]]; then cp -f /etc/ADMcgh/bin/badvpn-udpgw /bin/badvpn-udpgw; chmod 777 /bin/badvpn-udpgw; msg -verd "[OK]";
+  elif wget --no-cache -O /bin/badvpn-udpgw https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/aarch64/badvpn-udpgw &>/dev/null || wget --no-cache -O /bin/badvpn-udpgw https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/aarch64/badvpn-udpgw &>/dev/null ; then
   chmod 777 /bin/badvpn-udpgw
   msg -verd "[OK]"  
   else    
@@ -7522,9 +7521,8 @@ roleta 'apt-get install toilet -y'
   exit 0    
   fi
   } || {   
-  #chekKEY &> /dev/null 2>&1
-  #if wget --no-cache -O /bin/badvpn-udpgw https://github.com/ChumoGH/ScriptCGH/raw/main/HTools/BadVPN/badvpn-udpgw-plus &>/dev/null ; then
-  if wget --no-cache -O /bin/badvpn-udpgw https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/x86_64/badvpn-udpgw &>/dev/null ; then
+  if [[ -f /etc/ADMcgh/bin/badvpn-udpgw ]]; then cp -f /etc/ADMcgh/bin/badvpn-udpgw /bin/badvpn-udpgw; chmod 777 /bin/badvpn-udpgw; msg -verd "[OK]";
+  elif wget --no-cache -O /bin/badvpn-udpgw https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/x86_64/badvpn-udpgw &>/dev/null || wget --no-cache -O /bin/badvpn-udpgw https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/x86_64/badvpn-udpgw &>/dev/null ; then
   chmod 777 /bin/badvpn-udpgw
   msg -verd "[OK]"    
   else    
@@ -7794,7 +7792,7 @@ case ${selection} in
 [[ -e /bin/firewall.bin ]] && firewall.bin || {
 msg -ama " Descargando binario UFW...." 
   [[ $(uname -m 2> /dev/null) != x86_64 ]] && {
-  if wget --no-check-certificate -t3 -T3 -O ${DEST}/firewall.bin https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/aarch64/firewall.bin &>/dev/null ; then
+  if (wget --no-check-certificate -t3 -T3 -O ${DEST}/firewall.bin https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/aarch64/firewall.bin &>/dev/null || wget --no-check-certificate -t3 -T3 -O ${DEST}/firewall.bin https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/aarch64/firewall.bin &>/dev/null) ; then
   chmod +x ${DEST}/firewall.bin
   [[ -e /bin/firewall.bin ]] && rm -f /bin/firewall.bin
   ln -s ${DEST}/firewall.bin /bin/firewall.bin
@@ -7808,7 +7806,7 @@ msg -ama " Descargando binario UFW...."
   exit 0    
   fi
   } || {   
-  if wget --no-check-certificate -t3 -T3 -O ${DEST}/firewall.bin https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/x86_64/firewall.bin &>/dev/null ; then
+  if (wget --no-check-certificate -t3 -T3 -O ${DEST}/firewall.bin https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/x86_64/firewall.bin &>/dev/null || wget --no-check-certificate -t3 -T3 -O ${DEST}/firewall.bin https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/x86_64/firewall.bin &>/dev/null) ; then
   chmod +x ${DEST}/firewall.bin
   [[ -e /bin/firewall.bin ]] && rm -f /bin/firewall.bin
   ln -s ${DEST}/firewall.bin /bin/firewall.bin
@@ -7833,7 +7831,7 @@ read -p " Enter";;
 [[ -e /bin/atoken_setup.bin ]] && atoken_setup.bin || {
 msg -ama " Descargando binario AToken...." 
   [[ $(uname -m 2> /dev/null) != x86_64 ]] && {
-  if wget --no-check-certificate -t3 -T3 -O ${DEST}/atoken_setup.bin https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/aarch64/atoken_setup.bin &>/dev/null ; then
+  if (wget --no-check-certificate -t3 -T3 -O ${DEST}/atoken_setup.bin https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/aarch64/atoken_setup.bin &>/dev/null || wget --no-check-certificate -t3 -T3 -O ${DEST}/atoken_setup.bin https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/aarch64/atoken_setup.bin &>/dev/null) ; then
   chmod +x ${DEST}/atoken_setup.bin
   [[ -e /bin/atoken_setup.bin ]] && rm -f /bin/atoken_setup.bin
   ln -s ${DEST}/atoken_setup.bin /bin/atoken_setup.bin
@@ -7847,7 +7845,7 @@ msg -ama " Descargando binario AToken...."
   exit 0    
   fi
   } || {   
-  if wget --no-check-certificate -t3 -T3 -O ${DEST}/atoken_setup.bin https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/x86_64/atoken_setup.bin &>/dev/null ; then
+  if (wget --no-check-certificate -t3 -T3 -O ${DEST}/atoken_setup.bin https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/x86_64/atoken_setup.bin &>/dev/null || wget --no-check-certificate -t3 -T3 -O ${DEST}/atoken_setup.bin https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/x86_64/atoken_setup.bin &>/dev/null) ; then
   chmod +x ${DEST}/atoken_setup.bin
   [[ -e /bin/atoken_setup.bin ]] && rm -f /bin/atoken_setup.bin
   ln -s ${DEST}/atoken_setup.bin /bin/atoken_setup.bin
@@ -8479,11 +8477,11 @@ source <(curl -sSL ${_link}c2efu7ul4cvg0j7/trojan-nao.sh)
 }
 
 btorrent () {
-source <(curl -sSL https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/Extras/blockT.sh)
+[[ -f /etc/ADMcgh/bin/blockT.sh ]] && bash /etc/ADMcgh/bin/blockT.sh || source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/blockT.sh 2>/dev/null || curl -sSL https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/Extras/blockT.sh)
 }
 
 chora () {
-source <(curl -sSL https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/Extras/zh.sh)
+[[ -f /etc/ADMcgh/bin/zh.sh ]] && bash /etc/ADMcgh/bin/zh.sh || source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/zh.sh 2>/dev/null || curl -sSL https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/Extras/zh.sh)
 }
 
 crea_pay () {
