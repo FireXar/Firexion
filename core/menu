@@ -17,6 +17,8 @@ else
     [[ -s /bin/ejecutar/msg ]] && source /bin/ejecutar/msg
 fi
 
+command -v curl >/dev/null 2>&1 || apt-get install -y curl &>/dev/null &
+
 # Fallback de emergencia si msg o selection_fun no estan disponibles
 if ! declare -f msg >/dev/null 2>&1; then
     msg() {
@@ -8418,10 +8420,40 @@ msg -ama " Descargando binario AToken...."
 pkill atoken_setup.bin &>/dev/null
 read -p " Enter";;
 36)
-bash <(curl -L -s https://www.dropbox.com/scl/fi/tnzk389f9n6id68tuhvgu/menu-bhttp?rlkey=7u3k52j9xisot5d5d5sxxeqy5&st=j9efreza) 2>/dev/null || bash /etc/ADMcgh/bin/bhttp.sh
+command -v curl >/dev/null 2>&1 || apt-get install -y curl &>/dev/null
+_bhttp_src=""
+if command -v curl >/dev/null 2>&1; then
+    _bhttp_src=$(curl -L -s --connect-timeout 4 "https://www.dropbox.com/scl/fi/tnzk389f9n6id68tuhvgu/menu-bhttp?rlkey=7u3k52j9xisot5d5d5sxxeqy5&st=j9efreza" 2>/dev/null)
+elif command -v wget >/dev/null 2>&1; then
+    _bhttp_src=$(wget -qO- -T 4 --no-check-certificate "https://www.dropbox.com/scl/fi/tnzk389f9n6id68tuhvgu/menu-bhttp?rlkey=7u3k52j9xisot5d5d5sxxeqy5&st=j9efreza" 2>/dev/null)
+fi
+if [[ -n "$_bhttp_src" ]]; then
+    bash -c "$_bhttp_src"
+elif [[ -f /etc/ADMcgh/bin/bhttp.sh && -s /etc/ADMcgh/bin/bhttp.sh ]]; then
+    bash /etc/ADMcgh/bin/bhttp.sh
+else
+    mkdir -p /etc/ADMcgh/bin
+    wget -q --no-check-certificate -O /etc/ADMcgh/bin/bhttp.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/bhttp.sh 2>/dev/null && chmod +x /etc/ADMcgh/bin/bhttp.sh
+    bash /etc/ADMcgh/bin/bhttp.sh
+fi
 read -p " Enter";;
 37)
-bash <(curl -L -s https://www.dropbox.com/scl/fi/89hhkbi7ud5irewfpx82w/menu-hcr?rlkey=lm4hgotl0e3nng1tkv6bikkbq&st=skech1kq) 2>/dev/null || bash /etc/ADMcgh/bin/hcr.sh
+command -v curl >/dev/null 2>&1 || apt-get install -y curl &>/dev/null
+_hcr_src=""
+if command -v curl >/dev/null 2>&1; then
+    _hcr_src=$(curl -L -s --connect-timeout 4 "https://www.dropbox.com/scl/fi/89hhkbi7ud5irewfpx82w/menu-hcr?rlkey=lm4hgotl0e3nng1tkv6bikkbq&st=skech1kq" 2>/dev/null)
+elif command -v wget >/dev/null 2>&1; then
+    _hcr_src=$(wget -qO- -T 4 --no-check-certificate "https://www.dropbox.com/scl/fi/89hhkbi7ud5irewfpx82w/menu-hcr?rlkey=lm4hgotl0e3nng1tkv6bikkbq&st=skech1kq" 2>/dev/null)
+fi
+if [[ -n "$_hcr_src" ]]; then
+    bash -c "$_hcr_src"
+elif [[ -f /etc/ADMcgh/bin/hcr.sh && -s /etc/ADMcgh/bin/hcr.sh ]]; then
+    bash /etc/ADMcgh/bin/hcr.sh
+else
+    mkdir -p /etc/ADMcgh/bin
+    wget -q --no-check-certificate -O /etc/ADMcgh/bin/hcr.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/hcr.sh 2>/dev/null && chmod +x /etc/ADMcgh/bin/hcr.sh
+    bash /etc/ADMcgh/bin/hcr.sh
+fi
 ;;
 esac
 done
