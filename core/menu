@@ -7836,7 +7836,7 @@ local _ps="$(ps x)"
 [[ $(echo -e "$_ptPT" | grep "ssh") ]] && pSSH="${_on}" || pSSH="\033[1;31m[OFF]"
 [[ $(echo -e "$_portbaSE" | grep -w "trojan") ]] && pTROJ="${_on} " || pTROJ="\033[1;31m[OFF]"
 [[ $(echo -e "$_portbaSE" | grep -w "psiphond") ]] && pps="${_on} " || pps="\033[1;31m[OFF]"
-[[ $(echo -e "$_portbaSE" | grep -w "v2ray") ]] && v2ray="${_on} " || {
+[[ $(echo -e "$_portbaSE" | grep -w -e "v2ray" -e "xray") ]] && v2ray="${_on} " || {
 [[ $(echo -e "$_portbaSE" | grep "x-ui") ]] && v2ray="\033[1;32m[\033[0;34mUI\033[1;32m] " || v2ray="\033[1;31m[OFF]"
 }
 [[ $(echo -e "$_portbaSE" | grep -w "clash") ]] && xclash="${_on} " || {
