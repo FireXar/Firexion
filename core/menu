@@ -18,6 +18,40 @@ else
     echo -e "\033[1;31m El servicio v2ray no arranco. Revise: journalctl -u v2ray -n 20\033[0m"
 fi
 }
+# --- Desinstalacion COMPLETA de V2Ray (no depende de scripts externos) ---
+desinstalar_v2ray_total(){
+clear
+msg -bar3
+echo -e "\033[1;31m        DESINSTALAR V2RAY COMPLETAMENTE\033[0m"
+msg -bar3
+echo -e "\033[1;37m Se borraran el servicio, el nucleo, la configuracion\n y el comando v2ray (usuarios V2Ray incluidos).\033[0m"
+msg -bar3
+read -p " Escriba S para confirmar: " _conf
+[[ ${_conf,,} != "s" ]] && { echo -e "\033[1;33m Cancelado\033[0m"; sleep 1; return 1; }
+systemctl stop v2ray &>/dev/null
+systemctl disable v2ray &>/dev/null
+rm -f /etc/systemd/system/v2ray.service /etc/systemd/system/v2ray@.service
+rm -f /lib/systemd/system/v2ray.service /lib/systemd/system/v2ray@.service
+rm -rf /etc/systemd/system/v2ray.service.d /etc/systemd/system/v2ray@.service.d
+systemctl daemon-reload &>/dev/null
+pkill -f "/usr/bin/v2ray/v2ray" &>/dev/null
+rm -rf /usr/bin/v2ray /etc/v2ray /var/log/v2ray /etc/v2ray_util
+if command -v pip3 &>/dev/null; then
+    pip3 uninstall -y v2ray_util --break-system-packages &>/dev/null || pip3 uninstall -y v2ray_util &>/dev/null
+fi
+rm -f /usr/local/bin/v2ray /usr/local/bin/v2ray-util
+rm -f /usr/share/bash-completion/completions/v2ray* /etc/bash_completion.d/v2ray.bash
+crontab -l 2>/dev/null | grep -v "v2ray" | crontab - 2>/dev/null
+hash -r
+msg -bar3
+if [[ ! -e /usr/bin/v2ray/v2ray ]] && ! systemctl is-active --quiet v2ray; then
+    echo -e "\033[1;32m V2Ray desinstalado correctamente\033[0m"
+else
+    echo -e "\033[1;31m No se pudo borrar todo, revise manualmente\033[0m"
+fi
+msg -bar3
+read -p " Enter para continuar" _foo
+}
 # --- FIX Ubuntu 23+/24: comando v2ray (v2ray_util) para instaladores V2Ray ---
 fix_v2ray_util(){
 if ! command -v v2ray-util &>/dev/null; then
@@ -2944,7 +2978,15 @@ else
     /bin/v2r.sh
 fi
 ;;
-2)fix_v2ray_util; ( [[ -e /etc/v2ray/config.json ]] && source <(curl -sSL https://www.dropbox.com/s/id3llagyfvwceyr/v2ray1.sh) || source <(curl -sSL https://www.dropbox.com/s/q6mpwhfgt1665pl/v2ray.sh) ); fix_v2ray_util; start_v2ray_service ;;
+2)
+fix_v2ray_util
+if [[ -e /etc/v2ray/config.json ]]; then
+    ( source <(curl -sSL https://www.dropbox.com/s/id3llagyfvwceyr/v2ray1.sh) )
+else
+    ( source <(curl -sSL https://www.dropbox.com/s/q6mpwhfgt1665pl/v2ray.sh) )
+fi
+[[ -e /etc/v2ray/config.json ]] && { fix_v2ray_util; start_v2ray_service; }
+;;
 3)
 if [[ -x /bin/xr.sh ]]; then
     /bin/xr.sh
@@ -6957,7 +6999,15 @@ else
     /bin/v2r.sh
 fi
 ;;
-2)fix_v2ray_util; ( [[ -e /etc/v2ray/config.json ]] && source <(curl -sSL https://www.dropbox.com/s/id3llagyfvwceyr/v2ray1.sh) || source <(curl -sSL https://www.dropbox.com/s/q6mpwhfgt1665pl/v2ray.sh) ); fix_v2ray_util; start_v2ray_service ;;
+2)
+fix_v2ray_util
+if [[ -e /etc/v2ray/config.json ]]; then
+    ( source <(curl -sSL https://www.dropbox.com/s/id3llagyfvwceyr/v2ray1.sh) )
+else
+    ( source <(curl -sSL https://www.dropbox.com/s/q6mpwhfgt1665pl/v2ray.sh) )
+fi
+[[ -e /etc/v2ray/config.json ]] && { fix_v2ray_util; start_v2ray_service; }
+;;
 3)
 if [[ -x /bin/xr.sh ]]; then
     /bin/xr.sh
@@ -6991,11 +7041,9 @@ read -p "  ENTER PARA CONTINUAR | CONTRL + C PARA CANCELAR |"
 act_gen
 ;;
 7)
-source <(curl -sL https://multi.netlify.com/v2ray.sh) --remove
-source <(curl -sL https://git.io/fNgqx) --remove
+desinstalar_v2ray_total || return 0
+[[ -e /etc/v2ray/config.json ]] && return 0
 rm -rf /usr/local/V2ray.Fun
-rm -f /etc/v2ray/*
-rm -rf /etc/v2ray/
 [[ -e $(which v2r.sh) ]] && rm -f $(which v2r.sh)
 [[ -e $(which xr.sh) ]] && rm -f $(which xr.sh)
 [[ -e $(which v2ray.menu) ]] && rm -f $(which v2ray.menu)
