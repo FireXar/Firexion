@@ -81,18 +81,17 @@ fi
 
 confirm() {
     if [[ $# > 1 ]]; then
-        echo && read -p "$1 [Defauld$2]: " temp
+        echo && read -p "$1 [s/n] (por defecto: $2): " temp
         if [[ "${temp}" == "" ]]; then
             temp=$2
         fi
     else
-        read -p "$1 [y/n]: " temp
+        read -p "$1 [s/n]: " temp
     fi
-    if [[ "${temp}" == "y" || "${temp}" == "Y" ]]; then
-        return 0
-    else
-        return 1
-    fi
+    case "${temp,,}" in
+        s|si|sí|y|yes) return 0 ;;
+        *) return 1 ;;
+    esac
 }
 
 
@@ -414,7 +413,7 @@ check_xray_status() {
 show_xray_status() {
     check_xray_status
     if [[ $? == 0 ]]; then
-        echo -e "xray ESTADO: ${green}EJECUTANDO{plain}"
+        echo -e "xray ESTADO: ${green}EJECUTANDO${plain}"
     else
         echo -e "xray ESTADO: ${red}NO EJECUTADO${plain}"
     fi
@@ -439,6 +438,7 @@ show_usage() {
 }
 
 show_menu() {
+msg -bar3
 print_center -verm2 'MENU PRINCIPAL DE X-UI WEB (ADMgh)'
 echo -e "\033[0;35m [${cor[2]}01\033[0;35m]\033[0;33m ${flech}${cor[3]}INSTALAR X-UI WEB" 
 echo -e "\033[0;35m [${cor[2]}02\033[0;35m]\033[0;33m ${flech}${cor[3]}ACTUALIZAR X-UI WEB (BORRA ESTA TRADUCCION)" 
@@ -462,6 +462,7 @@ echo -e "\033[0;35m [${cor[2]}0\033[0;35m]\033[0;33m ${flech}${cor[3]} SALIR"
 msg -bar3
 show_status
 echo && read -p "INGRESA DEL [0-14]: " num
+    [[ "${num}" =~ ^0[0-9]$ ]] && num="${num#0}"
     case "${num}" in
         0) exit 0
         ;;
