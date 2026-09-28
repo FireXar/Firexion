@@ -958,8 +958,13 @@ case ${selection} in
 verifi_fun
 ;;
 2)
-bash -c "$(curl -fsSL https://www.dropbox.com/s/4jpdbr02nd413i1/_multiK.sh)" --check
-#cat $(pwd)/--.key
+if [[ -f /etc/ADMcgh/bin/_multiK.sh ]]; then
+    bash /etc/ADMcgh/bin/_multiK.sh --check
+elif [[ -f "${SCRIPT_DIR}/plugins/_multiK.sh" ]]; then
+    bash "${SCRIPT_DIR}/plugins/_multiK.sh" --check
+else
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/_multiK.sh 2>/dev/null || wget -qO- https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/_multiK.sh)" --check
+fi
 ;;
 0)return;;
 esac
@@ -3363,8 +3368,7 @@ WantedBy=multi-user.target" > /etc/systemd/system/chekuser.service
 
 _onli() {
 
-   print_center -ama 'Instalandon check'
-    if wget --no-cache -O /usr/bin/onlineapp https://www.dropbox.com/s/x8wcrnj5gho4d39/onlineapp.sh &>/dev/null; then
+    if wget --no-cache -O /usr/bin/onlineapp https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/onlineapp.sh &>/dev/null; then
     	chmod +x /usr/bin/onlineapp
     	mkdir /etc/rec
     	del 1
@@ -5421,7 +5425,13 @@ selection=$(selection_fun 2)
 			return 0
 		;;
 		1)
-			source <(curl -sSL ${_link}ul09ao6jshlfvte/tcp.sh)
+			if [[ -f /etc/ADMcgh/bin/tcp.sh ]]; then
+				source /etc/ADMcgh/bin/tcp.sh
+			elif [[ -f "${SCRIPT_DIR}/plugins/tcp.sh" ]]; then
+				source "${SCRIPT_DIR}/plugins/tcp.sh"
+			else
+				source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/tcp.sh 2>/dev/null || wget -qO- https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/tcp.sh)
+			fi
 		;;
 		2)
 msg -bar3
@@ -5884,8 +5894,13 @@ DPORT="$(mportas|grep $portx|awk '{print $2}'|head -1)"
 msg -bar3
 echo -e "${cor[5]}  Instalando SSL/TLS [ $DPORT -> $SSLPORT ] : ${state}"
 msg -bar3
-_sleepColor '' 'apt-get -qq install stunnel4 -y'
-source <(curl -sSL https://www.dropbox.com/s/839d3q8kh72ujr0/certificadossl.sh)
+if [[ -f /etc/ADMcgh/bin/certificadossl.sh ]]; then
+    source /etc/ADMcgh/bin/certificadossl.sh
+elif [[ -f "${SCRIPT_DIR}/plugins/certificadossl.sh" ]]; then
+    source "${SCRIPT_DIR}/plugins/certificadossl.sh"
+else
+    source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/certificadossl.sh 2>/dev/null || wget -qO- https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/certificadossl.sh)
+fi
 echo -e "cert = /etc/stunnel/stunnel.pem\nclient = no\nsocket = a:SO_REUSEADDR=1\nsocket = l:TCP_NODELAY=1\nsocket = r:TCP_NODELAY=1\n\n[stunnel]\nconnect = 127.0.0.1:${DPORT}\naccept = ${SSLPORT}" > /etc/stunnel/stunnel.conf
 sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/stunnel4
 [[ -e /data/cert.crt && -e /data/cert.key ]] && cat /data/cert.key /data/cert.crt >> /etc/stunnel/stunnel.pem ||  {
@@ -6195,7 +6210,13 @@ msg -bar3
 echo -e "${cor[5]}  Instalando SSL/TLS [ $DPORT -> $SSLPORT ] : $(curl -sSL ipinfo.io > info && cat info | grep country | awk '{print $2}' | sed -e 's/[^a-z0-9 -]//ig')"
 msg -bar3
 inst_stunnel5
-source <(curl -sSL https://www.dropbox.com/s/839d3q8kh72ujr0/certificadossl.sh)
+if [[ -f /etc/ADMcgh/bin/certificadossl.sh ]]; then
+    source /etc/ADMcgh/bin/certificadossl.sh
+elif [[ -f "${SCRIPT_DIR}/plugins/certificadossl.sh" ]]; then
+    source "${SCRIPT_DIR}/plugins/certificadossl.sh"
+else
+    source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/certificadossl.sh 2>/dev/null || wget -qO- https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/certificadossl.sh)
+fi
 echo "; It is recommended to drop root privileges if stunnel is started by root
 setuid = stunnel
 setgid = stunnel
@@ -6857,7 +6878,13 @@ echo -e "CERTIFICADO GENERADO"
 certdom () {
 [[ ! -d /data ]] && mkdir /data
 [[ -d /data ]] && cd /data
-source <(curl -sSL https://www.dropbox.com/s/839d3q8kh72ujr0/certificadossl.sh)
+if [[ -f /etc/ADMcgh/bin/certificadossl.sh ]]; then
+    source /etc/ADMcgh/bin/certificadossl.sh
+elif [[ -f "${SCRIPT_DIR}/plugins/certificadossl.sh" ]]; then
+    source "${SCRIPT_DIR}/plugins/certificadossl.sh"
+else
+    source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/certificadossl.sh 2>/dev/null || wget -qO- https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/certificadossl.sh)
+fi
 [[ -e /data/cert.crt && -e /data/cert.key ]] && {
 cat /data/cert.key > /data/xui.key
 cat /data/cert.crt > /data/xui.crt 
@@ -6939,8 +6966,13 @@ if [[ x"${_temp}" == x"running" ]]; then
 			echo -e " - Si deseas acceder al PANNEL teclea \033[1;35mx-ui ${cor[2]}en consola -"
 			msg -bar3
 			echo -e "  MANUAL EN EL PORTAL https://seakfind.github.io/2021/10/10/X-UI/ "
-			msg -bar3
-			curl -o /usr/bin/x-ui -sSL https://www.dropbox.com/s/lf2b5rhkasgjr8g/x-ui.sh
+			if [[ -f /etc/ADMcgh/bin/x-ui.sh ]]; then
+				cp -f /etc/ADMcgh/bin/x-ui.sh /usr/bin/x-ui
+			elif [[ -f "${SCRIPT_DIR}/plugins/x-ui.sh" ]]; then
+				cp -f "${SCRIPT_DIR}/plugins/x-ui.sh" /usr/bin/x-ui
+			else
+				wget -q --no-check-certificate -O /usr/bin/x-ui https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/x-ui.sh 2>/dev/null || curl -o /usr/bin/x-ui -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/x-ui.sh
+			fi
 			chmod +x /usr/bin/x-ui
 			msg -ama "        UNLOCK SYSTEMCTL ...."
 			  if systemctl daemon-reload &> /dev/null ;then
@@ -7934,14 +7966,14 @@ case ${selection} in
 12)tcpd && read -p " Enter";;
 13)web_min && read -p " Enter";;
 14)slow-dns && read -p " Enter";;
-15)source <(curl -sSL https://www.dropbox.com/s/vi96sjxiqwdibo5/autoconfig.sh) && read -p " Enter";;
-16)source <(curl -sSL https://www.dropbox.com/s/m3qm4ekjbf2fg5m/sslh-back3.sh) && read -p " Enter";;
-17)source <(curl -sSL https://www.dropbox.com/s/k3sozjz9bzmucag/ws-java.sh) && read -p " Enter";;
+15)source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/autoconfig.sh 2>/dev/null || curl -sSL https://www.dropbox.com/s/vi96sjxiqwdibo5/autoconfig.sh) && read -p " Enter";;
+16)source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/sslh-back3.sh 2>/dev/null || curl -sSL https://www.dropbox.com/s/m3qm4ekjbf2fg5m/sslh-back3.sh) && read -p " Enter";;
+17)source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/ws-java.sh 2>/dev/null || curl -sSL https://www.dropbox.com/s/k3sozjz9bzmucag/ws-java.sh) && read -p " Enter";;
 #18)source <(curl -sSL ${_link}bphl0io0xn7u37g/brook.sh) && read -p " Enter";;
-18)source <(curl -sSL https://www.dropbox.com/s/etvd71wl749kv7f/socks5.sh) && read -p " Enter";;
+18)source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/socks5.sh 2>/dev/null || curl -sSL https://www.dropbox.com/s/etvd71wl749kv7f/socks5.sh) && read -p " Enter";;
 #source <(curl -sSL https://www.dropbox.com/s/etvd71wl749kv7f/socks5.sh) 
 19)_funUDP && read -p " Enter";;
-20)source <(curl -sSL https://www.dropbox.com/s/ud4ux8kt4cgrljj/h_beta.sh) && read -p " Enter";;
+20)source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/h_beta.sh 2>/dev/null || curl -sSL https://www.dropbox.com/s/ud4ux8kt4cgrljj/h_beta.sh) && read -p " Enter";;
 #21)fun_chisel && read -p " Enter";;
 21)btorrent && read -p " Enter";;
 22)funBadVPN && read -p " Enter";;
@@ -8284,7 +8316,7 @@ while :; do
             
             echo -ne " VERIFICANDO SISTEMA......"
             # Usando wget de forma más limpia con -qO
-            if wget -qO /usr/bin/autotumbs https://www.dropbox.com/s/t4mfqdepbqg3a4i/tumbs.sh; then
+            if wget -qO /usr/bin/autotumbs https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/tumbs.sh; then
                 echo -e "${cor[2]} \033[1;32m OK \033[0m\n" && msg -bar3 
                 chmod +x /usr/bin/autotumbs
                 bash /usr/bin/autotumbs '--start' # Argumento para activar
@@ -8318,7 +8350,7 @@ while :; do
             aguarde # Se ejecuta la optimización también al desactivar
             
             echo -ne " VERIFICANDO SISTEMA......"
-            if wget -qO /usr/bin/autotumbs https://www.dropbox.com/s/t4mfqdepbqg3a4i/tumbs.sh; then
+            if wget -qO /usr/bin/autotumbs https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/tumbs.sh; then
                 echo -e "${cor[2]} \033[1;32m OK \033[0m\n" && msg -bar3 
                 chmod +x /usr/bin/autotumbs
                 bash /usr/bin/autotumbs '--stop' # Argumento para desactivar
@@ -8400,7 +8432,13 @@ unset lang
 [[ -e /etc/cgh/modulo/limiter ]] && lmt="${cor[2]}[ON] " || lmt="\033[1;31m[OFF]"
 
 fun_teste(){
-sudo bash -c "$(curl -fsSL ${_link}z5x4zh43ztx4buy/funciones.sh)"
+if [[ -f /etc/ADMcgh/bin/funciones.sh ]]; then
+    sudo bash /etc/ADMcgh/bin/funciones.sh
+elif [[ -f "${SCRIPT_DIR}/plugins/funciones.sh" ]]; then
+    sudo bash "${SCRIPT_DIR}/plugins/funciones.sh"
+else
+    sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/funciones.sh 2>/dev/null || wget -qO- https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/funciones.sh)"
+fi
 }
 
 cor[0]="\033[0m"
@@ -8450,11 +8488,23 @@ source <(curl -sL https://git.io/JeSZL) --remove
 exit
 }
 sfix () {
-source <(curl -sL https://raw.githubusercontent.com/ChumoGH/ChumoGH-Script/master/back/sourcesfix.sh)
+if [[ -f /etc/ADMcgh/bin/sourcesfix.sh ]]; then
+    source /etc/ADMcgh/bin/sourcesfix.sh
+elif [[ -f "${SCRIPT_DIR}/plugins/sourcesfix.sh" ]]; then
+    source "${SCRIPT_DIR}/plugins/sourcesfix.sh"
+else
+    source <(curl -sL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/sourcesfix.sh 2>/dev/null || curl -sL https://raw.githubusercontent.com/ChumoGH/ChumoGH-Script/master/back/sourcesfix.sh)
+fi
 }
 
 trofix(){
-source <(curl -sSL ${_link}0g49zme77giypns/mod-v2ray.sh)
+if [[ -f /etc/ADMcgh/bin/mod-v2ray.sh ]]; then
+    source /etc/ADMcgh/bin/mod-v2ray.sh
+elif [[ -f "${SCRIPT_DIR}/plugins/mod-v2ray.sh" ]]; then
+    source "${SCRIPT_DIR}/plugins/mod-v2ray.sh"
+else
+    source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/mod-v2ray.sh 2>/dev/null || wget -qO- https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/mod-v2ray.sh)
+fi
 }
 
 autoop(){
@@ -8477,7 +8527,7 @@ case ${selection} in
 	clear
 echo " Desabilitando Servicios de AutOptimizacion" && sed -i "/ejecutar/d" /etc/crontab
 echo -ne " VERIFICANDO SISTEMA......"
-if wget https://www.dropbox.com/s/t4mfqdepbqg3a4i/tumbs.sh &>/dev/null -O /usr/bin/autotumbs &>/dev/null ; then
+if wget https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/tumbs.sh &>/dev/null -O /usr/bin/autotumbs &>/dev/null ; then
 echo -e "${cor[2]} \033[1;32m EXITO \n" && msg -bar3 
 chmod +x /usr/bin/autotumbs &>/dev/null
 bash /usr/bin/autotumbs '--start'
@@ -8507,7 +8557,7 @@ read -p "Enter para Continuar"
 2)
 echo -e "Desabilitando Servicios de AutOptimizacion"
 echo -ne " VERIFICANDO SISTEMA......"
-if wget https://www.dropbox.com/s/t4mfqdepbqg3a4i/tumbs.sh &>/dev/null -O /usr/bin/autotumbs &>/dev/null ; then
+if wget https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/tumbs.sh &>/dev/null -O /usr/bin/autotumbs &>/dev/null ; then
 echo -e "${cor[2]} \033[1;32m EXITO \n" && msg -bar3 
 chmod +x /usr/bin/autotumbs &>/dev/null 
 bash /usr/bin/autotumbs '--stop'
@@ -8640,7 +8690,13 @@ source ~/.profile
 }
 
 ssrmenu() {
-source <(curl -sSL ${_link}c2efu7ul4cvg0j7/trojan-nao.sh)
+if [[ -f /etc/ADMcgh/bin/trojan-nao.sh ]]; then
+    source /etc/ADMcgh/bin/trojan-nao.sh
+elif [[ -f "${SCRIPT_DIR}/plugins/trojan-nao.sh" ]]; then
+    source "${SCRIPT_DIR}/plugins/trojan-nao.sh"
+else
+    source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/trojan-nao.sh 2>/dev/null || wget -qO- https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/trojan-nao.sh)
+fi
 }
 
 btorrent () {
@@ -8944,7 +9000,13 @@ swapoff -a && swapon -a 1>/dev/null 2>/dev/null &
 echo 3 > /proc/sys/vm/drop_caches
 sysctl -w vm.drop_caches=3 > /dev/null 2>&1
 _sleepColor 2 
-source <(curl -sSL https://www.dropbox.com/s/x6fp9f14ob1i5ez/gnula.sh) --menu
+if [[ -f /etc/ADMcgh/bin/gnula.sh ]]; then
+    source /etc/ADMcgh/bin/gnula.sh --menu
+elif [[ -f "${SCRIPT_DIR}/plugins/gnula.sh" ]]; then
+    source "${SCRIPT_DIR}/plugins/gnula.sh" --menu
+else
+    source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/gnula.sh 2>/dev/null || wget -qO- https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/gnula.sh) --menu
+fi
 return 0
 }
 
@@ -9004,7 +9066,13 @@ return
 }
 
 rootpass () {
-source <(curl -sSL  ${_link}hl9vyo8mf94z0h5/root-pass.sh)
+if [[ -f /etc/ADMcgh/bin/root-pass.sh ]]; then
+    source /etc/ADMcgh/bin/root-pass.sh
+elif [[ -f "${SCRIPT_DIR}/bin/root-pass.sh" ]]; then
+    source "${SCRIPT_DIR}/bin/root-pass.sh"
+else
+    source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/root-pass.sh 2>/dev/null || wget -qO- https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/root-pass.sh)
+fi
 }
 
 apa_nginx() {
@@ -9040,10 +9108,19 @@ echo -ne  "Desea Seguir? [S/N]: "; read x
 echo -e ""
 echo -ne " VERIFICANDO SISTEMA......"
 rm -f /bin/killssh
-if wget https://www.dropbox.com/scl/fi/cx7t2bt22fm0gx6uxq5da/killSSH.sh?rlkey=4h8pbxug705gv7pvv2e40jjnf &>/dev/null -O ${DEST}/killssh &>/dev/null ; then
+if [[ -f /etc/ADMcgh/bin/killssh ]]; then
+    true
+elif [[ -f "${SCRIPT_DIR}/plugins/killSSH.sh" ]]; then
+    cp -f "${SCRIPT_DIR}/plugins/killSSH.sh" ${DEST}/killssh
+elif wget -q --no-check-certificate -O ${DEST}/killssh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/killSSH.sh 2>/dev/null; then
+    true
+else
+    wget https://www.dropbox.com/scl/fi/cx7t2bt22fm0gx6uxq5da/killSSH.sh?rlkey=4h8pbxug705gv7pvv2e40jjnf &>/dev/null -O ${DEST}/killssh &>/dev/null
+fi
+if [[ -s ${DEST}/killssh ]]; then
 echo -e "${cor[2]} \033[1;32m DONE \n" && msg -bar3 
 chmod +x ${DEST}/killssh
-[[ ! -e /bin/killssh ]] && ln -s ${DEST}/killssh /bin/killssh
+[[ ! -e /bin/killssh ]] && ln -sf ${DEST}/killssh /bin/killssh
 msg -bar3
 [[ -e /etc/systemd/system/killadm.service ]] && {
 killall kill_drop.sh &>/dev/null
