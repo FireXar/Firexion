@@ -22,30 +22,35 @@ fi
 desinstalar_v2ray_total(){
 clear
 msg -bar3
-echo -e "\033[1;31m        DESINSTALAR V2RAY COMPLETAMENTE\033[0m"
+echo -e "\033[1;31m        DESINSTALAR V2RAY + XRAY COMPLETAMENTE\033[0m"
 msg -bar3
-echo -e "\033[1;37m Se borraran el servicio, el nucleo, la configuracion\n y el comando v2ray (usuarios V2Ray incluidos).\033[0m"
+echo -e "\033[1;37m Se borraran el servicio, el nucleo, la configuracion\n y los comandos v2ray/xray (usuarios incluidos).\033[0m"
 msg -bar3
 read -p " Escriba S para confirmar: " _conf
 [[ ${_conf,,} != "s" ]] && { echo -e "\033[1;33m Cancelado\033[0m"; sleep 1; return 1; }
-systemctl stop v2ray &>/dev/null
-systemctl disable v2ray &>/dev/null
+systemctl stop v2ray xray &>/dev/null
+systemctl disable v2ray xray &>/dev/null
 rm -f /etc/systemd/system/v2ray.service /etc/systemd/system/v2ray@.service
 rm -f /lib/systemd/system/v2ray.service /lib/systemd/system/v2ray@.service
 rm -rf /etc/systemd/system/v2ray.service.d /etc/systemd/system/v2ray@.service.d
+rm -f /etc/systemd/system/xray.service /etc/systemd/system/xray@.service
+rm -f /lib/systemd/system/xray.service /lib/systemd/system/xray@.service
+rm -rf /etc/systemd/system/xray.service.d /etc/systemd/system/xray@.service.d
 systemctl daemon-reload &>/dev/null
 pkill -f "/usr/bin/v2ray/v2ray" &>/dev/null
+pkill -f "/usr/bin/xray/xray" &>/dev/null
 rm -rf /usr/bin/v2ray /etc/v2ray /var/log/v2ray /etc/v2ray_util
+rm -rf /usr/bin/xray /etc/xray /var/log/xray
 if command -v pip3 &>/dev/null; then
     pip3 uninstall -y v2ray_util --break-system-packages &>/dev/null || pip3 uninstall -y v2ray_util &>/dev/null
 fi
-rm -f /usr/local/bin/v2ray /usr/local/bin/v2ray-util
-rm -f /usr/share/bash-completion/completions/v2ray* /etc/bash_completion.d/v2ray.bash
-crontab -l 2>/dev/null | grep -v "v2ray" | crontab - 2>/dev/null
+rm -f /usr/local/bin/v2ray /usr/local/bin/xray /usr/local/bin/v2ray-util
+rm -f /usr/share/bash-completion/completions/v2ray* /usr/share/bash-completion/completions/xray /etc/bash_completion.d/v2ray.bash
+crontab -l 2>/dev/null | grep -v -e "v2ray" -e "xray" | crontab - 2>/dev/null
 hash -r
 msg -bar3
-if [[ ! -e /usr/bin/v2ray/v2ray ]] && ! systemctl is-active --quiet v2ray; then
-    echo -e "\033[1;32m V2Ray desinstalado correctamente\033[0m"
+if [[ ! -e /usr/bin/v2ray/v2ray && ! -e /usr/bin/xray/xray ]] && ! systemctl is-active --quiet v2ray && ! systemctl is-active --quiet xray; then
+    echo -e "\033[1;32m V2Ray y Xray desinstalados correctamente\033[0m"
 else
     echo -e "\033[1;31m No se pudo borrar todo, revise manualmente\033[0m"
 fi
@@ -2981,7 +2986,9 @@ fi
 2)
 fix_v2ray_util
 if [[ -e /etc/v2ray/config.json ]]; then
-    ( source <(curl -sSL https://www.dropbox.com/s/id3llagyfvwceyr/v2ray1.sh) )
+    _v2m="$(curl -fsSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/v2ray1.sh)"
+    [[ -z "$_v2m" ]] && _v2m="$(curl -sSL https://www.dropbox.com/s/id3llagyfvwceyr/v2ray1.sh)"
+    ( source <(echo "$_v2m") )
 else
     ( source <(curl -sSL https://www.dropbox.com/s/q6mpwhfgt1665pl/v2ray.sh) )
 fi
@@ -7002,7 +7009,9 @@ fi
 2)
 fix_v2ray_util
 if [[ -e /etc/v2ray/config.json ]]; then
-    ( source <(curl -sSL https://www.dropbox.com/s/id3llagyfvwceyr/v2ray1.sh) )
+    _v2m="$(curl -fsSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/v2ray1.sh)"
+    [[ -z "$_v2m" ]] && _v2m="$(curl -sSL https://www.dropbox.com/s/id3llagyfvwceyr/v2ray1.sh)"
+    ( source <(echo "$_v2m") )
 else
     ( source <(curl -sSL https://www.dropbox.com/s/q6mpwhfgt1665pl/v2ray.sh) )
 fi
