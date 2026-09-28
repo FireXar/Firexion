@@ -17,16 +17,27 @@ fun_add_name_dom(){
 rm -f /bin/ejecutar/.admcgh_welcomed
 clear&&clear
 msg -bar3
-read -t 20 -p " Nombre del servidor (máx 10 caracteres, ENTER para omitir): " -e -i "" _nameS
-if [[ -n "$_nameS" ]]; then
-_nameS="${_nameS:0:10}"
+echo -e "${cor[2]} CONFIGURACION DE NOMBRE DE SERVIDOR Y RESELLER"
+msg -bar3
+read -t 20 -p " Nombre del servidor / Reseller (ENTER para default Karl199x): " -e -i "" _nameS
+if [[ -z "$_nameS" ]]; then
+    _nameS="Karl199x"
+    echo -e " ${aLerT} \033[1;33mSin nombre asignado. Se usara por defecto: \033[1;32mKarl199x\033[0m"
+else
+    _nameS="${_nameS:0:15}"
+    echo -e " ${CHeko} \033[1;32mNombre de Servidor y Reseller asignado: \033[1;33m$_nameS\033[0m"
+fi
 echo "$_nameS" > /etc/adm-lite/name
 echo "$_nameS" > /root/name
-chmod 644 /etc/adm-lite/name
-command -v figlet >/dev/null && figlet "$_nameS"
-else
-echo " ${aLerT} Sin nombre asignado"
-fi
+chmod 644 /etc/adm-lite/name /root/name 2>/dev/null
+echo "$_nameS" > /etc/adm-lite/menu_credito
+echo "5447666366" >> /etc/adm-lite/menu_credito
+echo "$_nameS" > /bin/ejecutar/menu_credito
+chmod +x /bin/ejecutar/menu_credito /etc/adm-lite/menu_credito 2>/dev/null
+echo -e '<p style="text-align: center;"> <big><big><big><big><big><big>🐲</big></big></big></big></big></big></p>' > /etc/bannerssh
+echo -e '<p style="text-align: center;"><strong><span style="color: #FF00FF;">'" $_nameS "'&reg;</span> |&nbsp;</strong><span style="color: #483D8B;"><strong>'"$_nameS"'</strong></span></p>' >> /etc/bannerssh
+[[ -d /etc/dropbear ]] && cat /etc/bannerssh > /etc/dropbear/banner 2>/dev/null
+command -v figlet >/dev/null && figlet "$_nameS" | lolcat 2>/dev/null || figlet "$_nameS" 2>/dev/null
 sleep 2s
 clear&&clear
 msg -bar3
@@ -109,8 +120,10 @@ setup_cron
 if cat /etc/bash.bashrc | grep ADMcgh; then
 sed -i "/ADMcgh/d" /etc/bash.bashrc
 echo '
+_b_name=$(cat /root/name 2>/dev/null || cat /etc/adm-lite/name 2>/dev/null || cat /etc/adm-lite/menu_credito 2>/dev/null | head -1)
+[[ -z "$_b_name" ]] && _b_name="Karl199x"
 if ! [ $(id -u) = 0 ]; then
-figlet -f slant "ChumoGH" | lolcat
+figlet -f slant "$_b_name" 2>/dev/null | lolcat 2>/dev/null || figlet "$_b_name" 2>/dev/null
 echo ""
 echo -e " USUARIO NO ROOT"
 echo -e " COLOCA \033[1;43msudo -i\033[0m PARA SER ROOT"
@@ -122,7 +135,7 @@ upLIC &> /dev/null
 [[ -z $(locale | grep "LANG=" | cut -d "=" -f2) ]] && export LANG=en_US.UTF-8
 DATE=$(date +"%d-%m-%Y")
 TIME=$(date +"%T")
-figlet -f slant "ChumoGH" | lolcat
+figlet -f slant "$_b_name" 2>/dev/null | lolcat 2>/dev/null || figlet "$_b_name" 2>/dev/null
 echo ""
 killall menu &> /dev/null
 /bin/autoboot &> /dev/null
@@ -143,7 +156,7 @@ echo -e " TIEMPO EN LINEA : $(uptime -p)"
 [[ ${v1} = ${v2} ]] && echo -e " VERSION ACTUAL INSTALADA ES ${v1}" || echo -e " NUEVA VERSION ${v2} DISPONIBLE!"
 echo -e " MEMORIA RAM LIBRE : $(free -h | grep Mem | sed "s/\s\+/,/g" | cut -d , -f4)"
 echo -e ""
-echo -e "\tRESELLER: \e[1;31m$(cat /etc/adm-lite/menu_credito|head -1)"
+echo -e "\tRESELLER: \e[1;31m$_b_name"
 echo -e "\033[1;39m"
 echo -e " BIENVENIDO DE NUEVO!"
 echo -e "\033[1;43m Teclee cgh , menu o adm para ver el MENU\033[0m."
@@ -155,8 +168,11 @@ echo "STARTUP AGREGADO EXITOSAMENTE"
 echo -e 'source /etc/ADMcgh/bashrc' >> /etc/bash.bashrc
 else
 sed -i "/ADMcgh/d" /etc/bash.bashrc
-echo 'if ! [ $(id -u) = 0 ]; then
-figlet -f slant "ChumoGH" | lolcat
+echo '
+_b_name=$(cat /root/name 2>/dev/null || cat /etc/adm-lite/name 2>/dev/null || cat /etc/adm-lite/menu_credito 2>/dev/null | head -1)
+[[ -z "$_b_name" ]] && _b_name="Karl199x"
+if ! [ $(id -u) = 0 ]; then
+figlet -f slant "$_b_name" 2>/dev/null | lolcat 2>/dev/null || figlet "$_b_name" 2>/dev/null
 echo ""
 echo -e " USUARIO NO ROOT"
 echo -e " COLOCA \033[1;43msudo -i\033[0m PARA SER ROOT"
@@ -168,7 +184,7 @@ upLIC &>/dev/null
 [[ -z $(locale | grep "LANG=" | cut -d "=" -f2) ]] && export LANG=en_US.UTF-8
 DATE=$(date +"%d-%m-%Y")
 TIME=$(date +"%T")
-figlet -f slant "ChumoGH" | lolcat
+figlet -f slant "$_b_name" 2>/dev/null | lolcat 2>/dev/null || figlet "$_b_name" 2>/dev/null
 echo ""
 killall menu &> /dev/null
 /bin/autoboot &> /dev/null
@@ -189,7 +205,7 @@ echo -e " TIEMPO EN LINEA : $(uptime -p)"
 [[ ${v1} = ${v2} ]] && echo -e " VERSION ACTUAL INSTALADA ES ${v1}" || echo -e " NUEVA VERSION ${v2} DISPONIBLE!"
 echo -e " MEMORIA RAM LIBRE : $(free -h | grep Mem | sed "s/\s\+/,/g" | cut -d , -f4)"
 echo -e ""
-echo -e "\tRESELLER: \e[1;31m$(cat /etc/adm-lite/menu_credito|head -1)"
+echo -e "\tRESELLER: \e[1;31m$_b_name"
 echo -e "\033[1;39m"
 echo -e " BIENVENIDO DE NUEVO!"
 echo -e "\033[1;43m Teclee cgh , menu o adm para ver el MENU\033[0m."
@@ -367,14 +383,16 @@ echo -e "  ${cor[5]} ADMcgh Manager CGH REMASTERIZADO $(date +%Y)"
 msg -bar3
 echo -e "${cor[3]}     SISTEMA ACTIVADO PERMANENTE (FULL LIBRE) "
 msg -bar3
-[[ -e ${SCPdir}/menu_credito ]] && ress="$(cat ${SCPdir}/menu_credito|head -1) " || ress="Karl199x"
+[[ -e ${SCPdir}/menu_credito ]] && ress="$(cat ${SCPdir}/menu_credito|head -1)" || ress="Karl199x"
+ress="$(echo "$ress" | xargs)"
+[[ -z "$ress" ]] && ress="Karl199x"
 echo -ne "${cor[2]}\n\033[1;37m  RESELLER  : " | pv -qL 50 && sleep 1s && echo -e "\033[0;35m$ress" | pv -qL 50
 echo
 msg -bar3
 echo -ne "${cor[2]}\033[1;37m IP VPS : " && sleep 1s && \
 echo -ne "\033[0;35m$_ip_vps" | pv -qL 30 | lolcat && \
 echo -ne "${cor[2]}\033[1;37m  ADMIN : " && sleep 1s && \
-echo -ne "\033[0;35mKarl199x" | pv -qL 30 | lolcat
+echo -ne "\033[0;35m$ress" | pv -qL 30 | lolcat
 echo ""
 [[ -e /etc/ADMcgh/bin/AutoRestart ]] && rm -f /etc/ADMcgh/bin/AutoRestart
 [[ ! -e /bin/autoboot ]] && {

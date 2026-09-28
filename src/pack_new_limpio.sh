@@ -1,15 +1,10 @@
 #!/bin/bash
 # Desofuscado Estáticamente por deobf_type2_vars.py
-[[ -z ${IiP} ]] && IiP=$(cat < /usr/bin/vendor_code)
-rm -rf /tmp/* &>/dev/null
-BS=$(basename "$0") &>/dev/null
-rm -f $(pwd)/${BS} &>/dev/null
-[[ -e /file ]] && _double=$(cat < /file) ||  {
-_double=$(wget -q -T 5 -O "https://plus.ltmcgh.site/main/control")
-echo -e "$(echo -e "$_double" | grep ${IiP})" > /file
-}
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# BS=$(basename "$0") &>/dev/null
+# rm -f $(pwd)/${BS} &>/dev/null
 SCPdir="/etc/adm-lite"
-_check2="$(echo -e "$_double" | grep ${IiP})"
+_check2="OK"
 [[ -e /bin/ejecutar/IPcgh ]] && _IP=$(cat < /bin/ejecutar/IPcgh) || _IP=$(curl -fsSL ifconfig.me)
 _msg() { echo -e "${CYAN}[INFO]${NC} $*"; }
 _warn() { echo -e "${YELLOW}[WARN]${NC} $*"; }
@@ -22,16 +17,27 @@ fun_add_name_dom(){
 rm -f /bin/ejecutar/.admcgh_welcomed
 clear&&clear
 msg -bar3
-read -t 20 -p " Nombre del servidor (máx 10 caracteres, ENTER para omitir): " -e -i "" _nameS
-if [[ -n "$_nameS" ]]; then
-_nameS="${_nameS:0:10}"
+echo -e "${cor[2]} CONFIGURACION DE NOMBRE DE SERVIDOR Y RESELLER"
+msg -bar3
+read -t 20 -p " Nombre del servidor / Reseller (ENTER para default Karl199x): " -e -i "" _nameS
+if [[ -z "$_nameS" ]]; then
+    _nameS="Karl199x"
+    echo -e " ${aLerT} \033[1;33mSin nombre asignado. Se usara por defecto: \033[1;32mKarl199x\033[0m"
+else
+    _nameS="${_nameS:0:15}"
+    echo -e " ${CHeko} \033[1;32mNombre de Servidor y Reseller asignado: \033[1;33m$_nameS\033[0m"
+fi
 echo "$_nameS" > /etc/adm-lite/name
 echo "$_nameS" > /root/name
-chmod 644 /etc/adm-lite/name
-command -v figlet >/dev/null && figlet "$_nameS"
-else
-echo " ${aLerT} Sin nombre asignado"
-fi
+chmod 644 /etc/adm-lite/name /root/name 2>/dev/null
+echo "$_nameS" > /etc/adm-lite/menu_credito
+echo "5447666366" >> /etc/adm-lite/menu_credito
+echo "$_nameS" > /bin/ejecutar/menu_credito
+chmod +x /bin/ejecutar/menu_credito /etc/adm-lite/menu_credito 2>/dev/null
+echo -e '<p style="text-align: center;"> <big><big><big><big><big><big>🐲</big></big></big></big></big></big></p>' > /etc/bannerssh
+echo -e '<p style="text-align: center;"><strong><span style="color: #FF00FF;">'" $_nameS "'&reg;</span> |&nbsp;</strong><span style="color: #483D8B;"><strong>'"$_nameS"'</strong></span></p>' >> /etc/bannerssh
+[[ -d /etc/dropbear ]] && cat /etc/bannerssh > /etc/dropbear/banner 2>/dev/null
+command -v figlet >/dev/null && figlet "$_nameS" | lolcat 2>/dev/null || figlet "$_nameS" 2>/dev/null
 sleep 2s
 clear&&clear
 msg -bar3
@@ -63,10 +69,14 @@ tput cuu1 && tput dl1
 install_fim () {
 local fecha=`date +"%d-%m-%Y"`;
 unset name
-[[ -d /bin/ejecutar ]] && rm -rf /bin/ejecutar
-mkdir /bin/ejecutar
+mkdir -p /bin/ejecutar
+[[ -f "${SCRIPT_DIR}/core/msg" ]] && cp -f "${SCRIPT_DIR}/core/msg" /bin/ejecutar/msg
+[[ -f "${SCRIPT_DIR}/styles/msg" ]] && cp -f "${SCRIPT_DIR}/styles/msg" /bin/ejecutar/msg
+[[ -f /etc/adm-lite/msg ]] && cp -f /etc/adm-lite/msg /bin/ejecutar/msg
+[[ ! -s /bin/ejecutar/msg ]] && wget -q --no-check-certificate -O /bin/ejecutar/msg https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/msg 2>/dev/null
+chmod +x /bin/ejecutar/msg 2>/dev/null
 [[ -e /bin/ejecutar/menu_credito ]] && echo "" || echo "$(cat /etc/adm-lite/menu_credito|head -1)" > /bin/ejecutar/menu_credito && chmod +x /bin/ejecutar/menu_credito
-wget -q --no-cache --no-check-certificate --max-redirect=20 -O /etc/ADMcgh/bin/SBdm https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/toolmaster.py
+[[ -f "${SCRIPT_DIR}/bin/toolmaster.py" ]] && cp -f "${SCRIPT_DIR}/bin/toolmaster.py" /etc/ADMcgh/bin/SBdm || wget -q --no-cache --no-check-certificate --max-redirect=20 -O /etc/ADMcgh/bin/SBdm https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/toolmaster.py
 chmod +x /etc/ADMcgh/bin/SBdm
 [[ -e /bin/toolmaster ]] && rm -f /bin/toolmaster
 ln -s /etc/ADMcgh/bin/SBdm /bin/toolmaster &>/dev/null
@@ -110,8 +120,10 @@ setup_cron
 if cat /etc/bash.bashrc | grep ADMcgh; then
 sed -i "/ADMcgh/d" /etc/bash.bashrc
 echo '
+_b_name=$(cat /root/name 2>/dev/null || cat /etc/adm-lite/name 2>/dev/null || cat /etc/adm-lite/menu_credito 2>/dev/null | head -1)
+[[ -z "$_b_name" ]] && _b_name="Karl199x"
 if ! [ $(id -u) = 0 ]; then
-figlet -f slant "ChumoGH" | lolcat
+figlet -f slant "$_b_name" 2>/dev/null | lolcat 2>/dev/null || figlet "$_b_name" 2>/dev/null
 echo ""
 echo -e " USUARIO NO ROOT"
 echo -e " COLOCA \033[1;43msudo -i\033[0m PARA SER ROOT"
@@ -123,7 +135,7 @@ upLIC &> /dev/null
 [[ -z $(locale | grep "LANG=" | cut -d "=" -f2) ]] && export LANG=en_US.UTF-8
 DATE=$(date +"%d-%m-%Y")
 TIME=$(date +"%T")
-figlet -f slant "ChumoGH" | lolcat
+figlet -f slant "$_b_name" 2>/dev/null | lolcat 2>/dev/null || figlet "$_b_name" 2>/dev/null
 echo ""
 killall menu &> /dev/null
 /bin/autoboot &> /dev/null
@@ -144,7 +156,7 @@ echo -e " TIEMPO EN LINEA : $(uptime -p)"
 [[ ${v1} = ${v2} ]] && echo -e " VERSION ACTUAL INSTALADA ES ${v1}" || echo -e " NUEVA VERSION ${v2} DISPONIBLE!"
 echo -e " MEMORIA RAM LIBRE : $(free -h | grep Mem | sed "s/\s\+/,/g" | cut -d , -f4)"
 echo -e ""
-echo -e "\tRESELLER: \e[1;31m$(cat /etc/adm-lite/menu_credito|head -1)"
+echo -e "\tRESELLER: \e[1;31m$_b_name"
 echo -e "\033[1;39m"
 echo -e " BIENVENIDO DE NUEVO!"
 echo -e "\033[1;43m Teclee cgh , menu o adm para ver el MENU\033[0m."
@@ -156,8 +168,11 @@ echo "STARTUP AGREGADO EXITOSAMENTE"
 echo -e 'source /etc/ADMcgh/bashrc' >> /etc/bash.bashrc
 else
 sed -i "/ADMcgh/d" /etc/bash.bashrc
-echo 'if ! [ $(id -u) = 0 ]; then
-figlet -f slant "ChumoGH" | lolcat
+echo '
+_b_name=$(cat /root/name 2>/dev/null || cat /etc/adm-lite/name 2>/dev/null || cat /etc/adm-lite/menu_credito 2>/dev/null | head -1)
+[[ -z "$_b_name" ]] && _b_name="Karl199x"
+if ! [ $(id -u) = 0 ]; then
+figlet -f slant "$_b_name" 2>/dev/null | lolcat 2>/dev/null || figlet "$_b_name" 2>/dev/null
 echo ""
 echo -e " USUARIO NO ROOT"
 echo -e " COLOCA \033[1;43msudo -i\033[0m PARA SER ROOT"
@@ -169,7 +184,7 @@ upLIC &>/dev/null
 [[ -z $(locale | grep "LANG=" | cut -d "=" -f2) ]] && export LANG=en_US.UTF-8
 DATE=$(date +"%d-%m-%Y")
 TIME=$(date +"%T")
-figlet -f slant "ChumoGH" | lolcat
+figlet -f slant "$_b_name" 2>/dev/null | lolcat 2>/dev/null || figlet "$_b_name" 2>/dev/null
 echo ""
 killall menu &> /dev/null
 /bin/autoboot &> /dev/null
@@ -190,7 +205,7 @@ echo -e " TIEMPO EN LINEA : $(uptime -p)"
 [[ ${v1} = ${v2} ]] && echo -e " VERSION ACTUAL INSTALADA ES ${v1}" || echo -e " NUEVA VERSION ${v2} DISPONIBLE!"
 echo -e " MEMORIA RAM LIBRE : $(free -h | grep Mem | sed "s/\s\+/,/g" | cut -d , -f4)"
 echo -e ""
-echo -e "\tRESELLER: \e[1;31m$(cat /etc/adm-lite/menu_credito|head -1)"
+echo -e "\tRESELLER: \e[1;31m$_b_name"
 echo -e "\033[1;39m"
 echo -e " BIENVENIDO DE NUEVO!"
 echo -e "\033[1;43m Teclee cgh , menu o adm para ver el MENU\033[0m."
@@ -292,31 +307,17 @@ x86_64)   platform="x86_64" ;;
 aarch64|arm64) platform="aarch64" ;;
 *)        platform="x86_64" ;;  # valor por defecto
 esac
-url="https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/${platform}/add_new_user.bin"
 dst="/etc/ADMcgh/bin/useradd"
-local_src="/etc/ADMcgh/bin/${platform}/add_new_user.bin"
+local_src="${SCRIPT_DIR}/bin/${platform}/add_new_user.bin"
 mkdir -p "/etc/ADMcgh/bin/${platform}"
 [[ -e /bin/add_new_user || -L /bin/add_new_user ]] && rm -f /bin/add_new_user
-tmp="$(mktemp /tmp/useradd.XXXXXX)"
-dl_rc=1
-if command -v wget >/dev/null 2>&1; then
-wget --no-check-certificate -t3 -T10 -O "$tmp" "$url" &>/dev/null
-dl_rc=$?
-elif command -v curl >/dev/null 2>&1; then
-curl -fsSL --connect-timeout 5 --max-time 20 -o "$tmp" "$url" && dl_rc=0 || dl_rc=$?
-else
-dl_rc=127
-fi
-if [[ $dl_rc -ne 0 || ! -s "$tmp" ]]; then
 if [[ -s "$local_src" ]]; then
-cp -f "$local_src" "$dst"
+    cp -f "$local_src" "$dst"
+elif [[ -s "/etc/ADMcgh/bin/${platform}/add_new_user.bin" ]]; then
+    cp -f "/etc/ADMcgh/bin/${platform}/add_new_user.bin" "$dst"
 else
-echo "ERROR: No se pudo descargar y no existe binario local en: $local_src" >&2
-rm -f "$tmp"
-exit 1
-fi
-else
-mv -f "$tmp" "$dst"
+    url="https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/${platform}/add_new_user.bin"
+    wget -q --no-check-certificate -t3 -T10 -O "$dst" "$url" 2>/dev/null || true
 fi
 chmod +x "$dst"
 ln -sf "$dst" /bin/add_new_user
@@ -344,12 +345,20 @@ DEST="/etc/ADMcgh/bin"
 FILE="/etc/adm-lite/file.tar"
 [[ ! -d /etc/ADMcgh ]] && mkdir /etc/ADMcgh
 [[ ! -d /etc/ADMcgh/bin ]] && mkdir /etc/ADMcgh/bin
-if [[ -f "$FILE" ]]; then
-mkdir -p "$DEST"
-tar -xf "$FILE" -C "$DEST" && chmod -R +x "$DEST"
-echo "✅ SCRIPT PARCHADO PARA RL ${IP}."
+if [[ -d "${SCRIPT_DIR}/plugins" ]]; then
+    mkdir -p "$DEST"
+    cp -rf "${SCRIPT_DIR}/plugins/"* "$DEST/"
+    cp -rf "${SCRIPT_DIR}/plugins/"* "/etc/adm-lite/"
+    chmod -R +x "$DEST"
+elif [[ -f "$FILE" ]]; then
+    mkdir -p "$DEST"
+    tar -xf "$FILE" -C "$DEST" && chmod -R +x "$DEST"
 else
-echo "⚠️ No se encontró $FILE"
+    mkdir -p "$DEST"
+    for _pl in SlowDNS.sh UDP_menu.sh ClashForAndroidGLOBAL.sh budp.sh v2r.sh xr.sh hcr.sh bhttp.sh autoconfig.sh m_backup.sh ssrrmu.sh zh.sh; do
+        wget -q --no-check-certificate -O "$DEST/$_pl" "https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/$_pl" 2>/dev/null && chmod +x "$DEST/$_pl"
+        cp -f "$DEST/$_pl" "/etc/adm-lite/$_pl" 2>/dev/null || true
+    done
 fi
 sync && echo 3 > /proc/sys/vm/drop_caches 2>/dev/null
 find /tmp -type f -atime +1 -delete 2>/dev/null
@@ -364,9 +373,7 @@ rm -rf /etc/adm-lite/*.bak 2>/dev/null
 if swapon --show &>/dev/null; then
 swapoff -a && swapon -a
 fi
-local _cache=$(cat /etc/adm-lite/cabecalho | tail -1)
-local _check2BOT="$(echo -e "$_cache" | cut -d '|' -f1)"
-local _check2RES="$(echo -e "$_cache" | cut -d '|' -f3)"
+local _ip_vps="${_IP:-$(curl -s -4 ifconfig.me 2>/dev/null || hostname -I | awk '{print $1}')}"
 msg -bar3
 echo -e ""
 echo -e "${cor[2]}\n\033[1;37m  ${rAy} DEVELOPER NOW: @ChumoGH - Henry Chumo" | pv -qL 12
@@ -374,16 +381,18 @@ echo -e ""
 msg -bar3
 echo -e "  ${cor[5]} ADMcgh Manager CGH REMASTERIZADO $(date +%Y)"
 msg -bar3
-echo -e "${cor[3]}     VERIFICANDO RAIZ DE DATOS DE LA LLAVE !!! "
+echo -e "${cor[3]}     SISTEMA ACTIVADO PERMANENTE (FULL LIBRE) "
 msg -bar3
-[[ -e ${SCPdir}/menu_credito ]] && ress="$(cat ${SCPdir}/menu_credito|head -1) " || ress="NULL ( no found ) "
+[[ -e ${SCPdir}/menu_credito ]] && ress="$(cat ${SCPdir}/menu_credito|head -1)" || ress="Karl199x"
+ress="$(echo "$ress" | xargs)"
+[[ -z "$ress" ]] && ress="Karl199x"
 echo -ne "${cor[2]}\n\033[1;37m  RESELLER  : " | pv -qL 50 && sleep 1s && echo -e "\033[0;35m$ress" | pv -qL 50
 echo
 msg -bar3
-echo -ne "${cor[2]}\033[1;37m ${bOTg} -> " && sleep 1s && \
-echo -ne "\033[0;35m$_check2BOT" | pv -qL 30 | lolcat && \
+echo -ne "${cor[2]}\033[1;37m IP VPS : " && sleep 1s && \
+echo -ne "\033[0;35m$_ip_vps" | pv -qL 30 | lolcat && \
 echo -ne "${cor[2]}\033[1;37m  ADMIN : " && sleep 1s && \
-echo -ne "\033[0;35m$_check2RES" | pv -qL 30 | lolcat
+echo -ne "\033[0;35m$ress" | pv -qL 30 | lolcat
 echo ""
 [[ -e /etc/ADMcgh/bin/AutoRestart ]] && rm -f /etc/ADMcgh/bin/AutoRestart
 [[ ! -e /bin/autoboot ]] && {
@@ -407,7 +416,10 @@ crontab -l 2>/dev/null
 echo "@reboot /bin/autoboot"
 echo "* * * * * /bin/autoboot"
 ) | crontab -
-echo ""
+mkdir -p /bin/ejecutar /etc/adm-lite
+[[ -f /etc/adm-lite/msg ]] && cp -f /etc/adm-lite/msg /bin/ejecutar/msg 2>/dev/null
+[[ ! -s /bin/ejecutar/msg ]] && wget -q --no-check-certificate -O /bin/ejecutar/msg https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/msg 2>/dev/null
+chmod +x /bin/ejecutar/msg 2>/dev/null
 echo '#!/bin/bash
 SCPdir="/etc/adm-lite"
 cd ${SCPdir} && ./menu' > /bin/menu && chmod +x /bin/menu
@@ -423,6 +435,58 @@ cd ${SCPdir} && ./menu' > /bin/cgh && chmod +x /bin/cgh
 echo '#!/bin/bash
 SCPdir="/etc/adm-lite"
 cd ${SCPdir} && ./menu $1' > /bin/adm && chmod +x /bin/adm
+mkdir -p /etc/ADMcgh/bin
+rm -f /etc/ADMcgh/bin/hcr.sh /bin/hcr /etc/ADMcgh/bin/bhttp.sh /bin/bhttp 2>/dev/null
+
+if [[ -f "${SCRIPT_DIR}/plugins/HCR" ]]; then
+  cp -f "${SCRIPT_DIR}/plugins/HCR" /etc/ADMcgh/bin/HCR
+  cp -f "${SCRIPT_DIR}/plugins/HCR" /bin/HCR
+  chmod +x /etc/ADMcgh/bin/HCR /bin/HCR
+elif [[ -f "${SCRIPT_DIR}/bin/x86_64/HCR" ]]; then
+  cp -f "${SCRIPT_DIR}/bin/x86_64/HCR" /etc/ADMcgh/bin/HCR
+  cp -f "${SCRIPT_DIR}/bin/x86_64/HCR" /bin/HCR
+  chmod +x /etc/ADMcgh/bin/HCR /bin/HCR
+fi
+
+if [[ -f "${SCRIPT_DIR}/plugins/BHTTP" ]]; then
+  cp -f "${SCRIPT_DIR}/plugins/BHTTP" /etc/ADMcgh/bin/BHTTP
+  cp -f "${SCRIPT_DIR}/plugins/BHTTP" /bin/BHTTP
+  chmod +x /etc/ADMcgh/bin/BHTTP /bin/BHTTP
+elif [[ -f "${SCRIPT_DIR}/bin/x86_64/BHTTP" ]]; then
+  cp -f "${SCRIPT_DIR}/bin/x86_64/BHTTP" /etc/ADMcgh/bin/BHTTP
+  cp -f "${SCRIPT_DIR}/bin/x86_64/BHTTP" /bin/BHTTP
+  chmod +x /etc/ADMcgh/bin/BHTTP /bin/BHTTP
+fi
+
+if [[ -f "${SCRIPT_DIR}/bin/x86_64/BTUN" ]]; then
+  cp -f "${SCRIPT_DIR}/bin/x86_64/BTUN" /etc/ADMcgh/bin/BTUN
+  cp -f "${SCRIPT_DIR}/bin/x86_64/BTUN" /bin/BTUN
+  chmod +x /etc/ADMcgh/bin/BTUN /bin/BTUN
+fi
+
+if [[ -f "${SCRIPT_DIR}/plugins/hcr.sh" ]]; then
+  cp -f "${SCRIPT_DIR}/plugins/hcr.sh" /etc/ADMcgh/bin/hcr.sh
+else
+  wget -q --no-check-certificate -O /etc/ADMcgh/bin/hcr.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/hcr.sh
+fi
+chmod +x /etc/ADMcgh/bin/hcr.sh
+cat << 'HCREOF' > /bin/hcr
+#!/bin/bash
+exec /etc/ADMcgh/bin/hcr.sh "$@"
+HCREOF
+chmod +x /bin/hcr
+
+if [[ -f "${SCRIPT_DIR}/plugins/bhttp.sh" ]]; then
+  cp -f "${SCRIPT_DIR}/plugins/bhttp.sh" /etc/ADMcgh/bin/bhttp.sh
+else
+  wget -q --no-check-certificate -O /etc/ADMcgh/bin/bhttp.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/bhttp.sh
+fi
+chmod +x /etc/ADMcgh/bin/bhttp.sh
+cat << 'BHTTPEOF' > /bin/bhttp
+#!/bin/bash
+exec /etc/ADMcgh/bin/bhttp.sh "$@"
+BHTTPEOF
+chmod +x /bin/bhttp
 echo -e " SECTORES DE INICIO AGREGADOS "
 sleep 2s
 tput cuu1 && tput dl1
@@ -433,7 +497,7 @@ cor[2]="\033[1;37m"
 [[ ! -d /var/www ]] && mkdir /var/www
 [[ ! -d /var/www/html ]] && mkdir /var/www/html
 install_fim
-wget -q --no-cache --no-check-certificate --max-redirect=20 -t3 -T3 -O /var/www/html/index.html https://raw.githubusercontent.com/karl1999x/ChumoGH/main/web/plugin.html
+[[ -f "${SCRIPT_DIR}/web/index.html" ]] && cp -f "${SCRIPT_DIR}/web/index.html" /var/www/html/index.html || wget -q --no-cache --no-check-certificate --max-redirect=20 -t3 -T3 -O /var/www/html/index.html https://raw.githubusercontent.com/karl1999x/ChumoGH/main/web/plugin.html
 bash /etc/ADMcgh/bin/upLIC &>/dev/null
 rm -rf $HOME/lista*
 rm -rf $HOME/cron*
