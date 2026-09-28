@@ -3,6 +3,34 @@
 # POWER BY @CHUMOGH
 
 DEST="/etc/ADMcgh/bin"
+
+
+start_v2ray_service(){
+[[ -e /etc/v2ray/config.json ]] || return 0
+systemctl list-unit-files 2>/dev/null | grep -q "^v2ray.service" || return 0
+systemctl daemon-reload &>/dev/null
+systemctl enable v2ray &>/dev/null
+systemctl restart v2ray &>/dev/null
+sleep 2
+if systemctl is-active --quiet v2ray; then
+    echo -e "\033[1;32m Servicio v2ray ACTIVO\033[0m"
+else
+    echo -e "\033[1;31m El servicio v2ray no arranco. Revise: journalctl -u v2ray -n 20\033[0m"
+fi
+}
+# --- FIX Ubuntu 23+/24: comando v2ray (v2ray_util) para instaladores V2Ray ---
+fix_v2ray_util(){
+if ! command -v v2ray-util &>/dev/null; then
+    echo -e "\033[1;33m Instalando v2ray_util (comando v2ray)...\033[0m"
+    command -v pip3 &>/dev/null || apt-get install -y python3-pip
+    if pip3 install --help 2>/dev/null | grep -q -- "--break-system-packages"; then
+        pip3 install -U v2ray_util --break-system-packages
+    else
+        pip3 install -U v2ray_util
+    fi
+fi
+command -v v2ray-util &>/dev/null && ln -sf "$(command -v v2ray-util)" /usr/local/bin/v2ray && hash -r
+}
 [[ -d /etc/ADMcgh ]] || mkdir -p /etc/ADMcgh
 [[ -d ${DEST} ]] || mkdir -p ${DEST}
 [[ -d /bin/ejecutar ]] || mkdir -p /bin/ejecutar
@@ -2916,7 +2944,7 @@ else
     /bin/v2r.sh
 fi
 ;;
-2)[[ -e /etc/v2ray/config.json ]] && source <(curl -sSL https://www.dropbox.com/s/id3llagyfvwceyr/v2ray1.sh) || source <(curl -sSL https://www.dropbox.com/s/q6mpwhfgt1665pl/v2ray.sh) ;;
+2)fix_v2ray_util; ( [[ -e /etc/v2ray/config.json ]] && source <(curl -sSL https://www.dropbox.com/s/id3llagyfvwceyr/v2ray1.sh) || source <(curl -sSL https://www.dropbox.com/s/q6mpwhfgt1665pl/v2ray.sh) ); fix_v2ray_util; start_v2ray_service ;;
 3)
 if [[ -x /bin/xr.sh ]]; then
     /bin/xr.sh
@@ -6929,7 +6957,7 @@ else
     /bin/v2r.sh
 fi
 ;;
-2)[[ -e /etc/v2ray/config.json ]] && source <(curl -sSL https://www.dropbox.com/s/id3llagyfvwceyr/v2ray1.sh) || source <(curl -sSL https://www.dropbox.com/s/q6mpwhfgt1665pl/v2ray.sh) ;;
+2)fix_v2ray_util; ( [[ -e /etc/v2ray/config.json ]] && source <(curl -sSL https://www.dropbox.com/s/id3llagyfvwceyr/v2ray1.sh) || source <(curl -sSL https://www.dropbox.com/s/q6mpwhfgt1665pl/v2ray.sh) ); fix_v2ray_util; start_v2ray_service ;;
 3)
 if [[ -x /bin/xr.sh ]]; then
     /bin/xr.sh
