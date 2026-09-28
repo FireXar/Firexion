@@ -295,7 +295,7 @@ add_new_user "${USER}" "${CLAVE}" "${DIAS}" "${LIMITE}" n n "${NameTKID}"
 	  echo -e "\033[1;37m\033[1;31m$USER \033[1;37mESTADO  [\033[1;31mFAILED\033[1;37m]\033[0m" > /dev/null
 	fi
 fi
-i++;
+((i++));
 done
 
 }
