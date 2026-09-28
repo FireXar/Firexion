@@ -1018,7 +1018,29 @@ done
 
 
 recuva1 () {
-${DEST}/m_backup.sh
+    local bkp_script=""
+    if [[ -f /etc/ADMcgh/bin/m_backup.sh && -s /etc/ADMcgh/bin/m_backup.sh ]]; then
+        bkp_script="/etc/ADMcgh/bin/m_backup.sh"
+    elif [[ -f /etc/adm-lite/m_backup.sh && -s /etc/adm-lite/m_backup.sh ]]; then
+        bkp_script="/etc/adm-lite/m_backup.sh"
+    elif [[ -f /etc/ADMcgh/bin/flouds.sh && -s /etc/ADMcgh/bin/flouds.sh ]]; then
+        bkp_script="/etc/ADMcgh/bin/flouds.sh"
+    elif [[ -f /etc/adm-lite/flouds.sh && -s /etc/adm-lite/flouds.sh ]]; then
+        bkp_script="/etc/adm-lite/flouds.sh"
+    else
+        mkdir -p /etc/ADMcgh/bin /etc/adm-lite
+        wget -q --no-check-certificate -O /etc/ADMcgh/bin/m_backup.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/m_backup.sh 2>/dev/null
+        cp -f /etc/ADMcgh/bin/m_backup.sh /etc/adm-lite/m_backup.sh 2>/dev/null
+        chmod +x /etc/ADMcgh/bin/m_backup.sh /etc/adm-lite/m_backup.sh 2>/dev/null
+        bkp_script="/etc/ADMcgh/bin/m_backup.sh"
+    fi
+
+    if [[ -f "$bkp_script" ]]; then
+        chmod +x "$bkp_script" 2>/dev/null
+        bash "$bkp_script"
+    else
+        echo -e "\033[1;31m[ERROR] No se pudo encontrar ni descargar m_backup.sh\033[0m"
+    fi
 }
 
 function criarusuarioteste() {
@@ -2943,7 +2965,7 @@ read -p " ¡Enter, para volver!"
 Call.UserS
 ;;
 9)
-cd /etc/adm-lite/ && recuva1
+recuva1
 echo -ne "${cor[5]}"
 read -p " ¡Enter, para volver!"
 Call.UserS
