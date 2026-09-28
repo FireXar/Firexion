@@ -7081,7 +7081,12 @@ fi
 ;;
 4)[[ -e /etc/v2ray/config.json ]] && v2ray || echo -e "SERVICE NO INSTALL, PLEASE INSTALL TO CONTINUE!!" && sleep 5s;;
 5)[[ -e /usr/bin/x-ui ]] && x-ui || v2ui;;
-6)clear&&clear
+6)
+if [[ -e /usr/local/x-ui/x-ui || -e /etc/systemd/system/x-ui.service ]] && command -v x-ui &>/dev/null; then
+    x-ui
+    return 0
+fi
+clear&&clear
 msg -bar3
 print_center -verm " ADVERTENCIA !!! "
 msg -bar3
