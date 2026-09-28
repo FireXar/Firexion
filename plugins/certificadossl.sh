@@ -6,7 +6,7 @@
 #  NO SEAS RATA Y CONFIERE SOLICITUD DIRECTO CON EL DESARROLLADOR !! #
 
 source <(curl -sSL https://www.dropbox.com/s/pklv3rdkf0kkemm/module)
-source <(curl -sSL https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/styles.cpp)
+[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -fsSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/styles.cpp 2>/dev/null)
 ADM_crt='/data'
 ADM_tmp='/etc/ADMcgh/tmp'
 Key=""

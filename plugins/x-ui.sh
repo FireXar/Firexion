@@ -5,7 +5,30 @@ green='\033[0;32m'
 yellow='\033[0;33m'
 plain='\033[0m'
 
-source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/Plugins/system/styles.cpp)
+if [[ -f /bin/ejecutar/msg ]]; then
+    source /bin/ejecutar/msg
+elif [[ -f /etc/adm-lite/msg ]]; then
+    source /etc/adm-lite/msg
+else
+    source <(curl -fsSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/styles.cpp 2>/dev/null || curl -fsSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/msg 2>/dev/null)
+fi
+
+command -v msg >/dev/null 2>&1 || msg() {
+    case "$1" in
+        -bar|-bar2|-bar3|-bar4) echo -e "\033[1;37m=====================================================\033[0m";;
+        -verm|-verm2) echo -e "\033[1;31m$2\033[0m";;
+        -verd) echo -e "\033[1;32m$2\033[0m";;
+        -ama) echo -e "\033[1;33m$2\033[0m";;
+        -azu) echo -e "\033[1;34m$2\033[0m";;
+        *) echo -e "$*";;
+    esac
+}
+command -v print_center >/dev/null 2>&1 || print_center() {
+    if [[ $# -gt 1 ]]; then echo -e "$2"; else echo -e "$1"; fi
+}
+command -v title >/dev/null 2>&1 || title() {
+    clear; echo -e "\033[1;33m=== $1 ===\033[0m"; msg -bar3
+}
 
 function chekKEY { return 0; }
 

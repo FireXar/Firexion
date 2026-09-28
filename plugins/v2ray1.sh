@@ -1,7 +1,7 @@
 #!/bin/bash
 #24/10/2022
 #UPDATE : 30/03/2024
-[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -sSL https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/styles.cpp)
+[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || [[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -fsSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/styles.cpp 2>/dev/null)
 rm -f /tmp/*
 clear&&clear
 SCPdir="/etc/adm-lite"

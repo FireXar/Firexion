@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -sSL https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/system/styles.cpp)
+[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || [[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -fsSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/styles.cpp 2>/dev/null)
 
 clear&&clear
 SCPinst="/etc/adm-lite"&& [[ ! -d ${SCPinst} ]] && exit 
