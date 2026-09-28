@@ -1252,6 +1252,19 @@ else
     blanco "No se pudo instalar v2ray_util, revise el log de pip"
 fi
 }
+start_v2ray_service(){
+[[ -e /etc/v2ray/config.json ]] || return 0
+systemctl list-unit-files 2>/dev/null | grep -q "^v2ray.service" || return 0
+systemctl daemon-reload &>/dev/null
+systemctl enable v2ray &>/dev/null
+systemctl restart v2ray &>/dev/null
+sleep 2
+if systemctl is-active --quiet v2ray; then
+    echo -e "\033[1;32m Servicio v2ray ACTIVO\033[0m"
+else
+    echo -e "\033[1;31m El servicio v2ray no arranco. Revise: journalctl -u v2ray -n 20\033[0m"
+fi
+}
 install(){
 clear
 install_ini
@@ -1268,7 +1281,7 @@ read foo
 config='/etc/v2ray/config.json'
 tmp='/etc/v2ray/temp.json'
 fix_v2ray_util
-source <(curl -sSL https://www.dropbox.com/s/q6mpwhfgt1665pl/v2ray.sh)
+( source <(curl -sSL https://www.dropbox.com/s/q6mpwhfgt1665pl/v2ray.sh) )
 fix_v2ray_util
 echo '[Unit]
 Description=V2Ray Service
@@ -1285,10 +1298,7 @@ Restart=always
 RestartSec=3s
 [Install]
 WantedBy=multi-user.target' > /etc/systemd/system/v2ray.service
-systemctl daemon-reload &>/dev/null
-systemctl start v2ray &>/dev/null
-systemctl enable v2ray &>/dev/null
-systemctl restart v2ray.service
+start_v2ray_service
 msg -bar3
 read -p ""
 }
