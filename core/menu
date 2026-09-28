@@ -2900,9 +2900,39 @@ print_center '\e[97m\033[1;41m MENUS V2RAY REFACTORIZADOS\033[0m'
 menu_item "MENU LITE  V2RAY  MultiCuentas  \033[0;32m(#OFICIAL)   " "V2RAY MENU CUSTOM MultiCuentas  \033[0;32m(#OFICIAL)" "MENU LITE   XRAY  MultiCuentas  \033[0;32m(#OFICIAL)   " "MENU LITE TROJAN MultiCuentas  \033[0;32m(#OFICIAL)"
 selection=$(selection_fun 4)
 case ${selection} in
-1)[[ $(which v2r.sh) ]] && $(which v2r.sh) || { [[ -f /etc/ADMcgh/bin/v2r.bin ]] && cp /etc/ADMcgh/bin/v2r.bin /bin/v2r.sh || (wget -q --no-check-certificate -t3 -T3 -O /bin/v2r.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/v2r.bin 2>/dev/null || wget -q --no-check-certificate -t3 -T3 -O /bin/v2r.sh https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/V2ray/v2r.sh/v2r.bin); } && chmod +x /bin/v2r.sh && /bin/v2r.sh;;
+1)
+if [[ -x /bin/v2r.sh ]]; then
+    /bin/v2r.sh
+else
+    rm -f /bin/v2r.sh 2>/dev/null
+    if [[ -s ${DEST}/v2r.sh ]]; then
+        cp -f ${DEST}/v2r.sh /bin/v2r.sh
+    elif [[ -s ${DEST}/v2r.bin ]]; then
+        cp -f ${DEST}/v2r.bin /bin/v2r.sh
+    else
+        wget -q --no-check-certificate -t3 -T3 -O /bin/v2r.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/v2r.sh 2>/dev/null || wget -q --no-check-certificate -t3 -T3 -O /bin/v2r.sh https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/V2ray/v2r.sh/v2r.bin
+    fi
+    chmod +x /bin/v2r.sh
+    /bin/v2r.sh
+fi
+;;
 2)[[ -e /etc/v2ray/config.json ]] && source <(curl -sSL https://www.dropbox.com/s/id3llagyfvwceyr/v2ray1.sh) || source <(curl -sSL https://www.dropbox.com/s/q6mpwhfgt1665pl/v2ray.sh) ;;
-3)[[ $(which xr.sh) ]] && $(which xr.sh) || { [[ -f /etc/ADMcgh/bin/xr.bin ]] && cp /etc/ADMcgh/bin/xr.bin /bin/xr.sh || (wget -q --no-check-certificate -t3 -T3 -O /bin/xr.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/xr.bin 2>/dev/null || wget -q --no-check-certificate -t3 -T3 -O /bin/xr.sh https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/V2ray/v2r.sh/xr.bin); } && chmod +x /bin/xr.sh && /bin/xr.sh ;;
+3)
+if [[ -x /bin/xr.sh ]]; then
+    /bin/xr.sh
+else
+    rm -f /bin/xr.sh 2>/dev/null
+    if [[ -s ${DEST}/xr.sh ]]; then
+        cp -f ${DEST}/xr.sh /bin/xr.sh
+    elif [[ -s ${DEST}/xr.bin ]]; then
+        cp -f ${DEST}/xr.bin /bin/xr.sh
+    else
+        wget -q --no-check-certificate -t3 -T3 -O /bin/xr.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/xr.sh 2>/dev/null || wget -q --no-check-certificate -t3 -T3 -O /bin/xr.sh https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/V2ray/v2r.sh/xr.bin
+    fi
+    chmod +x /bin/xr.sh
+    /bin/xr.sh
+fi
+;;
 4)[[ $(which troj.sh) ]] && $(which troj.sh) || troj.sh;; 
 0)return 0 ;;
 esac
@@ -6883,9 +6913,39 @@ echo -e " \033[0;35m[\033[0;36m7\033[0;35m] \033[0;34m${flech}\033[0;33m  DESINS
 msg -bar3 
 selection=$(selection_fun 7)
 case ${selection} in
-1)[[ $(which v2r.sh) ]] && $(which v2r.sh) || ln -s ${DEST}/v2r.bin /bin/v2r.sh && /bin/v2r.sh;;
+1)
+if [[ -x /bin/v2r.sh ]]; then
+    /bin/v2r.sh
+else
+    rm -f /bin/v2r.sh 2>/dev/null
+    if [[ -s ${DEST}/v2r.sh ]]; then
+        cp -f ${DEST}/v2r.sh /bin/v2r.sh
+    elif [[ -s ${DEST}/v2r.bin ]]; then
+        cp -f ${DEST}/v2r.bin /bin/v2r.sh
+    else
+        wget -q --no-check-certificate -t3 -T3 -O /bin/v2r.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/v2r.sh 2>/dev/null || wget -q --no-check-certificate -t3 -T3 -O /bin/v2r.sh https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/V2ray/v2r.sh/v2r.bin
+    fi
+    chmod +x /bin/v2r.sh
+    /bin/v2r.sh
+fi
+;;
 2)[[ -e /etc/v2ray/config.json ]] && source <(curl -sSL https://www.dropbox.com/s/id3llagyfvwceyr/v2ray1.sh) || source <(curl -sSL https://www.dropbox.com/s/q6mpwhfgt1665pl/v2ray.sh) ;;
-3)[[ $(which xr.sh) ]] && $(which xr.sh) || ln -s ${DEST}/xr.bin /bin/xr.sh && /bin/xr.sh ;;
+3)
+if [[ -x /bin/xr.sh ]]; then
+    /bin/xr.sh
+else
+    rm -f /bin/xr.sh 2>/dev/null
+    if [[ -s ${DEST}/xr.sh ]]; then
+        cp -f ${DEST}/xr.sh /bin/xr.sh
+    elif [[ -s ${DEST}/xr.bin ]]; then
+        cp -f ${DEST}/xr.bin /bin/xr.sh
+    else
+        wget -q --no-check-certificate -t3 -T3 -O /bin/xr.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/xr.sh 2>/dev/null || wget -q --no-check-certificate -t3 -T3 -O /bin/xr.sh https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/Plugins/V2ray/v2r.sh/xr.bin
+    fi
+    chmod +x /bin/xr.sh
+    /bin/xr.sh
+fi
+;;
 4)[[ -e /etc/v2ray/config.json ]] && v2ray || echo -e "SERVICE NO INSTALL, PLEASE INSTALL TO CONTINUE!!" && sleep 5s;;
 5)[[ -e /usr/bin/x-ui ]] && x-ui || v2ui;;
 6)clear&&clear
