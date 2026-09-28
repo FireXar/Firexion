@@ -1234,12 +1234,30 @@ restart_v2r
 sleep 0.2
 done
 }
+fix_v2ray_util(){
+# --- FIX Ubuntu 23+/24 y Debian 12: instalar v2ray_util (comando v2ray) ---
+if ! command -v v2ray-util &>/dev/null; then
+    blanco "Instalando v2ray_util (comando v2ray)..."
+    command -v pip3 &>/dev/null || apt-get install -y python3-pip
+    if pip3 install --help 2>/dev/null | grep -q -- "--break-system-packages"; then
+        pip3 install -U v2ray_util --break-system-packages
+    else
+        pip3 install -U v2ray_util
+    fi
+fi
+if command -v v2ray-util &>/dev/null; then
+    ln -sf "$(command -v v2ray-util)" /usr/local/bin/v2ray
+    hash -r
+else
+    blanco "No se pudo instalar v2ray_util, revise el log de pip"
+fi
+}
 install(){
 clear
 install_ini
 msg -bar3
 blanco "	Esta por intalar v2ray!"
-wget wget --no-check-certificate -t3 -T3 -O /bin/v2r.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/v2r.sh
+wget --no-check-certificate -t3 -T3 -O /bin/v2r.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/v2r.sh
 chmod +x /bin/v2r.sh
 msg -bar3
 blanco " La instalacion puede tener\n alguna fallas!\n por favor observe atentamente\n el log de intalacion,\n este podria contener informacion\n sobre algunos errores!\n estos deveras ser corregidos de\n forma manual antes de continual\n usando el script"
@@ -1249,7 +1267,9 @@ blanco "Enter para continuar..."
 read foo
 config='/etc/v2ray/config.json'
 tmp='/etc/v2ray/temp.json'
+fix_v2ray_util
 source <(curl -sSL https://www.dropbox.com/s/q6mpwhfgt1665pl/v2ray.sh)
+fix_v2ray_util
 echo '[Unit]
 Description=V2Ray Service
 After=network.target nss-lookup.target
@@ -1498,7 +1518,7 @@ done
 }
 _xray() {
 [[ -e /bin/xr.sh ]] && xr.sh || xray
-echo "source <(curl -sSL  https://www.dropbox.com/s/olvy10kff2wwe8f/xray_manager.sh)" > /bin/xr.sh
+echo "source <(curl -sSL  https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/xr.sh)" > /bin/xr.sh
 chmod +x /bin/xr.sh
 clear
 msg -bar3
