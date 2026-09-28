@@ -384,6 +384,8 @@ portFTP=$(echo -e "$_SFTP" |cut -d: -f2 | cut -d' ' -f1 | uniq)
 portFTP=$(echo ${portFTP} | sed 's/\s\+/,/g' | cut -d , -f1)
 v2rayports=`echo -e "$_STATUS" | grep v2ray | awk '{print substr($9,3); }'` > /dev/null 2>&1
 v2rayports=$(echo $v2rayports | awk {'print $1'})
+# --- FIX: detectar tambien puertos UDP (mKCP / QUIC) ---
+[[ -z $v2rayports ]] && v2rayports=$(ss -ulnp 2>/dev/null | grep '"v2ray"' | awk '{print $4}' | awk -F: '{print $NF}' | sort -u | head -1)
 local _tconex=$(netstat -nap | grep "$v2rayports" | grep v2ray | grep ESTABLISHED| grep tcp6 | awk {'print $5'} | awk -F ":" '{print $1}' | sort | uniq | wc -l)
 local v1=$(cat /etc/adm-lite/v-local.log)
 local v2=$(cat /bin/ejecutar/v-new.log)
