@@ -422,6 +422,8 @@ portFTP=$(echo -e "$_SFTP" |cut -d: -f2 | cut -d' ' -f1 | uniq)
 portFTP=$(echo ${portFTP} | sed 's/\s\+/,/g' | cut -d , -f1)
 v2rayports=`echo -e "$_STATUS" | grep xray | awk '{print substr($9,3); }'` > /dev/null 2>&1
 v2rayports=$(echo $v2rayports | awk {'print $1'})
+# --- FIX: detectar tambien puertos UDP (mKCP / QUIC) ---
+[[ -z $v2rayports ]] && v2rayports=$(ss -ulnp 2>/dev/null | grep '"xray"' | awk '{print $4}' | awk -F: '{print $NF}' | sort -u | head -1)
 local _tconex=$(netstat -nap | grep "$v2rayports" | grep xray | grep ESTABLISHED| grep tcp6 | awk {'print $5'} | awk -F ":" '{print $1}' | sort | uniq | wc -l)
 local v1=$(cat /etc/adm-lite/v-local.log)
 local v2=$(cat /bin/ejecutar/v-new.log)
@@ -1355,12 +1357,65 @@ restart_v2r
 sleep 0.2
 done
 }
+fix_xray_util(){
+# --- FIX Ubuntu 23+/24 y Debian 12: instalar v2ray_util (comandos v2ray / xray) ---
+if ! command -v v2ray-util &>/dev/null; then
+    blanco "Instalando v2ray_util (comando xray)..."
+    command -v pip3 &>/dev/null || apt-get install -y python3-pip
+    if pip3 install --help 2>/dev/null | grep -q -- "--break-system-packages"; then
+        pip3 install -U v2ray_util --break-system-packages
+    else
+        pip3 install -U v2ray_util
+    fi
+fi
+if command -v v2ray-util &>/dev/null; then
+    ln -sf "$(command -v v2ray-util)" /usr/local/bin/xray
+    [[ -e /usr/local/bin/v2ray ]] || ln -sf "$(command -v v2ray-util)" /usr/local/bin/v2ray
+    hash -r
+else
+    blanco "No se pudo instalar v2ray_util, revise el log de pip"
+fi
+}
+start_xray_service(){
+[[ -e /etc/xray/config.json ]] || return 0
+systemctl daemon-reload &>/dev/null
+systemctl enable xray &>/dev/null
+systemctl restart xray &>/dev/null
+sleep 2
+if systemctl is-active --quiet xray; then
+    echo -e "\033[1;32m Servicio xray ACTIVO\033[0m"
+else
+    echo -e "\033[1;31m El servicio xray no arranco. Revise: journalctl -u xray -n 20\033[0m"
+fi
+}
+install_xray_core(){
+# --- Instala el nucleo Xray en /usr/bin/xray (el enlace de Dropbox solo instala V2Ray) ---
+[[ -x /usr/bin/xray/xray ]] && return 0
+blanco "Instalando nucleo Xray..."
+bash <(curl -L -s https://multi.netlify.app/go.sh) -x
+[[ -x /usr/bin/xray/xray ]] && return 0
+local arch
+case $(uname -m) in
+    x86_64|amd64) arch="64" ;;
+    aarch64|arm64) arch="arm64-v8a" ;;
+    *) arch="64" ;;
+esac
+command -v unzip &>/dev/null || apt-get install -y unzip &>/dev/null
+mkdir -p /usr/bin/xray /tmp/xrayins
+if wget -q -O /tmp/xrayins/xray.zip "https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-${arch}.zip"; then
+    unzip -o -q /tmp/xrayins/xray.zip -d /usr/bin/xray/ && chmod +x /usr/bin/xray/xray
+fi
+rm -rf /tmp/xrayins
+[[ -x /usr/bin/xray/xray ]] && return 0
+blanco "No se pudo instalar el nucleo Xray"
+return 1
+}
 install(){
 clear
 install_ini
 msg -bar3
 blanco "	Esta por intalar xray!"
-wget wget --no-check-certificate -t3 -T3 -O /bin/xr.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/xr.sh
+wget --no-check-certificate -t3 -T3 -O /bin/xr.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/xr.sh
 chmod +x /bin/xr.sh
 msg -bar3
 blanco " La instalacion puede tener\n alguna fallas!\n por favor observe atentamente\n el log de intalacion,\n este podria contener informacion\n sobre algunos errores!\n estos deveras ser corregidos de\n forma manual antes de continual\n usando el script"
@@ -1370,9 +1425,13 @@ blanco "Enter para continuar..."
 read foo
 config='/etc/xray/config.json'
 tmp='/etc/xray/temp.json'
-source <(curl -sSL https://www.dropbox.com/s/q6mpwhfgt1665pl/xray.sh)
+fix_xray_util
+install_xray_core || { msg -bar3; read -p " Enter para continuar" foo; return 1; }
+mkdir -p /etc/xray /var/log/xray
+[[ -e /etc/v2ray_util/util.cfg ]] || { mkdir -p /etc/v2ray_util; curl -sL https://multi.netlify.app/v2ray_util/util_core/util.cfg > /etc/v2ray_util/util.cfg; }
+[[ -e /etc/xray/config.json ]] || xray new
 echo '[Unit]
-Description=V2Ray Service
+Description=Xray Service
 After=network.target nss-lookup.target
 StartLimitIntervalSec=0
 [Service]
@@ -1386,10 +1445,8 @@ Restart=always
 RestartSec=3s
 [Install]
 WantedBy=multi-user.target' > /etc/systemd/system/xray.service
-systemctl daemon-reload &>/dev/null
-systemctl start xray &>/dev/null
-systemctl enable xray &>/dev/null
-systemctl restart xray.service
+start_xray_service
+sleep 4
 clear&&clear
 title "   INSTALACION DE XRAY MOD MENU "
 echo -e " \033[0;31mEsta opcion es aparte, para habilitar XRAY Install"
@@ -1404,7 +1461,7 @@ case $opcion in
 msg -bar3
 [[ -e /bin/xr.sh ]] && xr.sh || {
 xray
-wget wget --no-check-certificate -t3 -T3 -O /bin/xr.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/xr.sh
+wget --no-check-certificate -t3 -T3 -O /bin/xr.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/xr.sh
 chmod +x /bin/xr.sh
 clear
 msg -bar3
@@ -1654,7 +1711,7 @@ done
 _xray() {
 [[ -e /bin/xr.sh ]] && xr.sh || {
 xray
-wget wget --no-check-certificate -t3 -T3 -O /bin/xr.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/xr.sh
+wget --no-check-certificate -t3 -T3 -O /bin/xr.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/xr.sh
 chmod +x /bin/xr.sh
 clear
 msg -bar3
@@ -1674,7 +1731,7 @@ read foo
 }
 }
 enon(){
-wget wget --no-check-certificate -t3 -T3 -O /bin/xr.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/xr.sh
+wget --no-check-certificate -t3 -T3 -O /bin/xr.sh https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/xr.sh
 chmod +x /bin/xr.sh
 clear
 msg -bar3
