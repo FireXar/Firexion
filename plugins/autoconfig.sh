@@ -6,7 +6,7 @@
 
 [[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/styles.cpp)
 
-ADM_inst="/etc/adm-lite" && [[ ! -d ${ADM_inst} ]] && exit
+ADM_inst="/etc/adm-lite" && [[ ! -d ${ADM_inst} ]] && mkdir -p ${ADM_inst}
 HOME_DIR=$HOME
 PY2_FILE="$HOME_DIR/PDirect80.py"
 PY3_FILE="$HOME_DIR/P3Direct80.py"

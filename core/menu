@@ -1345,7 +1345,7 @@ case ${selection} in
 return 
 ;;
 1|01)
-cd /etc/adm-lite/ && criarusuarioteste
+criarusuarioteste
 ;;
 2|02)
 call_cleanput "10"
@@ -2917,49 +2917,49 @@ source <(curl -sL https://raw.githubusercontent.com/ChumoGH/ChumoGH-Script/maste
 selection=$(selection_fun 14)
 case ${selection} in
 1)
-cd /etc/adm-lite/ && fun_us
+fun_us
 echo -ne "${cor[5]}"
 read -p " ¡Enter, para volver!"
 Call.UserS
 ;;
 2)
-cd /etc/adm-lite/ && function_2
+function_2
 echo -ne "${cor[5]}"
 read -p " ¡Enter, para volver!"
 Call.UserS
 ;;
 3)
-cd /etc/adm-lite/ && function_3
+function_3
 echo -ne "${cor[5]}"
 read -p " ¡Enter, para volver!"
 Call.UserS
 ;;
 4)
-cd /etc/adm-lite/ && function_4
+function_4
 echo -ne "${cor[5]}"
 read -p " ¡Enter, para volver!"
 Call.UserS
 ;;
 5)
-cd /etc/adm-lite/ && function_5
+function_5
 echo -ne "${cor[5]}"
 read -p " ¡Enter, para volver!"
 Call.UserS
 ;;
 6)
-cd /etc/adm-lite/ && Call.bannerSSH
+Call.bannerSSH
 echo -ne "${cor[5]}"
 read -p " ¡Enter, para volver!"
 Call.UserS
 ;;
 7)
-cd /etc/adm-lite/ && net_meter
+net_meter
 echo -ne "${cor[5]}"
 read -p " ¡Enter, para volver!"
 Call.UserS
 ;;
 8)
-cd /etc/adm-lite/ && block_user
+block_user
 echo -ne "${cor[5]}"
 read -p " ¡Enter, para volver!"
 Call.UserS
@@ -2971,19 +2971,19 @@ read -p " ¡Enter, para volver!"
 Call.UserS
 ;;
 10)
-cd /etc/adm-lite/ && ssrmenu
+ssrmenu
 echo -ne "${cor[5]}"
 read -p " ¡Enter, para volver!"
 Call.UserS
 ;;
 11)
-cd /etc/adm-lite/ && botusers
+botusers
 echo -ne "${cor[5]}"
 read -p " ¡Enter, para volver!"
 Call.UserS
 ;;
 12)
-cd /etc/adm-lite/ && consul_cli
+consul_cli
 echo -ne "${cor[5]}"
 read -p " ¡Enter, para volver!"
 Call.UserS

