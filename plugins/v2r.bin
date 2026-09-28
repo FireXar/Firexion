@@ -1283,7 +1283,7 @@ read foo
 config='/etc/v2ray/config.json'
 tmp='/etc/v2ray/temp.json'
 fix_v2ray_util
-( source <(curl -sSL https://www.dropbox.com/s/q6mpwhfgt1665pl/v2ray.sh) )
+( source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/v2ray.sh) )
 fix_v2ray_util
 echo '[Unit]
 Description=V2Ray Service

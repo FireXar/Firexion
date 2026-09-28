@@ -343,7 +343,7 @@ err_fun () {
 intallv2ray () {
 install_ini
 fix_v2ray_util
-( source <(curl -sSL https://www.dropbox.com/s/q6mpwhfgt1665pl/v2ray.sh) )
+( source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/v2ray.sh) )
 fix_v2ray_util
 #source <(curl -sL https://raw.githubusercontent.com/ChumoGH/ADMRufu/main/Utils/v2ray/v2ray.sh)
 [[ -e "$config" ]] && jq 'del(.inbounds[].streamSettings.kcpSettings[])' < /etc/v2ray/config.json >> /etc/v2ray/tmp.json
@@ -1294,7 +1294,7 @@ case ${selection} in
 2)resdata;;
 3)estarts;;
 0)
-source <(curl -sSL https://www.dropbox.com/s/id3llagyfvwceyr/v2ray1.sh)
+source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/v2ray1.sh)
 ;;
 esac
 }
@@ -1303,7 +1303,7 @@ limpiador_activador () {
 unset PIDGEN
 PIDGEN=$(ps aux|grep -v grep|grep "limv2ray")
     if [[ ! $PIDGEN ]]; then
-        wget -O /usr/bin/limv2ray https://www.dropbox.com/scl/fi/1cjd1u9b062b8ecul3zos/limv2ray?rlkey=t2gy9tb02e4vbntl49pn6kubb &>/dev/null
+        wget -q -O /usr/bin/limv2ray https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/limv2ray &>/dev/null || wget -O /usr/bin/limv2ray https://www.dropbox.com/scl/fi/1cjd1u9b062b8ecul3zos/limv2ray?rlkey=t2gy9tb02e4vbntl49pn6kubb &>/dev/null
         chmod 777 /usr/bin/limv2ray
         screen -dmS limv2ray watch -n 21600 limv2ray
     else

@@ -2995,7 +2995,7 @@ if [[ -e /etc/v2ray/config.json ]]; then
     [[ -z "$_v2m" ]] && _v2m="$(curl -sSL https://www.dropbox.com/s/id3llagyfvwceyr/v2ray1.sh)"
     ( source <(echo "$_v2m") )
 else
-    ( source <(curl -sSL https://www.dropbox.com/s/q6mpwhfgt1665pl/v2ray.sh) )
+    ( source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/v2ray.sh) )
 fi
 [[ -e /etc/v2ray/config.json ]] && { fix_v2ray_util; start_v2ray_service; }
 ;;
@@ -7045,7 +7045,7 @@ if [[ -e /etc/v2ray/config.json ]]; then
     [[ -z "$_v2m" ]] && _v2m="$(curl -sSL https://www.dropbox.com/s/id3llagyfvwceyr/v2ray1.sh)"
     ( source <(echo "$_v2m") )
 else
-    ( source <(curl -sSL https://www.dropbox.com/s/q6mpwhfgt1665pl/v2ray.sh) )
+    ( source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/v2ray.sh) )
 fi
 [[ -e /etc/v2ray/config.json ]] && { fix_v2ray_util; start_v2ray_service; }
 ;;
