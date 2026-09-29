@@ -19,10 +19,10 @@ clear&&clear
 msg -bar3
 echo -e "${cor[2]} CONFIGURACION DE BANNER Y RESELLER"
 msg -bar3
-read -t 30 -p " Nombre del Servidor / Banner (ENTER para encabezado oficial ChumoGH Plus): " -e -i "" _nameS
+read -t 30 -p " Nombre del Servidor / Banner (ENTER para default ChumoGH): " -e -i "" _nameS
 if [[ -z "$_nameS" ]]; then
     rm -f /etc/adm-lite/name /root/name
-    echo -e " ${CHeko} \033[1;32mEncabezado activado: \033[1;33mChumoGH Plus\033[0m"
+    echo -e " ${CHeko} \033[1;32mBanner por defecto activado: \033[1;33mChumoGH\033[0m"
     _banner_title="ChumoGH"
 else
     _nameS="${_nameS:0:15}"
@@ -52,6 +52,7 @@ msg -bar3
 if [[ -n "$_nameS" ]]; then
     command -v figlet >/dev/null && figlet "$_nameS" | lolcat 2>/dev/null || figlet "$_nameS" 2>/dev/null
 else
+    command -v figlet >/dev/null && figlet -f slant "ChumoGH" 2>/dev/null | lolcat 2>/dev/null || figlet "ChumoGH" 2>/dev/null
     echo -e " \033[1;44;44m   \033[1;33m  ${TTini} ChumoGH ${TTcent} Plus ${TTfin}     \033[0m"
 fi
 sleep 2s

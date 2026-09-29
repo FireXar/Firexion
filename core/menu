@@ -4044,10 +4044,10 @@ else
 fi
 echo -e "${cor[3]} Reseller actual : \033[1;32m$cur_reseller\033[0m"
 msg -bar3
-echo -ne "\033[1;37m Nuevo Banner (ENTER para dejar oficial ChumoGH Plus): \033[0m" && read new_banner
+echo -ne "\033[1;37m Nuevo Banner (ENTER para default ChumoGH): \033[0m" && read new_banner
 if [[ -z "$new_banner" ]]; then
     rm -f /root/name /etc/adm-lite/name
-    echo -e " ${CHeko} \033[1;32mBanner: ChumoGH Plus (Oficial)\033[0m"
+    echo -e " ${CHeko} \033[1;32mBanner por defecto: ChumoGH\033[0m"
 else
     new_banner="${new_banner:0:15}"
     echo "$new_banner" > /root/name
