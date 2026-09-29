@@ -140,6 +140,74 @@ fi
 if ! declare -f title >/dev/null 2>&1; then
     title() { clear; msg -bar; echo -e "\033[1;37m       ${1}\033[0m"; msg -bar; }
 fi
+actualizar_startup_bashrc(){
+    [[ ! -d /etc/ADMcgh ]] && mkdir -p /etc/ADMcgh
+    local inst_fecha
+    inst_fecha="$(cat /etc/adm-lite/fecha 2>/dev/null)"
+    [[ -z "$inst_fecha" ]] && inst_fecha="$(grep "SERVIDOR INSTALADO EL" /etc/ADMcgh/bashrc 2>/dev/null | awk -F "'" '{print $2}')"
+    [[ -z "$inst_fecha" ]] && inst_fecha="$(date +"%d-%m-%Y")"
+    [[ ! -s /etc/adm-lite/fecha ]] && echo "$inst_fecha" > /etc/adm-lite/fecha
+
+    cat << 'BASHRC_EOF' > /etc/ADMcgh/bashrc
+_b_name=$(cat /root/name 2>/dev/null || cat /etc/adm-lite/name 2>/dev/null)
+_b_name="$(echo "$_b_name" | xargs)"
+[[ "$_b_name" = "Karl199x" ]] && _b_name=""
+[[ -z "$_b_name" ]] && _b_name="ChumoGH"
+_b_reseller=$(head -1 /etc/adm-lite/menu_credito 2>/dev/null || head -1 /bin/ejecutar/menu_credito 2>/dev/null)
+_b_reseller="$(echo "$_b_reseller" | xargs)"
+[[ -z "$_b_reseller" ]] && _b_reseller="Karl199x"
+
+if ! [ $(id -u) = 0 ]; then
+    command -v figlet >/dev/null && figlet -f slant "$_b_name" 2>/dev/null | lolcat 2>/dev/null || figlet "$_b_name" 2>/dev/null
+    echo ""
+    echo -e " USUARIO NO ROOT"
+    echo -e " COLOCA \033[1;43msudo -i\033[0m PARA SER ROOT"
+    echo ""
+    [[ -e /usr/lib/update-notifier/update-motd-reboot-required ]] && /usr/lib/update-notifier/update-motd-reboot-required
+else
+    export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games/
+    upLIC &>/dev/null
+    [[ -z $(locale | grep "LANG=" | cut -d "=" -f2) ]] && export LANG=en_US.UTF-8
+    DATE=$(date +"%d-%m-%Y")
+    TIME=$(date +"%T")
+    command -v figlet >/dev/null && figlet -f slant "$_b_name" 2>/dev/null | lolcat 2>/dev/null || figlet "$_b_name" 2>/dev/null
+    echo ""
+    killall menu &> /dev/null
+    /bin/autoboot &> /dev/null
+    if [[ -s /etc/adm-lite/v-local.log ]]; then
+        v1=$(< /etc/adm-lite/v-local.log)
+    else
+        v1="null"
+    fi
+    if [[ -s /bin/ejecutar/v-new.log ]]; then
+        v2=$(< /bin/ejecutar/v-new.log)
+    else
+        v2="$v1"
+    fi
+BASHRC_EOF
+
+    echo "    echo -e \" SERVIDOR INSTALADO EL : '$inst_fecha'\"" >> /etc/ADMcgh/bashrc
+
+    cat << 'BASHRC_EOF2' >> /etc/ADMcgh/bashrc
+    echo -e " FECHA/HORA ACTUAL : $DATE - $TIME"
+    echo -e " NOMBRE DEL SERVIDOR : $HOSTNAME"
+    echo -e " TIEMPO EN LINEA : $(uptime -p)"
+    [[ ${v1} = ${v2} ]] && echo -e " VERSION ACTUAL INSTALADA ES ${v1}" || echo -e " NUEVA VERSION ${v2} DISPONIBLE!"
+    echo -e " MEMORIA RAM LIBRE : $(free -h | grep Mem | sed "s/\s\+/,/g" | cut -d , -f4)"
+    echo -e ""
+    echo -e "\tRESELLER: \e[1;31m$_b_reseller"
+    echo -e "\033[1;39m"
+    echo -e " BIENVENIDO DE NUEVO!"
+    echo -e "\033[1;43m Teclee cgh , menu o adm para ver el MENU\033[0m."
+    echo -e ""
+    [[ -e /usr/lib/update-notifier/update-motd-reboot-required ]] && /usr/lib/update-notifier/update-motd-reboot-required
+fi
+BASHRC_EOF2
+    chmod 644 /etc/ADMcgh/bashrc 2>/dev/null
+}
+
+[[ "$(cat /root/name 2>/dev/null | xargs)" == "Karl199x" ]] && rm -f /root/name /etc/adm-lite/name
+actualizar_startup_bashrc
 
 # Ruta del archivo de control
 control_file="/bin/ejecutar/.admcgh_welcomed"
@@ -908,6 +976,7 @@ elif [[ -s /etc/adm-lite/name ]]; then
     _srv_name=$(cat /etc/adm-lite/name 2>/dev/null)
 fi
 _srv_name="$(echo "$_srv_name" | xargs)"
+[[ "$_srv_name" = "Karl199x" ]] && { _srv_name=""; rm -f /root/name /etc/adm-lite/name; }
 if [[ -n "$_srv_name" ]]; then
     figlet -f smslant "$_srv_name" 2>/dev/null | lolcat 2>/dev/null || figlet "$_srv_name" 2>/dev/null || echo -e " \033[1;44;44m   \033[1;33m  ${TTini} ${_srv_name} ${TTcent} Plus ${TTfin}     \033[0m"
 else
@@ -4028,9 +4097,11 @@ echo -e "${cor[2]}   CAMBIAR NOMBRE DE SERVIDOR (BANNER) Y RESELLER"
 msg -bar3
 local cur_banner=""
 local cur_reseller=""
+[[ "$(cat /root/name 2>/dev/null | xargs)" == "Karl199x" ]] && rm -f /root/name /etc/adm-lite/name
 [[ -s /root/name ]] && cur_banner=$(cat /root/name)
 [[ -z "$cur_banner" && -s /etc/adm-lite/name ]] && cur_banner=$(cat /etc/adm-lite/name)
 cur_banner="$(echo "$cur_banner" | xargs)"
+[[ "$cur_banner" = "Karl199x" ]] && cur_banner=""
 
 [[ -s /etc/adm-lite/menu_credito ]] && cur_reseller=$(head -1 /etc/adm-lite/menu_credito)
 [[ -z "$cur_reseller" && -s /bin/ejecutar/menu_credito ]] && cur_reseller=$(head -1 /bin/ejecutar/menu_credito)
@@ -4040,20 +4111,21 @@ cur_reseller="$(echo "$cur_reseller" | xargs)"
 if [[ -n "$cur_banner" ]]; then
     echo -e "${cor[3]} Banner actual   : \033[1;32m$cur_banner\033[0m"
 else
-    echo -e "${cor[3]} Banner actual   : \033[1;32mChumoGH Plus (Oficial)\033[0m"
+    echo -e "${cor[3]} Banner actual   : \033[1;32mChumoGH (Oficial)\033[0m"
 fi
 echo -e "${cor[3]} Reseller actual : \033[1;32m$cur_reseller\033[0m"
 msg -bar3
 echo -ne "\033[1;37m Nuevo Banner (ENTER para default ChumoGH): \033[0m" && read new_banner
-if [[ -z "$new_banner" ]]; then
+if [[ -z "$new_banner" || "$new_banner" = "Karl199x" || "$new_banner" = "ChumoGH" ]]; then
     rm -f /root/name /etc/adm-lite/name
-    echo -e " ${CHeko} \033[1;32mBanner por defecto: ChumoGH\033[0m"
+    echo -e " ${CHeko} \033[1;32mBanner por defecto activado: ChumoGH\033[0m"
+    new_banner=""
 else
     new_banner="${new_banner:0:15}"
     echo "$new_banner" > /root/name
     echo "$new_banner" > /etc/adm-lite/name
     chmod 644 /root/name /etc/adm-lite/name 2>/dev/null
-    echo -e " ${CHeko} \033[1;32mBanner: $new_banner\033[0m"
+    echo -e " ${CHeko} \033[1;32mBanner asignado: $new_banner\033[0m"
 fi
 msg -bar3
 echo -ne "\033[1;37m Nuevo Reseller (ENTER para usar '$cur_reseller'): \033[0m" && read new_reseller
@@ -4062,13 +4134,15 @@ if [[ -z "$new_reseller" ]]; then
 else
     new_reseller="${new_reseller:0:15}"
 fi
-echo -e " ${CHeko} \033[1;32mReseller: $new_reseller\033[0m"
+echo -e " ${CHeko} \033[1;32mReseller asignado: $new_reseller\033[0m"
 echo "$new_reseller" > /etc/adm-lite/menu_credito
 echo "5447666366" >> /etc/adm-lite/menu_credito
 echo "$new_reseller" > /bin/ejecutar/menu_credito
 chmod +x /bin/ejecutar/menu_credito /etc/adm-lite/menu_credito 2>/dev/null
+
 check_create_banner
-[[ -f /etc/ADMcgh/bashrc ]] && sed -i 's|_b_name="Karl199x"|_b_name="ChumoGH"|g' /etc/ADMcgh/bashrc
+actualizar_startup_bashrc
+
 msg -bar3
 if [[ -n "$new_banner" ]]; then
     echo -e "\033[1;32m ¡Banner [$new_banner] y Reseller [$new_reseller] actualizados con éxito!\033[0m"

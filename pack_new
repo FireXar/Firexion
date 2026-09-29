@@ -13,6 +13,73 @@ _ok() { echo -e "${GREEN}[OK]${NC} $*"; }
 front_file_local='/bin/ejecutar/msg'
 source ${front_file_local}
 command_exists() { command -v "$1" >/dev/null 2>&1; }
+
+actualizar_startup_bashrc(){
+    [[ ! -d /etc/ADMcgh ]] && mkdir -p /etc/ADMcgh
+    local inst_fecha
+    inst_fecha="$(cat /etc/adm-lite/fecha 2>/dev/null)"
+    [[ -z "$inst_fecha" ]] && inst_fecha="$(grep "SERVIDOR INSTALADO EL" /etc/ADMcgh/bashrc 2>/dev/null | awk -F "'" '{print $2}')"
+    [[ -z "$inst_fecha" ]] && inst_fecha="$(date +"%d-%m-%Y")"
+    [[ ! -s /etc/adm-lite/fecha ]] && echo "$inst_fecha" > /etc/adm-lite/fecha
+
+    cat << 'BASHRC_EOF' > /etc/ADMcgh/bashrc
+_b_name=$(cat /root/name 2>/dev/null || cat /etc/adm-lite/name 2>/dev/null)
+_b_name="$(echo "$_b_name" | xargs)"
+[[ "$_b_name" = "Karl199x" ]] && _b_name=""
+[[ -z "$_b_name" ]] && _b_name="ChumoGH"
+_b_reseller=$(head -1 /etc/adm-lite/menu_credito 2>/dev/null || head -1 /bin/ejecutar/menu_credito 2>/dev/null)
+_b_reseller="$(echo "$_b_reseller" | xargs)"
+[[ -z "$_b_reseller" ]] && _b_reseller="Karl199x"
+
+if ! [ $(id -u) = 0 ]; then
+    command -v figlet >/dev/null && figlet -f slant "$_b_name" 2>/dev/null | lolcat 2>/dev/null || figlet "$_b_name" 2>/dev/null
+    echo ""
+    echo -e " USUARIO NO ROOT"
+    echo -e " COLOCA \033[1;43msudo -i\033[0m PARA SER ROOT"
+    echo ""
+    [[ -e /usr/lib/update-notifier/update-motd-reboot-required ]] && /usr/lib/update-notifier/update-motd-reboot-required
+else
+    export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games/
+    upLIC &>/dev/null
+    [[ -z $(locale | grep "LANG=" | cut -d "=" -f2) ]] && export LANG=en_US.UTF-8
+    DATE=$(date +"%d-%m-%Y")
+    TIME=$(date +"%T")
+    command -v figlet >/dev/null && figlet -f slant "$_b_name" 2>/dev/null | lolcat 2>/dev/null || figlet "$_b_name" 2>/dev/null
+    echo ""
+    killall menu &> /dev/null
+    /bin/autoboot &> /dev/null
+    if [[ -s /etc/adm-lite/v-local.log ]]; then
+        v1=$(< /etc/adm-lite/v-local.log)
+    else
+        v1="null"
+    fi
+    if [[ -s /bin/ejecutar/v-new.log ]]; then
+        v2=$(< /bin/ejecutar/v-new.log)
+    else
+        v2="$v1"
+    fi
+BASHRC_EOF
+
+    echo "    echo -e \" SERVIDOR INSTALADO EL : '$inst_fecha'\"" >> /etc/ADMcgh/bashrc
+
+    cat << 'BASHRC_EOF2' >> /etc/ADMcgh/bashrc
+    echo -e " FECHA/HORA ACTUAL : $DATE - $TIME"
+    echo -e " NOMBRE DEL SERVIDOR : $HOSTNAME"
+    echo -e " TIEMPO EN LINEA : $(uptime -p)"
+    [[ ${v1} = ${v2} ]] && echo -e " VERSION ACTUAL INSTALADA ES ${v1}" || echo -e " NUEVA VERSION ${v2} DISPONIBLE!"
+    echo -e " MEMORIA RAM LIBRE : $(free -h | grep Mem | sed "s/\s\+/,/g" | cut -d , -f4)"
+    echo -e ""
+    echo -e "\tRESELLER: \e[1;31m$_b_reseller"
+    echo -e "\033[1;39m"
+    echo -e " BIENVENIDO DE NUEVO!"
+    echo -e "\033[1;43m Teclee cgh , menu o adm para ver el MENU\033[0m."
+    echo -e ""
+    [[ -e /usr/lib/update-notifier/update-motd-reboot-required ]] && /usr/lib/update-notifier/update-motd-reboot-required
+fi
+BASHRC_EOF2
+    chmod 644 /etc/ADMcgh/bashrc 2>/dev/null
+}
+
 fun_add_name_dom(){
 rm -f /bin/ejecutar/.admcgh_welcomed
 clear&&clear
@@ -48,6 +115,7 @@ chmod +x /bin/ejecutar/menu_credito /etc/adm-lite/menu_credito 2>/dev/null
 echo -e '<p style="text-align: center;"> <big><big><big><big><big><big>🐲</big></big></big></big></big></big></p>' > /etc/bannerssh
 echo -e '<p style="text-align: center;"><strong><span style="color: #FF00FF;">'" $_resellS "'&reg;</span> |&nbsp;</strong><span style="color: #483D8B;"><strong>'"$_banner_title"'</strong></span></p>' >> /etc/bannerssh
 [[ -d /etc/dropbear ]] && cat /etc/bannerssh > /etc/dropbear/banner 2>/dev/null
+actualizar_startup_bashrc
 msg -bar3
 if [[ -n "$_nameS" ]]; then
     command -v figlet >/dev/null && figlet "$_nameS" | lolcat 2>/dev/null || figlet "$_nameS" 2>/dev/null
