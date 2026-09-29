@@ -17,26 +17,36 @@ fun_add_name_dom(){
 rm -f /bin/ejecutar/.admcgh_welcomed
 clear&&clear
 msg -bar3
-echo -e "${cor[2]} CONFIGURACION DE NOMBRE DE SERVIDOR Y RESELLER"
+echo -e "${cor[2]} CONFIGURACION DE BANNER Y RESELLER"
 msg -bar3
-read -t 20 -p " Nombre del servidor / Reseller (ENTER para default Karl199x): " -e -i "" _nameS
+read -t 30 -p " Nombre del Servidor / Banner (ENTER para default Karl199x): " -e -i "" _nameS
 if [[ -z "$_nameS" ]]; then
     _nameS="Karl199x"
-    echo -e " ${aLerT} \033[1;33mSin nombre asignado. Se usara por defecto: \033[1;32mKarl199x\033[0m"
+    echo -e " ${aLerT} \033[1;33mBanner por defecto: \033[1;32mKarl199x\033[0m"
 else
     _nameS="${_nameS:0:15}"
-    echo -e " ${CHeko} \033[1;32mNombre de Servidor y Reseller asignado: \033[1;33m$_nameS\033[0m"
+    echo -e " ${CHeko} \033[1;32mBanner asignado: \033[1;33m$_nameS\033[0m"
+fi
+msg -bar3
+read -t 30 -p " Nombre del Reseller (ENTER para usar '$_nameS'): " -e -i "" _resellS
+if [[ -z "$_resellS" ]]; then
+    _resellS="$_nameS"
+    echo -e " ${CHeko} \033[1;32mReseller asignado: \033[1;33m$_resellS\033[0m"
+else
+    _resellS="${_resellS:0:15}"
+    echo -e " ${CHeko} \033[1;32mReseller asignado: \033[1;33m$_resellS\033[0m"
 fi
 echo "$_nameS" > /etc/adm-lite/name
 echo "$_nameS" > /root/name
 chmod 644 /etc/adm-lite/name /root/name 2>/dev/null
-echo "$_nameS" > /etc/adm-lite/menu_credito
+echo "$_resellS" > /etc/adm-lite/menu_credito
 echo "5447666366" >> /etc/adm-lite/menu_credito
-echo "$_nameS" > /bin/ejecutar/menu_credito
+echo "$_resellS" > /bin/ejecutar/menu_credito
 chmod +x /bin/ejecutar/menu_credito /etc/adm-lite/menu_credito 2>/dev/null
 echo -e '<p style="text-align: center;"> <big><big><big><big><big><big>🐲</big></big></big></big></big></big></p>' > /etc/bannerssh
-echo -e '<p style="text-align: center;"><strong><span style="color: #FF00FF;">'" $_nameS "'&reg;</span> |&nbsp;</strong><span style="color: #483D8B;"><strong>'"$_nameS"'</strong></span></p>' >> /etc/bannerssh
+echo -e '<p style="text-align: center;"><strong><span style="color: #FF00FF;">'" $_resellS "'&reg;</span> |&nbsp;</strong><span style="color: #483D8B;"><strong>'"$_nameS"'</strong></span></p>' >> /etc/bannerssh
 [[ -d /etc/dropbear ]] && cat /etc/bannerssh > /etc/dropbear/banner 2>/dev/null
+msg -bar3
 command -v figlet >/dev/null && figlet "$_nameS" | lolcat 2>/dev/null || figlet "$_nameS" 2>/dev/null
 sleep 2s
 clear&&clear

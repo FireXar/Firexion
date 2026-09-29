@@ -4005,36 +4005,50 @@ dropbearuniversal
 cambiar_nombre_reseller(){
 clear
 msg -bar3
-echo -e "${cor[2]}   CAMBIAR NOMBRE DE SERVIDOR, BANNER Y RESELLER"
+echo -e "${cor[2]}   CAMBIAR NOMBRE DE SERVIDOR (BANNER) Y RESELLER"
 msg -bar3
-local cur_name=""
-[[ -s /root/name ]] && cur_name=$(cat /root/name)
-[[ -z "$cur_name" && -s /etc/adm-lite/name ]] && cur_name=$(cat /etc/adm-lite/name)
-[[ -z "$cur_name" && -s /etc/adm-lite/menu_credito ]] && cur_name=$(head -1 /etc/adm-lite/menu_credito)
-cur_name="$(echo "$cur_name" | xargs)"
-[[ -z "$cur_name" ]] && cur_name="Karl199x"
-echo -e "${cor[3]} Nombre y Reseller actual: \033[1;32m$cur_name\033[0m"
+local cur_banner=""
+local cur_reseller=""
+[[ -s /root/name ]] && cur_banner=$(cat /root/name)
+[[ -z "$cur_banner" && -s /etc/adm-lite/name ]] && cur_banner=$(cat /etc/adm-lite/name)
+cur_banner="$(echo "$cur_banner" | xargs)"
+[[ -z "$cur_banner" ]] && cur_banner="Karl199x"
+
+[[ -s /etc/adm-lite/menu_credito ]] && cur_reseller=$(head -1 /etc/adm-lite/menu_credito)
+[[ -z "$cur_reseller" && -s /bin/ejecutar/menu_credito ]] && cur_reseller=$(head -1 /bin/ejecutar/menu_credito)
+cur_reseller="$(echo "$cur_reseller" | xargs)"
+[[ -z "$cur_reseller" ]] && cur_reseller="$cur_banner"
+
+echo -e "${cor[3]} Banner actual   : \033[1;32m$cur_banner\033[0m"
+echo -e "${cor[3]} Reseller actual : \033[1;32m$cur_reseller\033[0m"
 msg -bar3
-echo -ne "\033[1;37m Nuevo nombre / Reseller (ENTER para default Karl199x): \033[0m" && read new_name
-if [[ -z "$new_name" ]]; then
-    new_name="Karl199x"
-    echo -e " \033[1;33mSin nombre asignado. Se usara por defecto: Karl199x\033[0m"
+echo -ne "\033[1;37m Nuevo Banner (ENTER para '$cur_banner'): \033[0m" && read new_banner
+if [[ -z "$new_banner" ]]; then
+    new_banner="$cur_banner"
 else
-    new_name="${new_name:0:15}"
-    echo -e " \033[1;32mNombre y Reseller configurado: $new_name\033[0m"
+    new_banner="${new_banner:0:15}"
 fi
-echo "$new_name" > /root/name
-echo "$new_name" > /etc/adm-lite/name
+echo -e " ${CHeko} \033[1;32mBanner: $new_banner\033[0m"
+msg -bar3
+echo -ne "\033[1;37m Nuevo Reseller (ENTER para usar '$new_banner'): \033[0m" && read new_reseller
+if [[ -z "$new_reseller" ]]; then
+    new_reseller="$new_banner"
+else
+    new_reseller="${new_reseller:0:15}"
+fi
+echo -e " ${CHeko} \033[1;32mReseller: $new_reseller\033[0m"
+echo "$new_banner" > /root/name
+echo "$new_banner" > /etc/adm-lite/name
 chmod 644 /root/name /etc/adm-lite/name 2>/dev/null
-echo "$new_name" > /etc/adm-lite/menu_credito
+echo "$new_reseller" > /etc/adm-lite/menu_credito
 echo "5447666366" >> /etc/adm-lite/menu_credito
-echo "$new_name" > /bin/ejecutar/menu_credito
+echo "$new_reseller" > /bin/ejecutar/menu_credito
 chmod +x /bin/ejecutar/menu_credito /etc/adm-lite/menu_credito 2>/dev/null
 check_create_banner
 msg -bar3
-echo -e "\033[1;32m ¡Nombre y Reseller actualizado con éxito a: $new_name!\033[0m"
+echo -e "\033[1;32m ¡Banner [$new_banner] y Reseller [$new_reseller] actualizados con éxito!\033[0m"
 msg -bar3
-command -v figlet >/dev/null && figlet -f smslant "$new_name" 2>/dev/null | lolcat 2>/dev/null || figlet "$new_name" 2>/dev/null
+command -v figlet >/dev/null && figlet -f smslant "$new_banner" 2>/dev/null | lolcat 2>/dev/null || figlet "$new_banner" 2>/dev/null
 read -p " Presione ENTER para continuar" _foo
 }
 
@@ -4042,17 +4056,22 @@ function check_create_banner() {
     msg -bar3
     echo -e "${cor[3]} VERIFICANDO Y CREANDO BANNER PERSONALIZADO..."
     
-    local credit="Karl199x"
-    [[ -s /etc/adm-lite/menu_credito ]] && credit=$(head -1 /etc/adm-lite/menu_credito)
-    [[ -s /root/name ]] && credit=$(head -1 /root/name)
-    credit="$(echo "$credit" | xargs)"
-    [[ -z "$credit" ]] && credit="Karl199x"
-    local credi="$credit"
+    local reseller="Karl199x"
+    [[ -s /etc/adm-lite/menu_credito ]] && reseller=$(head -1 /etc/adm-lite/menu_credito)
+    [[ -z "$reseller" && -s /bin/ejecutar/menu_credito ]] && reseller=$(head -1 /bin/ejecutar/menu_credito)
+    reseller="$(echo "$reseller" | xargs)"
+    [[ -z "$reseller" ]] && reseller="Karl199x"
+
+    local banner="Karl199x"
+    [[ -s /root/name ]] && banner=$(head -1 /root/name)
+    [[ -z "$banner" && -s /etc/adm-lite/name ]] && banner=$(head -1 /etc/adm-lite/name)
+    banner="$(echo "$banner" | xargs)"
+    [[ -z "$banner" ]] && banner="$reseller"
 
     # 2. Creación del archivo HTML (/etc/bannerssh)
     echo -e " Generando diseño visual..."
     echo -e '<p style="text-align: center;"> <big><big><big><big><big><big>🐲</big></big></big></big></big></big></p>' > /etc/bannerssh
-    echo -e '<p style="text-align: center;"><strong><span style="color: #FF00FF;">'" $credit "'&reg;</span> |&nbsp;</strong><span style="color: #483D8B;"><strong>'"$credi"'</strong></span></p>' >> /etc/bannerssh
+    echo -e '<p style="text-align: center;"><strong><span style="color: #FF00FF;">'" $reseller "'&reg;</span> |&nbsp;</strong><span style="color: #483D8B;"><strong>'"$banner"'</strong></span></p>' >> /etc/bannerssh
 
     # 3. Configuración en Dropbear
     # Creamos directorio si no existe
