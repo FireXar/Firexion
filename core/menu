@@ -903,17 +903,16 @@ unset svcs porta puertos i x
 [[ $v1 = $v2 ]] && vesaoSCT="\033[1;37m ADMcgh 】\033[0m\033[0;33m($v2)" || vesaoSCT="\033[1;37m ADMcgh 】\033[0m\033[0;33m($v2) ► \033[1;32m[$v1]\033[1;31m"
 local _srv_name=""
 if [[ -s /root/name ]]; then
-    _srv_name=$(cat /root/name)
+    _srv_name=$(cat /root/name 2>/dev/null)
 elif [[ -s /etc/adm-lite/name ]]; then
-    _srv_name=$(cat /etc/adm-lite/name)
-elif [[ -s /etc/adm-lite/menu_credito ]]; then
-    _srv_name=$(head -1 /etc/adm-lite/menu_credito)
-elif [[ -s /bin/ejecutar/menu_credito ]]; then
-    _srv_name=$(head -1 /bin/ejecutar/menu_credito)
+    _srv_name=$(cat /etc/adm-lite/name 2>/dev/null)
 fi
 _srv_name="$(echo "$_srv_name" | xargs)"
-[[ -z "$_srv_name" ]] && _srv_name="Karl199x"
-figlet -f smslant "$_srv_name" 2>/dev/null | lolcat 2>/dev/null || figlet "$_srv_name" 2>/dev/null || echo -e " \033[1;44;44m   \033[1;33m  ${TTini} ${_srv_name} ${TTcent} Plus ${TTfin}     \033[0m"
+if [[ -n "$_srv_name" ]]; then
+    figlet -f smslant "$_srv_name" 2>/dev/null | lolcat 2>/dev/null || figlet "$_srv_name" 2>/dev/null || echo -e " \033[1;44;44m   \033[1;33m  ${TTini} ${_srv_name} ${TTcent} Plus ${TTfin}     \033[0m"
+else
+    echo -e " \033[1;44;44m   \033[1;33m  ${TTini} ChumoGH ${TTcent} Plus ${TTfin}     \033[0m"
+fi
 meu_ip
 [[ $1 = "ports_" ]] && ports_
 export -f ports_
@@ -2774,11 +2773,19 @@ read -p " [ s | n ]: " sin_nao
  break
  fi
 done
-credi=$(cat /root/name 2>/dev/null || cat /etc/adm-lite/name 2>/dev/null || cat /etc/adm-lite/menu_credito 2>/dev/null | head -1)
-credi="$(echo "$credi" | xargs)"
-[[ -z "$credi" ]] && credi="Karl199x"
-credit="$credi"
-echo -e '<p style="text-align: center;"><strong><span style="color: #FF00FF;">'" $credit "'&reg;</span> |&nbsp;</strong><span style="color: #483D8B;"><strong>'"$credi"'</strong></span></p>' >> /etc/bannerssh
+local _reseller="Karl199x"
+[[ -s /etc/adm-lite/menu_credito ]] && _reseller=$(head -1 /etc/adm-lite/menu_credito)
+[[ -z "$_reseller" && -s /bin/ejecutar/menu_credito ]] && _reseller=$(head -1 /bin/ejecutar/menu_credito)
+_reseller="$(echo "$_reseller" | xargs)"
+[[ -z "$_reseller" ]] && _reseller="Karl199x"
+
+local _banner="ChumoGH"
+[[ -s /root/name ]] && _banner=$(cat /root/name)
+[[ -z "$_banner" && -s /etc/adm-lite/name ]] && _banner=$(cat /etc/adm-lite/name)
+_banner="$(echo "$_banner" | xargs)"
+[[ -z "$_banner" ]] && _banner="ChumoGH"
+
+echo -e '<p style="text-align: center;"><strong><span style="color: #FF00FF;">'" $_reseller "'&reg;</span> |&nbsp;</strong><span style="color: #483D8B;"><strong>'"$_banner"'</strong></span></p>' >> /etc/bannerssh
 #echo '<font color="#FF00FF">© 2020 ChumoGH, &reg</font>' >> /etc/bannerssh
 [[ -d /etc/dropbear ]] && {
 [[ -e /etc/bannerssh ]] && cat /etc/bannerssh > /etc/dropbear/banner
@@ -3845,11 +3852,19 @@ read -p " [ s | n ]: " sin_nao
  break
  fi
 done
-credi=$(cat /root/name 2>/dev/null || cat /etc/adm-lite/name 2>/dev/null || cat /etc/adm-lite/menu_credito 2>/dev/null | head -1)
-credi="$(echo "$credi" | xargs)"
-[[ -z "$credi" ]] && credi="Karl199x"
-credit="$credi"
-echo -e '<p style="text-align: center;"><strong><span style="color: #FF00FF;">'" $credit "'&reg;</span> |&nbsp;</strong><span style="color: #483D8B;"><strong>'"$credi"'</strong></span></p>' >> /etc/bannerssh
+local _reseller="Karl199x"
+[[ -s /etc/adm-lite/menu_credito ]] && _reseller=$(head -1 /etc/adm-lite/menu_credito)
+[[ -z "$_reseller" && -s /bin/ejecutar/menu_credito ]] && _reseller=$(head -1 /bin/ejecutar/menu_credito)
+_reseller="$(echo "$_reseller" | xargs)"
+[[ -z "$_reseller" ]] && _reseller="Karl199x"
+
+local _banner="ChumoGH"
+[[ -s /root/name ]] && _banner=$(cat /root/name)
+[[ -z "$_banner" && -s /etc/adm-lite/name ]] && _banner=$(cat /etc/adm-lite/name)
+_banner="$(echo "$_banner" | xargs)"
+[[ -z "$_banner" ]] && _banner="ChumoGH"
+
+echo -e '<p style="text-align: center;"><strong><span style="color: #FF00FF;">'" $_reseller "'&reg;</span> |&nbsp;</strong><span style="color: #483D8B;"><strong>'"$_banner"'</strong></span></p>' >> /etc/bannerssh
 #echo '<font color="#FF00FF">© 2020 ChumoGH, &reg</font>' >> /etc/bannerssh
 [[ -d /etc/dropbear ]] && {
 [[ -e /etc/bannerssh ]] && cat /etc/bannerssh > /etc/dropbear/banner
@@ -3984,10 +3999,14 @@ echo -e "BANNER INEXISTENTE - RECOMENDADO MODIFICAR TU BANNER"
 _sleepColor '2'
 local credit="Karl199x"
 [[ -s /etc/adm-lite/menu_credito ]] && credit=$(head -1 /etc/adm-lite/menu_credito)
-[[ -s /root/name ]] && credit=$(head -1 /root/name)
+[[ -z "$credit" && -s /bin/ejecutar/menu_credito ]] && credit=$(head -1 /bin/ejecutar/menu_credito)
 credit="$(echo "$credit" | xargs)"
 [[ -z "$credit" ]] && credit="Karl199x"
-local credi="$credit"
+local credi="ChumoGH"
+[[ -s /root/name ]] && credi=$(head -1 /root/name)
+[[ -z "$credi" && -s /etc/adm-lite/name ]] && credi=$(head -1 /etc/adm-lite/name)
+credi="$(echo "$credi" | xargs)"
+[[ -z "$credi" ]] && credi="ChumoGH"
 echo -e '<p style="text-align: center;"> <big><big><big><big><big><big>🐲</big></big></big></big></big></big></p>' > /etc/bannerssh
 echo -e '<p style="text-align: center;"><strong><span style="color: #FF00FF;">'" $credit "'&reg;</span> |&nbsp;</strong><span style="color: #483D8B;"><strong>'"$credi"'</strong></span></p>' >> /etc/bannerssh
 [[ -d /etc/dropbear ]] && {
@@ -4012,43 +4031,53 @@ local cur_reseller=""
 [[ -s /root/name ]] && cur_banner=$(cat /root/name)
 [[ -z "$cur_banner" && -s /etc/adm-lite/name ]] && cur_banner=$(cat /etc/adm-lite/name)
 cur_banner="$(echo "$cur_banner" | xargs)"
-[[ -z "$cur_banner" ]] && cur_banner="Karl199x"
 
 [[ -s /etc/adm-lite/menu_credito ]] && cur_reseller=$(head -1 /etc/adm-lite/menu_credito)
 [[ -z "$cur_reseller" && -s /bin/ejecutar/menu_credito ]] && cur_reseller=$(head -1 /bin/ejecutar/menu_credito)
 cur_reseller="$(echo "$cur_reseller" | xargs)"
-[[ -z "$cur_reseller" ]] && cur_reseller="$cur_banner"
+[[ -z "$cur_reseller" ]] && cur_reseller="Karl199x"
 
-echo -e "${cor[3]} Banner actual   : \033[1;32m$cur_banner\033[0m"
+if [[ -n "$cur_banner" ]]; then
+    echo -e "${cor[3]} Banner actual   : \033[1;32m$cur_banner\033[0m"
+else
+    echo -e "${cor[3]} Banner actual   : \033[1;32mChumoGH Plus (Oficial)\033[0m"
+fi
 echo -e "${cor[3]} Reseller actual : \033[1;32m$cur_reseller\033[0m"
 msg -bar3
-echo -ne "\033[1;37m Nuevo Banner (ENTER para '$cur_banner'): \033[0m" && read new_banner
+echo -ne "\033[1;37m Nuevo Banner (ENTER para dejar oficial ChumoGH Plus): \033[0m" && read new_banner
 if [[ -z "$new_banner" ]]; then
-    new_banner="$cur_banner"
+    rm -f /root/name /etc/adm-lite/name
+    echo -e " ${CHeko} \033[1;32mBanner: ChumoGH Plus (Oficial)\033[0m"
 else
     new_banner="${new_banner:0:15}"
+    echo "$new_banner" > /root/name
+    echo "$new_banner" > /etc/adm-lite/name
+    chmod 644 /root/name /etc/adm-lite/name 2>/dev/null
+    echo -e " ${CHeko} \033[1;32mBanner: $new_banner\033[0m"
 fi
-echo -e " ${CHeko} \033[1;32mBanner: $new_banner\033[0m"
 msg -bar3
-echo -ne "\033[1;37m Nuevo Reseller (ENTER para usar '$new_banner'): \033[0m" && read new_reseller
+echo -ne "\033[1;37m Nuevo Reseller (ENTER para usar '$cur_reseller'): \033[0m" && read new_reseller
 if [[ -z "$new_reseller" ]]; then
-    new_reseller="$new_banner"
+    new_reseller="$cur_reseller"
 else
     new_reseller="${new_reseller:0:15}"
 fi
 echo -e " ${CHeko} \033[1;32mReseller: $new_reseller\033[0m"
-echo "$new_banner" > /root/name
-echo "$new_banner" > /etc/adm-lite/name
-chmod 644 /root/name /etc/adm-lite/name 2>/dev/null
 echo "$new_reseller" > /etc/adm-lite/menu_credito
 echo "5447666366" >> /etc/adm-lite/menu_credito
 echo "$new_reseller" > /bin/ejecutar/menu_credito
 chmod +x /bin/ejecutar/menu_credito /etc/adm-lite/menu_credito 2>/dev/null
 check_create_banner
 msg -bar3
-echo -e "\033[1;32m ¡Banner [$new_banner] y Reseller [$new_reseller] actualizados con éxito!\033[0m"
-msg -bar3
-command -v figlet >/dev/null && figlet -f smslant "$new_banner" 2>/dev/null | lolcat 2>/dev/null || figlet "$new_banner" 2>/dev/null
+if [[ -n "$new_banner" ]]; then
+    echo -e "\033[1;32m ¡Banner [$new_banner] y Reseller [$new_reseller] actualizados con éxito!\033[0m"
+    msg -bar3
+    command -v figlet >/dev/null && figlet -f smslant "$new_banner" 2>/dev/null | lolcat 2>/dev/null || figlet "$new_banner" 2>/dev/null
+else
+    echo -e "\033[1;32m ¡Banner [ChumoGH Plus] y Reseller [$new_reseller] actualizados con éxito!\033[0m"
+    msg -bar3
+    echo -e " \033[1;44;44m   \033[1;33m  ${TTini} ChumoGH ${TTcent} Plus ${TTfin}     \033[0m"
+fi
 read -p " Presione ENTER para continuar" _foo
 }
 
@@ -4062,11 +4091,11 @@ function check_create_banner() {
     reseller="$(echo "$reseller" | xargs)"
     [[ -z "$reseller" ]] && reseller="Karl199x"
 
-    local banner="Karl199x"
+    local banner="ChumoGH"
     [[ -s /root/name ]] && banner=$(head -1 /root/name)
     [[ -z "$banner" && -s /etc/adm-lite/name ]] && banner=$(head -1 /etc/adm-lite/name)
     banner="$(echo "$banner" | xargs)"
-    [[ -z "$banner" ]] && banner="$reseller"
+    [[ -z "$banner" ]] && banner="ChumoGH"
 
     # 2. Creación del archivo HTML (/etc/bannerssh)
     echo -e " Generando diseño visual..."
@@ -8313,7 +8342,7 @@ msg -bar3
 echo -e "${cor[1]} ${pPIniT} ${cor[5]}S.O: \033[1;37m${_os} ${cor[1]} ${pPIniT} ${cor[5]}Base:\033[1;37m${cpu_model}${cor[1]} ${pPIniT} ${cor[5]}CPU's:\033[1;37m${cpu_core} "
 echo -e "${cor[1]} ${pPIniT} ${cor[5]}IP: \033[0;37m${IP} ${cor[1]} ${pPIniT} ${cor[5]}FECHA: \033[1;37m$(date +"%d/%m/%Y")-$(date +"%H:%M")" 
 
-local _cur_reseller=$(cat /root/name 2>/dev/null || cat /etc/adm-lite/name 2>/dev/null || cat /etc/adm-lite/menu_credito 2>/dev/null | head -1)
+local _cur_reseller=$(head -1 /etc/adm-lite/menu_credito 2>/dev/null || head -1 /bin/ejecutar/menu_credito 2>/dev/null)
 _cur_reseller="$(echo "$_cur_reseller" | xargs)"
 [[ -z "$_cur_reseller" ]] && _cur_reseller="Karl199x"
 echo -e "${vesaoSCT}   \033[1;37mRESELLER: \033[1;32m${_cur_reseller}\033[0m"
@@ -8965,18 +8994,20 @@ read -p " "
 function mtraff(){
 local _srv_name=""
 if [[ -s /root/name ]]; then
-    _srv_name=$(cat /root/name)
+    _srv_name=$(cat /root/name 2>/dev/null)
 elif [[ -s /etc/adm-lite/name ]]; then
-    _srv_name=$(cat /etc/adm-lite/name)
-elif [[ -s /etc/adm-lite/menu_credito ]]; then
-    _srv_name=$(head -1 /etc/adm-lite/menu_credito)
-elif [[ -s /bin/ejecutar/menu_credito ]]; then
-    _srv_name=$(head -1 /bin/ejecutar/menu_credito)
+    _srv_name=$(cat /etc/adm-lite/name 2>/dev/null)
 fi
 _srv_name="$(echo "$_srv_name" | xargs)"
-[[ -z "$_srv_name" ]] && _srv_name="Karl199x"
-figlet -f smslant "$_srv_name" 2>/dev/null | lolcat 2>/dev/null || figlet "$_srv_name" 2>/dev/null || echo -e "\033[1;44;44m   ${cor[5]}=====>>►► 🐲 ${_srv_name} 💥 Plus 🐲 ◄◄<<=====     \033[0m"
-echo -e "\033[1;37m  【  ★ Reseller : ${_srv_name} ★  】\033[0m"
+if [[ -n "$_srv_name" ]]; then
+    figlet -f smslant "$_srv_name" 2>/dev/null | lolcat 2>/dev/null || figlet "$_srv_name" 2>/dev/null || echo -e "\033[1;44;44m   ${cor[5]}=====>>►► 🐲 ${_srv_name} 💥 Plus 🐲 ◄◄<<=====     \033[0m"
+else
+    echo -e "\033[1;44;44m   ${cor[5]}=====>>►► 🐲 ChumoGH 💥 Plus 🐲 ◄◄<<=====     \033[0m"
+fi
+local _cur_reseller=$(head -1 /etc/adm-lite/menu_credito 2>/dev/null || head -1 /bin/ejecutar/menu_credito 2>/dev/null || echo "Karl199x")
+_cur_reseller="$(echo "$_cur_reseller" | xargs)"
+[[ -z "$_cur_reseller" ]] && _cur_reseller="Karl199x"
+echo -e "\033[1;37m  【  ★ Reseller : ${_cur_reseller} ★  】\033[0m"
 msg -bar3
 vnstat
 echo -e "${cor[2]}  ⇜ Comsumo de INTERNET TOTAL EN VPS ⇝ ⇅"
@@ -9200,17 +9231,16 @@ echo -e "ESPERE PORFAVOR "
 clear&&clear
 local _srv_name=""
 if [[ -s /root/name ]]; then
-    _srv_name=$(cat /root/name)
+    _srv_name=$(cat /root/name 2>/dev/null)
 elif [[ -s /etc/adm-lite/name ]]; then
-    _srv_name=$(cat /etc/adm-lite/name)
-elif [[ -s /etc/adm-lite/menu_credito ]]; then
-    _srv_name=$(head -1 /etc/adm-lite/menu_credito)
-elif [[ -s /bin/ejecutar/menu_credito ]]; then
-    _srv_name=$(head -1 /bin/ejecutar/menu_credito)
+    _srv_name=$(cat /etc/adm-lite/name 2>/dev/null)
 fi
 _srv_name="$(echo "$_srv_name" | xargs)"
-[[ -z "$_srv_name" ]] && _srv_name="Karl199x"
-figlet -f smslant "$_srv_name" 2>/dev/null | lolcat 2>/dev/null || figlet "$_srv_name" 2>/dev/null || tittle
+if [[ -n "$_srv_name" ]]; then
+    figlet -f smslant "$_srv_name" 2>/dev/null | lolcat 2>/dev/null || figlet "$_srv_name" 2>/dev/null || tittle
+else
+    tittle
+fi
 msg -bar3 
 echo -e ""
 echo -e "${cor[3]}       Esta herramienta es Experimental en el vps"

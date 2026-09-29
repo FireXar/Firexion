@@ -19,35 +19,41 @@ clear&&clear
 msg -bar3
 echo -e "${cor[2]} CONFIGURACION DE BANNER Y RESELLER"
 msg -bar3
-read -t 30 -p " Nombre del Servidor / Banner (ENTER para default Karl199x): " -e -i "" _nameS
+read -t 30 -p " Nombre del Servidor / Banner (ENTER para encabezado oficial ChumoGH Plus): " -e -i "" _nameS
 if [[ -z "$_nameS" ]]; then
-    _nameS="Karl199x"
-    echo -e " ${aLerT} \033[1;33mBanner por defecto: \033[1;32mKarl199x\033[0m"
+    rm -f /etc/adm-lite/name /root/name
+    echo -e " ${CHeko} \033[1;32mEncabezado activado: \033[1;33mChumoGH Plus\033[0m"
+    _banner_title="ChumoGH"
 else
     _nameS="${_nameS:0:15}"
+    echo "$_nameS" > /etc/adm-lite/name
+    echo "$_nameS" > /root/name
+    chmod 644 /etc/adm-lite/name /root/name 2>/dev/null
     echo -e " ${CHeko} \033[1;32mBanner asignado: \033[1;33m$_nameS\033[0m"
+    _banner_title="$_nameS"
 fi
 msg -bar3
-read -t 30 -p " Nombre del Reseller (ENTER para usar '$_nameS'): " -e -i "" _resellS
+read -t 30 -p " Nombre del Reseller (ENTER para default Karl199x): " -e -i "" _resellS
 if [[ -z "$_resellS" ]]; then
-    _resellS="$_nameS"
-    echo -e " ${CHeko} \033[1;32mReseller asignado: \033[1;33m$_resellS\033[0m"
+    _resellS="Karl199x"
+    echo -e " ${CHeko} \033[1;32mReseller por defecto: \033[1;33mKarl199x\033[0m"
 else
     _resellS="${_resellS:0:15}"
     echo -e " ${CHeko} \033[1;32mReseller asignado: \033[1;33m$_resellS\033[0m"
 fi
-echo "$_nameS" > /etc/adm-lite/name
-echo "$_nameS" > /root/name
-chmod 644 /etc/adm-lite/name /root/name 2>/dev/null
 echo "$_resellS" > /etc/adm-lite/menu_credito
 echo "5447666366" >> /etc/adm-lite/menu_credito
 echo "$_resellS" > /bin/ejecutar/menu_credito
 chmod +x /bin/ejecutar/menu_credito /etc/adm-lite/menu_credito 2>/dev/null
 echo -e '<p style="text-align: center;"> <big><big><big><big><big><big>🐲</big></big></big></big></big></big></p>' > /etc/bannerssh
-echo -e '<p style="text-align: center;"><strong><span style="color: #FF00FF;">'" $_resellS "'&reg;</span> |&nbsp;</strong><span style="color: #483D8B;"><strong>'"$_nameS"'</strong></span></p>' >> /etc/bannerssh
+echo -e '<p style="text-align: center;"><strong><span style="color: #FF00FF;">'" $_resellS "'&reg;</span> |&nbsp;</strong><span style="color: #483D8B;"><strong>'"$_banner_title"'</strong></span></p>' >> /etc/bannerssh
 [[ -d /etc/dropbear ]] && cat /etc/bannerssh > /etc/dropbear/banner 2>/dev/null
 msg -bar3
-command -v figlet >/dev/null && figlet "$_nameS" | lolcat 2>/dev/null || figlet "$_nameS" 2>/dev/null
+if [[ -n "$_nameS" ]]; then
+    command -v figlet >/dev/null && figlet "$_nameS" | lolcat 2>/dev/null || figlet "$_nameS" 2>/dev/null
+else
+    echo -e " \033[1;44;44m   \033[1;33m  ${TTini} ChumoGH ${TTcent} Plus ${TTfin}     \033[0m"
+fi
 sleep 2s
 clear&&clear
 msg -bar3
@@ -130,8 +136,10 @@ setup_cron
 if cat /etc/bash.bashrc | grep ADMcgh; then
 sed -i "/ADMcgh/d" /etc/bash.bashrc
 echo '
-_b_name=$(cat /root/name 2>/dev/null || cat /etc/adm-lite/name 2>/dev/null || cat /etc/adm-lite/menu_credito 2>/dev/null | head -1)
-[[ -z "$_b_name" ]] && _b_name="Karl199x"
+_b_name=$(cat /root/name 2>/dev/null || cat /etc/adm-lite/name 2>/dev/null)
+[[ -z "$_b_name" ]] && _b_name="ChumoGH"
+_b_reseller=$(head -1 /etc/adm-lite/menu_credito 2>/dev/null || head -1 /bin/ejecutar/menu_credito 2>/dev/null || echo "Karl199x")
+[[ -z "$_b_reseller" ]] && _b_reseller="Karl199x"
 if ! [ $(id -u) = 0 ]; then
 figlet -f slant "$_b_name" 2>/dev/null | lolcat 2>/dev/null || figlet "$_b_name" 2>/dev/null
 echo ""
@@ -159,14 +167,14 @@ v2=$(< /bin/ejecutar/v-new.log)
 else
 v2="$v1"
 fi
-echo -e " SERVIDOR INSTALADO EL : '${fecha}'"
+echo -e " SERVIDOR INSTALADO EL : '\${fecha}'"
 echo -e " FECHA/HORA ACTUAL : $DATE - $TIME"
 echo -e " NOMBRE DEL SERVIDOR : $HOSTNAME"
 echo -e " TIEMPO EN LINEA : $(uptime -p)"
 [[ ${v1} = ${v2} ]] && echo -e " VERSION ACTUAL INSTALADA ES ${v1}" || echo -e " NUEVA VERSION ${v2} DISPONIBLE!"
 echo -e " MEMORIA RAM LIBRE : $(free -h | grep Mem | sed "s/\s\+/,/g" | cut -d , -f4)"
 echo -e ""
-echo -e "\tRESELLER: \e[1;31m$_b_name"
+echo -e "\tRESELLER: \e[1;31m$_b_reseller"
 echo -e "\033[1;39m"
 echo -e " BIENVENIDO DE NUEVO!"
 echo -e "\033[1;43m Teclee cgh , menu o adm para ver el MENU\033[0m."
@@ -179,8 +187,10 @@ echo -e 'source /etc/ADMcgh/bashrc' >> /etc/bash.bashrc
 else
 sed -i "/ADMcgh/d" /etc/bash.bashrc
 echo '
-_b_name=$(cat /root/name 2>/dev/null || cat /etc/adm-lite/name 2>/dev/null || cat /etc/adm-lite/menu_credito 2>/dev/null | head -1)
-[[ -z "$_b_name" ]] && _b_name="Karl199x"
+_b_name=$(cat /root/name 2>/dev/null || cat /etc/adm-lite/name 2>/dev/null)
+[[ -z "$_b_name" ]] && _b_name="ChumoGH"
+_b_reseller=$(head -1 /etc/adm-lite/menu_credito 2>/dev/null || head -1 /bin/ejecutar/menu_credito 2>/dev/null || echo "Karl199x")
+[[ -z "$_b_reseller" ]] && _b_reseller="Karl199x"
 if ! [ $(id -u) = 0 ]; then
 figlet -f slant "$_b_name" 2>/dev/null | lolcat 2>/dev/null || figlet "$_b_name" 2>/dev/null
 echo ""
@@ -208,14 +218,14 @@ v2=$(< /bin/ejecutar/v-new.log)
 else
 v2="$v1"
 fi
-echo -e " SERVIDOR INSTALADO EL : '${fecha}'"
+echo -e " SERVIDOR INSTALADO EL : '\${fecha}'"
 echo -e " FECHA/HORA ACTUAL : $DATE - $TIME"
 echo -e " NOMBRE DEL SERVIDOR : $HOSTNAME"
 echo -e " TIEMPO EN LINEA : $(uptime -p)"
 [[ ${v1} = ${v2} ]] && echo -e " VERSION ACTUAL INSTALADA ES ${v1}" || echo -e " NUEVA VERSION ${v2} DISPONIBLE!"
 echo -e " MEMORIA RAM LIBRE : $(free -h | grep Mem | sed "s/\s\+/,/g" | cut -d , -f4)"
 echo -e ""
-echo -e "\tRESELLER: \e[1;31m$_b_name"
+echo -e "\tRESELLER: \e[1;31m$_b_reseller"
 echo -e "\033[1;39m"
 echo -e " BIENVENIDO DE NUEVO!"
 echo -e "\033[1;43m Teclee cgh , menu o adm para ver el MENU\033[0m."
