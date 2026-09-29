@@ -4068,14 +4068,16 @@ echo "5447666366" >> /etc/adm-lite/menu_credito
 echo "$new_reseller" > /bin/ejecutar/menu_credito
 chmod +x /bin/ejecutar/menu_credito /etc/adm-lite/menu_credito 2>/dev/null
 check_create_banner
+[[ -f /etc/ADMcgh/bashrc ]] && sed -i 's|_b_name="Karl199x"|_b_name="ChumoGH"|g' /etc/ADMcgh/bashrc
 msg -bar3
 if [[ -n "$new_banner" ]]; then
     echo -e "\033[1;32m ¡Banner [$new_banner] y Reseller [$new_reseller] actualizados con éxito!\033[0m"
     msg -bar3
     command -v figlet >/dev/null && figlet -f smslant "$new_banner" 2>/dev/null | lolcat 2>/dev/null || figlet "$new_banner" 2>/dev/null
 else
-    echo -e "\033[1;32m ¡Banner [ChumoGH Plus] y Reseller [$new_reseller] actualizados con éxito!\033[0m"
+    echo -e "\033[1;32m ¡Banner [ChumoGH] y Reseller [$new_reseller] actualizados con éxito!\033[0m"
     msg -bar3
+    command -v figlet >/dev/null && figlet -f slant "ChumoGH" 2>/dev/null | lolcat 2>/dev/null || figlet "ChumoGH" 2>/dev/null
     echo -e " \033[1;44;44m   \033[1;33m  ${TTini} ChumoGH ${TTcent} Plus ${TTfin}     \033[0m"
 fi
 read -p " Presione ENTER para continuar" _foo
