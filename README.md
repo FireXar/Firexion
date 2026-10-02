@@ -1,4 +1,4 @@
-# ADMcgh V4 - VPS Manager Suite (Edición Libre / Sin Key)
+# Firexion - VPS Management Suite
 
 [![Bash](https://img.shields.io/badge/Language-Bash-4EAA25.svg)](https://www.gnu.org/software/bash/)
 [![Python](https://img.shields.io/badge/Language-Python%203-3776AB.svg)](https://www.python.org/)
@@ -7,7 +7,9 @@
 [![Status](https://img.shields.io/badge/Key%20System-Removed%20%2F%20Free-brightgreen.svg)](#)
 [![Architecture](https://img.shields.io/badge/Architecture-x86__64%20%7C%20aarch64-blue.svg)](#)
 
-Suite integral y modular de gestión y administración para servidores VPS (Ubuntu / Debian), basada en la línea **ChumoGH / ADM / LATAM**, completamente desofuscada, auditada, reestructurada y **100% liberada de sistemas de keys, tokens, bloqueos o verificación remota**.
+Suite integral y modular de gestión y administración para servidores VPS
+(Ubuntu / Debian), desarrollada como un proyecto independiente bajo el nombre
+Firexion.
 
 ---
 
