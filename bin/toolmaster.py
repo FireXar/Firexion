@@ -54,8 +54,8 @@ banner = """
    ██║   ╚██████╔╝╚██████╔╝███████╗██║ ╚═╝ ██║██║  ██║███████║   ██║   ███████╗██║     
    ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝     
 \033[0m
-=============== ToolMaster Modernizado ===============
-============== by @ChumoGH | chumogh.xyz ==============
+=============== ToolMaster Firexion ===============
+============== by @FireXar | Firexion =============
 """
 
 # ================= Opciones =================
@@ -131,8 +131,8 @@ def main():
             console.print("Saliendo... ¡Hasta pronto!")
             sys.exit(0)
         elif choice == "11":
-            slowprint("ToolMaster Modernizado por @ChumoGH", 0.05)
-            slowprint("Website: chumogh.xyz", 0.05)
+            slowprint("ToolMaster Firexion", 0.05)
+            slowprint("Proyecto: Firexion | by @FireXar", 0.05)
         else:
             target = input(f"Ingrese dominio/IP para {tools[choice][0]}: ").strip()
             consulta_api(tools[choice][1], target)

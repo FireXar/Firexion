@@ -36,3 +36,8 @@ lista*
 *.pem
 id_rsa*
 token.sh
+
+# Copias de seguridad locales
+*.backup
+*.backup-*
+*.backup[0-9]*

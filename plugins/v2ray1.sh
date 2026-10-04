@@ -1,7 +1,7 @@
 #!/bin/bash
 #24/10/2022
 #UPDATE : 30/03/2024
-[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || [[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -fsSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/styles.cpp 2>/dev/null)
+[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source "${SCRIPT_DIR}/styles/styles.cpp" 2>/dev/null
 rm -f /tmp/*
 clear&&clear
 SCPdir="/etc/adm-lite"
@@ -83,7 +83,7 @@ funINIT() {
 [[ -d /etc/adm-lite/v2ray ]] || mkdir /etc/adm-lite/v2ray
 [[ -e /etc/adm-lite/v2ray/confuuid.log ]] && touch /etc/adm-lite/v2ray/confuuid.log
 [[ $1 = 1 ]] && {
-wget -q -O /bin/v2ray.menu https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/v2ray1.sh &>/dev/null || wget -O /bin/v2ray.menu https://www.dropbox.com/s/id3llagyfvwceyr/v2ray1.sh &>/dev/null
+cp -f /etc/ADMcgh/bin/v2ray1.sh /bin/v2ray.menu 2>/dev/null
 chmod +x /bin/v2ray.menu 
 msg -bar3
 echo -e " RECUERDA QUE PARA UN INICIO RAPIDO SOLO DIJITA"
@@ -343,7 +343,7 @@ err_fun () {
 intallv2ray () {
 install_ini
 fix_v2ray_util
-( source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/v2ray.sh) )
+( source /etc/ADMcgh/bin/v2ray.sh )
 fix_v2ray_util
 #source <(curl -sL https://raw.githubusercontent.com/ChumoGH/ADMRufu/main/Utils/v2ray/v2ray.sh)
 [[ -e "$config" ]] && jq 'del(.inbounds[].streamSettings.kcpSettings[])' < /etc/v2ray/config.json >> /etc/v2ray/tmp.json
@@ -380,7 +380,7 @@ msg -ne "Enter Para Continuar" && read enter
 [[ ! -d ${SCPinst} ]] && mkdir ${SCPinst}
 [[ ! -d /etc/adm-lite/v2ray ]] && mkdir /etc/adm-lite/v2ray
 [[ ! -d /etc/v2r ]] && mkdir /etc/v2r
-wget -q -O /bin/v2ray.menu https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/v2ray1.sh &>/dev/null || wget -O /bin/v2ray.menu https://www.dropbox.com/s/id3llagyfvwceyr/v2ray1.sh &>/dev/null
+cp -f /etc/ADMcgh/bin/v2ray1.sh /bin/v2ray.menu 2>/dev/null
 chmod +x /bin/v2ray.menu
 }
 protocolv2ray () {
@@ -1294,7 +1294,7 @@ case ${selection} in
 2)resdata;;
 3)estarts;;
 0)
-source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/v2ray1.sh)
+source /etc/ADMcgh/bin/v2ray1.sh
 ;;
 esac
 }
@@ -1303,7 +1303,7 @@ limpiador_activador () {
 unset PIDGEN
 PIDGEN=$(ps aux|grep -v grep|grep "limv2ray")
     if [[ ! $PIDGEN ]]; then
-        wget -q -O /usr/bin/limv2ray https://raw.githubusercontent.com/karl1999x/ChumoGH/main/plugins/limv2ray &>/dev/null || wget -O /usr/bin/limv2ray https://www.dropbox.com/scl/fi/1cjd1u9b062b8ecul3zos/limv2ray?rlkey=t2gy9tb02e4vbntl49pn6kubb &>/dev/null
+        cp -f /etc/ADMcgh/bin/limv2ray /usr/bin/limv2ray 2>/dev/null
         chmod 777 /usr/bin/limv2ray
         screen -dmS limv2ray watch -n 21600 limv2ray
     else
