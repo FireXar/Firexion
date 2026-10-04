@@ -12,54 +12,14 @@ set -o pipefail
 killall apt apt-get &> /dev/null
 export DEBIAN_FRONTEND=noninteractive
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games/
-front_file_local='/bin/ejecutar/msg'
-ENLACES=(
-    "https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/msg"
-    "https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/msg"
-	"https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/styles.cpp"
-)
-SERVIDORES=(
-    "GitHUB"
-    "DropBox"
-    "ChumoGH SIte"
-)
+front_file_local="/bin/ejecutar/msg"
 mkdir -p /bin/ejecutar
-descargar() {
-    local indice=$1
-
-    # Si ya se descargó, salir
-    if [[ -s "$front_file_local" ]]; then
-        echo "✅ Archivo ya existe en $front_file_local"
-        return 0
-    fi
-
-    # Si nos pasamos del último enlace, fallo
-    if [[ $indice -ge ${#ENLACES[@]} ]]; then
-        echo "❌ No se pudo descargar el archivo desde ninguno de los enlaces."
-        return 1
-    fi
-
-    local url=${ENLACES[$indice]}
-	local servidor=${SERVIDORES[$indice]}
-    echo -ne "🔄 Intentando descargar desde: $servidor"
-
-    # Intentar descargar con wget
-    if wget -q --no-check-certificate -t3 -T3 -O "$front_file_local" "$url"; then
-        echo "✅ "
-		chmod +x ${front_file_local}
-		source ${front_file_local}
-        return 0
-    else
-        echo -e "⚠️ /n $servidor Fallo. Reintentando con otro...\n"
-        descargar $((indice+1))  # Recursión
-    fi
-}
-
-if [[ ! -s "$front_file_local" ]]; then
-    descargar 0
+if [[ -f "${SCRIPT_DIR}/core/msg" ]]; then
+    cp -f "${SCRIPT_DIR}/core/msg" "${front_file_local}"
+    chmod +x "${front_file_local}"
+    source "${front_file_local}"
 else
-    chmod +x ${front_file_local}
-	source ${front_file_local}
+    echo "ERROR: No se encontro core/msg" >&2
 fi
 
 repo_install(){
@@ -70,7 +30,7 @@ repo_install(){
  Ubuntu)List_SRC=$(echo $system|awk '{print $2}'|cut -d '.' -f1,2);; 
  esac 
 
-  link="https://raw.githubusercontent.com/karl1999x/ChumoGH/main/repos/$List_SRC.list"
+  link="${SCRIPT_DIR}/repos/$List_SRC.list"
   case $List_SRC in
     8*|9*|10*|11*|12*|16.04*|18.04*|20.04*|20.10*|21.04*|21.10*|22.04*) [[ ! -e /etc/apt/sources.list.back ]] && cp /etc/apt/sources.list /etc/apt/sources.list.back
                                                                     wget -O /etc/apt/sources.list ${link} &>/dev/null;;
@@ -322,7 +282,7 @@ os_system(){
  Debian)vercion=$(echo $system|awk '{print $3}'|cut -d '.' -f1);; 
  Ubuntu)vercion=$(echo $system|awk '{print $2}'|cut -d '.' -f1,2);; 
  esac 
- link="https://raw.githubusercontent.com/karl1999x/ChumoGH/main/repos/${vercion}.list" 
+ link="${SCRIPT_DIR}/repos/${vercion}.list" 
  #case $vercion in 
  #8|9|10|11|16.04|18.04|20.04|20.10|21.04|21.10|22.04)wget -O /etc/apt/sources.list ${link} &>/dev/null;; 
  #esac 
@@ -339,7 +299,7 @@ if [[ -f "${SCRIPT_DIR}/pack_new" ]]; then
 elif [[ -f "${SCRIPT_DIR}/src/pack_new_limpio.sh" ]]; then
     bash "${SCRIPT_DIR}/src/pack_new_limpio.sh"
 else
-    bash -c "$(wget -qO- --no-cache --no-check-certificate https://raw.githubusercontent.com/karl1999x/ChumoGH/main/pack_new 2>/dev/null)"
+    echo "ERROR: No se encontro pack_new local" >&2; exit 1
 fi
 rm -rf /tmp/* &>/dev/null
 }
@@ -483,7 +443,7 @@ downloader_files() {
         if [[ -f "${SCRIPT_DIR}/core/${arqx}" ]]; then
             cp -f "${SCRIPT_DIR}/core/${arqx}" "${SCPinstal}/${arqx}"
         else
-            wget --no-check-certificate -q -O "${SCPinstal}/${arqx}" "https://raw.githubusercontent.com/karl1999x/ChumoGH/main/core/${arqx}" 2>/dev/null || true
+            echo "ERROR: No se encontro el archivo local core/${arqx}" >&2; return 1
         fi
         verificar_arq "${arqx}"
     done

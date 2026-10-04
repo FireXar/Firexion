@@ -98,24 +98,18 @@ install_btun() {
     if [[ -f "/bin/BTUN" && -x "/bin/BTUN" ]]; then
         cp -f /bin/BTUN ${DEST}/BTUN 2>/dev/null || true
         msg -verd "[OK] Binario instalado"
-    elif [[ -f "/root/ChumoGH/bin/x86_64/BTUN" ]]; then
-        cp -f "/root/ChumoGH/bin/x86_64/BTUN" ${DEST}/BTUN
-        cp -f "/root/ChumoGH/bin/x86_64/BTUN" /bin/BTUN
+    elif [[ -f "${DEST}/BTUN" && -x "${DEST}/BTUN" ]]; then
+        cp -f "${DEST}/BTUN" /bin/BTUN
         chmod +x ${DEST}/BTUN /bin/BTUN
         msg -verd "[OK] Binario instalado"
-    elif wget --no-check-certificate -t3 -T3 -O ${DEST}/BTUN https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/x86_64/BTUN 2>/dev/null || wget --no-check-certificate -t3 -T3 -O ${DEST}/BTUN https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/x86_64/BTUN &>/dev/null ; then
-        chmod +x ${DEST}/BTUN
-        [[ -e /bin/BTUN ]] && rm -f /bin/BTUN
-        ln -s ${DEST}/BTUN /bin/BTUN
-        msg -verd "[OK] Binario instalado"
-    else    
-        msg -verm "[Fail]"    
-        msg -bar3    
-        msg -ama "No se pudo descargar el binario BTUN"    
+    else
+        msg -verm "[Fail]"
+        msg -bar3
+        msg -ama "No se encontro el binario BTUN local"
         read -p "ENTER PARA CONTINUAR"
         return
     fi
-    
+
     echo ""
     read -p "$(echo -e "\033[0;33m Puerto TCP [Default 7300]: \033[0m")" in_tcp
     BTUN_TCP=${in_tcp:-7300}
@@ -247,24 +241,18 @@ install_bhttp() {
     if [[ -f "/bin/BHTTP" && -x "/bin/BHTTP" ]]; then
         cp -f /bin/BHTTP ${DEST}/BHTTP 2>/dev/null || true
         msg -verd "[OK] Binario instalado"
-    elif [[ -f "/root/ChumoGH/bin/x86_64/BHTTP" ]]; then
-        cp -f "/root/ChumoGH/bin/x86_64/BHTTP" ${DEST}/BHTTP
-        cp -f "/root/ChumoGH/bin/x86_64/BHTTP" /bin/BHTTP
+    elif [[ -f "${DEST}/BHTTP" && -x "${DEST}/BHTTP" ]]; then
+        cp -f "${DEST}/BHTTP" /bin/BHTTP
         chmod +x ${DEST}/BHTTP /bin/BHTTP
         msg -verd "[OK] Binario instalado"
-    elif wget --no-check-certificate -t3 -T3 -O ${DEST}/BHTTP https://raw.githubusercontent.com/karl1999x/ChumoGH/main/bin/x86_64/BHTTP 2>/dev/null || wget --no-check-certificate -t3 -T3 -O ${DEST}/BHTTP https://raw.githubusercontent.com/ChumoGH/ADMcgh/main/BINARIOS/x86_64/BHTTP &>/dev/null ; then
-        chmod +x ${DEST}/BHTTP
-        [[ -e /bin/BHTTP ]] && rm -f /bin/BHTTP
-        ln -s ${DEST}/BHTTP /bin/BHTTP
-        msg -verd "[OK] Binario instalado"
-    else    
-        msg -verm "[Fail]"    
-        msg -bar3    
-        msg -ama "No se pudo descargar el binario BHTTP"    
+    else
+        msg -verm "[Fail]"
+        msg -bar3
+        msg -ama "No se encontro el binario BHTTP local"
         read -p "ENTER PARA CONTINUAR"
         return
     fi
-    
+
     echo ""
     read -p "$(echo -e "\033[0;33m Puerto de escucha (--port) [Default 80]: \033[0m")" in_port
     BHTTP_PORT=${in_port:-80}
