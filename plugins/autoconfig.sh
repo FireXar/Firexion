@@ -4,7 +4,7 @@
 # Autor: @ChumoGH
 #---------------------------------------------------------
 
-[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source <(curl -sSL https://raw.githubusercontent.com/karl1999x/ChumoGH/main/styles/styles.cpp)
+[[ -e /bin/ejecutar/msg ]] && source /bin/ejecutar/msg || source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/Plugins/system/styles.cpp"
 
 ADM_inst="/etc/adm-lite" && [[ ! -d ${ADM_inst} ]] && mkdir -p ${ADM_inst}
 HOME_DIR=$HOME
@@ -40,12 +40,6 @@ install_py3() {
 }
 
 # Descargar scripts según versión
-download_py() {
-    local pyver=$1
-    local file=$2
-    local url=$3
-    [[ ! -f "$file" ]] && wget -q -O "$file" "$url"
-}
 
 function fix_ssl() {
 	helice() {
@@ -92,10 +86,10 @@ reactivador_sock(){
         print_center "REACTIVADOR DE SOCK Python ${porta} ENCENDIDO"
 		msg -bar3
         if [[ $(grep -wc "ws$porta" /bin/autoboot) = '0' ]]; then
-            echo -e "netstat -tlpn | grep -w $porta > /dev/null || { screen -r -S 'ws$porta' -X quit; screen -dmS ws$porta $pybin $file $porta & >> /root/proxy.log ; }" >> /bin/autoboot
+            echo -e "netstat -tlpn | grep -w $porta > /dev/null || { screen -r -S 'ws$porta' -X quit; screen -dmS ws$porta $pybin $file -p $porta & >> /root/proxy.log ; }" >> /bin/autoboot
         else
             sed -i "/ws$porta/d" /bin/autoboot
-            echo -e "netstat -tlpn | grep -w $porta > /dev/null || { screen -r -S 'ws$porta' -X quit; screen -dmS ws$porta $pybin $file $porta & >> /root/proxy.log ; }" >> /bin/autoboot
+            echo -e "netstat -tlpn | grep -w $porta > /dev/null || { screen -r -S 'ws$porta' -X quit; screen -dmS ws$porta $pybin $file -p $porta & >> /root/proxy.log ; }" >> /bin/autoboot
         fi
     }
 }
@@ -122,8 +116,8 @@ menu_intro() {
             tittle "INSTALANDO STUNNEL (SSL) + PYTHON SOCKS 80"
             fix_ssl
             # Descargar scripts
-            download_py 2 "$PY2_FILE" "https://www.dropbox.com/s/4z2aj25m2avmttk/PDirect.py"
-            download_py 3 "$PY3_FILE" "https://www.dropbox.com/scl/fi/2it20m8s0jopcxgvc96dq/P3Direct.py?rlkey=4blmmbifv0y40q63owe6x76uy"
+            cp -f "/etc/adm-lite/PDirect.py" "$PY2_FILE"
+            cp -f "/etc/adm-lite/P3Direct.py" "$PY3_FILE"
 
             # Preguntar versión de Python
 			msg -bar3
@@ -136,7 +130,7 @@ menu_intro() {
             [[ $py_opt == "1" ]] && pybin="python" && pyfile="$PY2_FILE" || pybin="python3" && pyfile="$PY3_FILE"
 
             # Levantar screen
-            screen -dmS "ws80" $pybin $pyfile 80 &> /root/proxy.log
+            screen -dmS "ws80" $pybin $pyfile -p 80 &> /root/proxy.log
             screen -dmS "ws443" stunnel4 &> /root/proxy.log
 
             # Reactivador automático

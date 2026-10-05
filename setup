@@ -399,6 +399,7 @@ http-server.py
 ultrahost
 shadowsocks.sh
 PDirect.py
+P3Direct.py
 PGet.py
 POpen.py
 PPriv.py
